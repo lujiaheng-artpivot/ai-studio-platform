@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 GitHub Desktop 操作指南</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .header h1 { font-size: 42px; margin-bottom: 12px; }
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: #10b981;
+            color: #000;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 16px;
+        }
+        .step-title {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .step-content {
+            padding-left: 64px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+        .highlight {
+            background: rgba(16, 185, 129, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #10b981;
+            font-weight: bold;
+        }
+        .path {
+            background: #000;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #10b981;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .warning strong { color: #f59e0b; }
+        .screenshot {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #10b981;
+            color: #000;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+        .checklist {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        .checklist-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 GitHub Desktop 操作指南</h1>
+            <p style="font-size: 18px; opacity: 0.9;">跟着这5步操作，3分钟完成部署！</p>
+        </div>
+
+        <!-- 步骤1 -->
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                打开GitHub Desktop并登录
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    打开刚安装的GitHub Desktop应用
+                </p>
+                <div class="screenshot">
+                    <p><strong>如果是第一次使用：</strong></p>
+                    <ul style="padding-left: 20px; margin-top: 8px;">
+                        <li>点击 <span class="highlight">Sign in to GitHub.com</span></li>
+                        <li>在浏览器中完成登录</li>
+                        <li>授权GitHub Desktop访问</li>
+                        <li>返回GitHub Desktop</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>💡 提示：</strong> 使用您的GitHub账号 <code>lujiaheng-artpivot</code> 登录
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤2 -->
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                添加本地仓库
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    在GitHub Desktop中：
+                </p>
+                <div class="screenshot">
+                    <ol style="padding-left: 20px;">
+                        <li style="margin-bottom: 12px;">
+                            点击菜单栏 <span class="highlight">File</span> → <span class="highlight">Add Local Repository...</span>
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            点击 <span class="highlight">Choose...</span> 按钮
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            导航到并选择这个文件夹：
+                            <div class="path">/Users/lujiaheng/Documents/ai-studio-platform</div>
+                        </li>
+                        <li>
+                            点击 <span class="highlight">Add Repository</span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <strong>⚠️ 重要：</strong> 确保选择的是 <code>ai-studio-platform</code> 文件夹，不是其他文件夹
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤3 -->
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                发布到GitHub
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    仓库添加成功后，您会看到：
+                </p>
+                <div class="screenshot">
+                    <ol style="padding-left: 20px;">
+                        <li style="margin-bottom: 12px;">
+                            中间会显示一个蓝色按钮：<span class="highlight">Publish repository</span>
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            点击这个按钮
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            在弹出的窗口中：
+                            <ul style="padding-left: 20px; margin-top: 8px;">
+                                <li>确保 <strong>Name</strong> 是：<code>ai-studio-platform</code></li>
+                                <li>确保 <strong>勾选了</strong> <span class="highlight">Keep this code private</span> 的选项是 <strong>未勾选</strong>（公开仓库）</li>
+                                <li>或者勾选 <span class="highlight">Public</span> 选项</li>
+                            </ul>
+                        </li>
+                        <li>
+                            点击 <span class="highlight">Publish Repository</span> 按钮
+                        </li>
+                    </ol>
+                </div>
+                <div class="warning">
+                    <strong>💡 提示：</strong> 发布过程需要几秒钟，请耐心等待进度条完成
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤4 -->
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                确认发布成功
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    发布完成后：
+                </p>
+                <div class="screenshot">
+                    <ul style="padding-left: 20px;">
+                        <li style="margin-bottom: 12px;">
+                            GitHub Desktop顶部会显示 <span class="highlight">No local changes</span>
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            右键点击仓库名称，选择 <span class="highlight">View on GitHub</span>
+                        </li>
+                        <li>
+                            浏览器会打开您的GitHub仓库页面
+                        </li>
+                    </ul>
+                </div>
+                <p style="margin-top: 16px;">
+                    您的仓库地址应该是：
+                </p>
+                <div class="path">https://github.com/lujiaheng-artpivot/ai-studio-platform</div>
+            </div>
+        </div>
+
+        <!-- 步骤5 -->
+        <div class="step-card" style="border-color: #3b82f6;">
+            <div class="step-title">
+                <span class="step-number" style="background: #3b82f6;">5</span>
+                部署到Vercel
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    代码已经在GitHub上了，现在部署到Vercel：
+                </p>
+                <div class="screenshot">
+                    <ol style="padding-left: 20px;">
+                        <li style="margin-bottom: 12px;">
+                            点击下方按钮打开Vercel
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            点击 <span class="highlight">Continue with GitHub</span> 登录
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            点击 <span class="highlight">Import Project</span>
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            找到并选择 <code>ai-studio-platform</code> 仓库
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            点击 <span class="highlight">Import</span>
+                        </li>
+                        <li style="margin-bottom: 12px;">
+                            保持默认设置，点击 <span class="highlight">Deploy</span>
+                        </li>
+                        <li>
+                            等待2-3分钟，部署完成！🎉
+                        </li>
+                    </ol>
+                </div>
+                <a href="https://vercel.com/new" target="_blank" class="btn">
+                    🚀 打开Vercel部署页面
+                </a>
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div style="background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; border-radius: 16px; padding: 32px; margin-top: 32px;">
+            <h2 style="margin-bottom: 20px; text-align: center;">✅ 操作检查清单</h2>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>已打开GitHub Desktop并登录</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>已添加本地仓库（ai-studio-platform文件夹）</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>已点击"Publish repository"按钮</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>已确认仓库为Public（公开）</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>发布成功，可以在GitHub上看到代码</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox">☐</div>
+                    <span>已在Vercel完成部署</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成功提示 -->
+        <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 40px; border-radius: 20px; text-align: center; margin-top: 32px;">
+            <h2 style="font-size: 36px; margin-bottom: 16px;">🎉 完成后</h2>
+            <p style="font-size: 18px; opacity: 0.9; margin-bottom: 24px;">
+                您将获得一个公网地址，例如：
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 8px; font-family: monospace; font-size: 18px;">
+                https://ai-studio-platform-xxx.vercel.app
+            </div>
+            <p style="margin-top: 24px; font-size: 16px; opacity: 0.9;">
+                全世界的人都可以访问您的网站！
+            </p>
+        </div>
+
+        <!-- 帮助 -->
+        <div style="margin-top: 32px; padding: 24px; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 12px;">
+            <h3 style="color: #3b82f6; margin-bottom: 12px;">💬 需要帮助？</h3>
+            <p style="color: #94a3b8; font-size: 14px;">
+                如果在任何步骤遇到问题，请告诉我您在哪一步，我会立即帮您解决！
+            </p>
+        </div>
+    </div>
+</body>
+</html>

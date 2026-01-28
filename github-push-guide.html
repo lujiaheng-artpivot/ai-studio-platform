@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 GitHub推送指南</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .header h1 { font-size: 36px; margin-bottom: 12px; }
+        .step-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 16px;
+        }
+        .step-title {
+            font-size: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .step-content {
+            padding-left: 56px;
+            color: #94a3b8;
+        }
+        .command-box {
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #10b981;
+            margin: 16px 0;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #10b981;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .copy-btn:hover { background: #059669; }
+        .btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        .btn.green {
+            background: #10b981;
+        }
+        .btn.green:hover {
+            background: #059669;
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .warning strong {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 推送代码到GitHub</h1>
+            <p>只需3步，让您的代码上传到GitHub</p>
+        </div>
+
+        <!-- 步骤1 -->
+        <div class="step-box">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                创建GitHub仓库
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    我已经为您打开了创建仓库页面，信息已自动填写好：
+                </p>
+                <ul style="list-style: none; padding: 0; margin-bottom: 16px;">
+                    <li>✓ 仓库名：<code>ai-studio-platform</code></li>
+                    <li>✓ 可见性：Public（公开）</li>
+                    <li>✓ 描述：AI-powered filmmaking tools platform</li>
+                </ul>
+                <div class="warning">
+                    <strong>⚠️ 重要：</strong> 不要勾选 "Add a README file"，直接点击底部的 <strong>"Create repository"</strong> 按钮
+                </div>
+                <a href="https://github.com/new?name=ai-studio-platform&description=AI-powered+filmmaking+tools+platform&visibility=public" target="_blank" class="btn green">
+                    打开GitHub创建仓库 →
+                </a>
+            </div>
+        </div>
+
+        <!-- 步骤2 -->
+        <div class="step-box">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                推送代码
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    创建仓库后，在终端执行以下命令：
+                </p>
+                
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCommand('cmd1')">复制</button>
+                    <div id="cmd1">cd /Users/lujiaheng/Documents/ai-studio-platform
+git remote remove origin 2>/dev/null
+git remote add origin https://github.com/lujiaheng-artpivot/ai-studio-platform.git
+git branch -M main
+git push -u origin main</div>
+                </div>
+
+                <div class="warning">
+                    <strong>💡 提示：</strong> 如果提示需要登录，会自动打开浏览器进行GitHub认证，完成后代码会自动上传
+                </div>
+
+                <p style="margin-top: 16px; color: #94a3b8; font-size: 14px;">
+                    或者，您可以使用GitHub Desktop（更简单）：
+                </p>
+                <a href="https://desktop.github.com" target="_blank" class="btn" style="margin-top: 8px;">
+                    下载GitHub Desktop →
+                </a>
+            </div>
+        </div>
+
+        <!-- 步骤3 -->
+        <div class="step-box">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                部署到Vercel
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 16px;">
+                    代码推送成功后，访问Vercel进行部署：
+                </p>
+                
+                <ol style="padding-left: 20px; margin-bottom: 16px; color: #94a3b8;">
+                    <li style="margin-bottom: 12px;">点击下方按钮打开Vercel</li>
+                    <li style="margin-bottom: 12px;">使用GitHub账号登录</li>
+                    <li style="margin-bottom: 12px;">点击 "Import Project"</li>
+                    <li style="margin-bottom: 12px;">选择 <code>ai-studio-platform</code> 仓库</li>
+                    <li style="margin-bottom: 12px;">点击 "Deploy"</li>
+                    <li style="margin-bottom: 12px;">等待2-3分钟</li>
+                    <li>获取公网地址！🎉</li>
+                </ol>
+
+                <a href="https://vercel.com/new" target="_blank" class="btn green">
+                    打开Vercel部署 →
+                </a>
+            </div>
+        </div>
+
+        <!-- 快捷方式 -->
+        <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 32px; border-radius: 16px; text-align: center;">
+            <h2 style="margin-bottom: 16px;">🎯 快速操作</h2>
+            <p style="margin-bottom: 24px; opacity: 0.9;">
+                按顺序点击下面的按钮完成部署
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://github.com/new?name=ai-studio-platform&description=AI-powered+filmmaking+tools+platform&visibility=public" target="_blank" class="btn" style="background: #000;">
+                    1️⃣ 创建仓库
+                </a>
+                <button onclick="copyAndShowTerminal()" class="btn" style="background: #000; border: none; cursor: pointer;">
+                    2️⃣ 复制推送命令
+                </button>
+                <a href="https://vercel.com/new" target="_blank" class="btn" style="background: #000;">
+                    3️⃣ Vercel部署
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: #10b981; color: #fff; padding: 16px 24px; border-radius: 8px; font-weight: bold; display: none;" id="copyNotice">
+        ✓ 已复制到剪贴板！
+    </div>
+
+    <script>
+        function copyCommand(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showNotice();
+            });
+        }
+
+        function copyAndShowTerminal() {
+            const cmd = `cd /Users/lujiaheng/Documents/ai-studio-platform
+git remote remove origin 2>/dev/null
+git remote add origin https://github.com/lujiaheng-artpivot/ai-studio-platform.git
+git branch -M main
+git push -u origin main`;
+            
+            navigator.clipboard.writeText(cmd).then(() => {
+                showNotice();
+                alert('✓ 命令已复制！\n\n请打开终端（Terminal），粘贴并执行这些命令。\n\n如果提示需要登录，会自动打开浏览器进行认证。');
+            });
+        }
+
+        function showNotice() {
+            const notice = document.getElementById('copyNotice');
+            notice.style.display = 'block';
+            setTimeout(() => {
+                notice.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

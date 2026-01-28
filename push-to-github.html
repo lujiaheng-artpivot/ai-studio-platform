@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📤 推送代码到GitHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { max-width: 800px; width: 100%; }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 { font-size: 56px; margin-bottom: 16px; }
+        .card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        .step {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #10b981;
+        }
+        .step-num {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background: #10b981;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 48px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 16px;
+        }
+        .step-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        .step-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .highlight {
+            background: rgba(251, 191, 36, 0.3);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #fbbf24;
+        }
+        .screenshot {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📤 推送代码</h1>
+            <p style="font-size: 24px; opacity: 0.9;">
+                在GitHub Desktop中完成推送
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">1</span>
+                    查看GitHub Desktop
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">在GitHub Desktop窗口中，您应该看到：</p>
+                    <div class="screenshot">
+                        • 左侧显示很多文件更改<br>
+                        • 左下角有 "Summary" 输入框<br>
+                        • 有一个蓝色的 "Commit to main" 按钮
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">2</span>
+                    提交更改
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">在左下角的 <span class="highlight">Summary</span> 输入框中输入：</p>
+                    <div class="screenshot">
+                        Initial commit
+                    </div>
+                    <p style="margin-top: 12px;">然后点击蓝色的 <span class="highlight">Commit to main</span> 按钮</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">3</span>
+                    推送到GitHub
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">提交后，顶部会出现一个按钮：</p>
+                    <div class="screenshot">
+                        <span class="highlight">Push origin</span> 或 <span class="highlight">Publish branch</span>
+                    </div>
+                    <p style="margin-top: 12px;">点击这个按钮，将代码推送到GitHub</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">4</span>
+                    等待上传完成
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">GitHub Desktop会显示上传进度</p>
+                    <p style="margin-bottom: 12px;">完成后会显示：</p>
+                    <div class="screenshot">
+                        ✓ Pushed to origin
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(16, 185, 129, 0.2); padding: 32px; border-radius: 16px; text-align: center;">
+            <h2 style="font-size: 32px; margin-bottom: 16px;">✅ 推送成功后</h2>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 20px;">
+                刷新GitHub页面，您会看到所有代码文件
+            </p>
+            <p style="font-size: 18px; opacity: 0.9;">
+                然后我们就可以从Vercel导入部署了！
+            </p>
+        </div>
+
+        <div style="margin-top: 32px; padding: 24px; background: rgba(245, 158, 11, 0.2); border: 2px solid #f59e0b; border-radius: 12px;">
+            <h3 style="color: #fbbf24; margin-bottom: 16px; font-size: 20px;">💡 如果找不到按钮</h3>
+            <p style="line-height: 1.8; color: rgba(255,255,255,0.9);">
+                • 确保左下角已经输入了 Summary<br>
+                • 确保点击了 "Commit to main" 按钮<br>
+                • 提交后，顶部中间位置会出现 "Push origin" 按钮<br>
+                • 如果还是没有，尝试重启GitHub Desktop
+            </p>
+        </div>
+    </div>
+</body>
+</html>

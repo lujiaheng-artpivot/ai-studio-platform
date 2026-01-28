@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 您的AI Studio已上线！</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin-bottom: 32px;
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
+        }
+        .success-box h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .success-box p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        .access-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .access-title {
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: #10b981;
+            text-align: center;
+        }
+        .url-box {
+            background: #000;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .url {
+            font-size: 24px;
+            color: #10b981;
+            font-family: monospace;
+            text-align: center;
+            word-break: break-all;
+        }
+        .copy-btn {
+            background: #10b981;
+            color: #000;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+        .qr-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .qr-section h3 {
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+        .qr-code {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .page-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+        .page-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            border-color: #10b981;
+        }
+        .page-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .page-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .page-desc {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .next-steps {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .next-steps h3 {
+            color: #3b82f6;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .step-item {
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+        .deploy-btn {
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .deploy-btn:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-box">
+            <h1>🎉 成功启动！</h1>
+            <p>您的AI Studio Platform已经在局域网中运行</p>
+        </div>
+
+        <div class="access-box">
+            <div class="access-title">📱 访问地址</div>
+            
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; color: #94a3b8; margin-bottom: 8px;">本机访问：</div>
+                <div class="url-box">
+                    <div class="url">http://localhost:3000</div>
+                </div>
+            </div>
+
+            <div>
+                <div style="font-size: 14px; color: #94a3b8; margin-bottom: 8px;">局域网访问（同一WiFi）：</div>
+                <div class="url-box">
+                    <div class="url" id="networkUrl">http://192.168.31.139:3000</div>
+                </div>
+                <button class="copy-btn" onclick="copyUrl()">📋 复制局域网地址</button>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3>📱 手机扫码访问</h3>
+            <div class="qr-code">
+                <div id="qrcode"></div>
+            </div>
+            <p style="color: #94a3b8; font-size: 14px;">
+                使用手机扫描二维码，即可在手机上访问
+            </p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+            <h3 style="margin-bottom: 16px; text-align: center;">✨ 可访问的页面</h3>
+            <div class="pages-grid">
+                <a href="http://192.168.31.139:3000" target="_blank" class="page-card">
+                    <div class="page-icon">🏠</div>
+                    <div class="page-title">首页</div>
+                    <div class="page-desc">营销页面</div>
+                </a>
+                <a href="http://192.168.31.139:3000/pricing" target="_blank" class="page-card">
+                    <div class="page-icon">💰</div>
+                    <div class="page-title">定价</div>
+                    <div class="page-desc">套餐对比</div>
+                </a>
+                <a href="http://192.168.31.139:3000/demo-dashboard" target="_blank" class="page-card">
+                    <div class="page-icon">📊</div>
+                    <div class="page-title">Dashboard</div>
+                    <div class="page-desc">功能演示</div>
+                </a>
+                <a href="http://192.168.31.139:3000/setup" target="_blank" class="page-card">
+                    <div class="page-icon">⚙️</div>
+                    <div class="page-title">配置</div>
+                    <div class="page-desc">API设置</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h3>🚀 下一步：部署到公网</h3>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                让全世界的人都能访问您的网站！
+            </p>
+            
+            <div class="step-item">
+                <strong>方法1: 告诉我您的GitHub用户名</strong>
+                <div style="color: #94a3b8; font-size: 14px; margin-top: 8px;">
+                    我会立即帮您推送代码并部署到Vercel
+                </div>
+            </div>
+
+            <div class="step-item">
+                <strong>方法2: 使用GitHub Desktop</strong>
+                <div style="color: #94a3b8; font-size: 14px; margin-top: 8px;">
+                    可视化工具，无需命令行操作
+                </div>
+            </div>
+
+            <button class="deploy-btn" onclick="openDeployGuide()">
+                查看详细部署指南 →
+            </button>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; padding: 12px 20px; border-radius: 8px; font-size: 14px; display: none;" id="copyNotice">
+        ✓ 已复制到剪贴板
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        // 生成二维码
+        new QRCode(document.getElementById("qrcode"), {
+            text: "http://192.168.31.139:3000",
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+        });
+
+        function copyUrl() {
+            const url = document.getElementById('networkUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const notice = document.getElementById('copyNotice');
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        function openDeployGuide() {
+            window.open('deploy-fix.html', '_blank');
+        }
+    </script>
+</body>
+</html>

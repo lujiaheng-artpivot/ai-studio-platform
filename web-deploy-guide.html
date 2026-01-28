@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 网页部署 - 最简单的方法</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 32px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        .card h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .step {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .step-num {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            color: #10b981;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 16px;
+        }
+        .step-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .step-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        .btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+        }
+        .path {
+            background: #000;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #10b981;
+            margin: 12px 0;
+            word-break: break-all;
+        }
+        .highlight {
+            background: rgba(251, 191, 36, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 网页部署</h1>
+            <p style="font-size: 20px; opacity: 0.9;">
+                最简单可靠的方法，无需命令行！
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>📋 部署步骤</h2>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">1</span>
+                    打开Vercel部署页面
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">我已经为您打开了Vercel部署页面</p>
+                    <p style="margin-bottom: 12px;">如果没有打开，点击下方按钮：</p>
+                    <button class="btn" onclick="window.open('https://vercel.com/new', '_blank')">
+                        打开Vercel部署页面
+                    </button>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">2</span>
+                    选择部署方式
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">在Vercel页面上，您会看到几个选项：</p>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>Import Git Repository</strong> - 从GitHub导入</li>
+                        <li><strong>Deploy from Template</strong> - 使用模板</li>
+                        <li><span class="highlight">Browse</span> - 上传文件夹（选这个！）</li>
+                    </ul>
+                    <p style="margin-top: 12px;">点击 <strong>"Browse"</strong> 或 <strong>"Upload"</strong> 按钮</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">3</span>
+                    选择项目文件夹
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">在文件选择器中，导航到：</p>
+                    <div class="path">/Users/lujiaheng/Documents/ai-studio-platform</div>
+                    <p style="margin-top: 12px;">选择整个 <strong>ai-studio-platform</strong> 文件夹</p>
+                    <button class="btn" onclick="copyPath()">
+                        📋 复制文件夹路径
+                    </button>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">4</span>
+                    配置项目
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">Vercel会自动检测到Next.js项目</p>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>Project Name:</strong> 输入 <span class="highlight">aistudio</span></li>
+                        <li><strong>Framework Preset:</strong> Next.js（自动检测）</li>
+                        <li><strong>Root Directory:</strong> ./（默认）</li>
+                        <li><strong>Build Command:</strong> npm run build（默认）</li>
+                    </ul>
+                    <p style="margin-top: 12px;">保持其他设置为默认值</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">5</span>
+                    点击Deploy
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">检查配置无误后，点击页面底部的 <strong>"Deploy"</strong> 按钮</p>
+                    <p style="margin-bottom: 12px;">Vercel会自动：</p>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li>📤 上传您的代码</li>
+                        <li>🔨 安装依赖</li>
+                        <li>🏗️ 构建项目</li>
+                        <li>🚀 部署到全球CDN</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-num">6</span>
+                    等待完成
+                </div>
+                <div class="step-content">
+                    <p style="margin-bottom: 12px;">部署过程大约需要 <strong>2-3分钟</strong></p>
+                    <p style="margin-bottom: 12px;">您会看到实时的构建日志</p>
+                    <p style="margin-bottom: 12px;">完成后会显示：</p>
+                    <div class="path">
+                        ✅ Deployment Ready<br>
+                        https://aistudio.vercel.app
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); padding: 40px; border-radius: 20px; text-align: center;">
+            <h2 style="font-size: 36px; margin-bottom: 16px;">🎉 完成！</h2>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 20px;">
+                您的网站将在以下地址上线：
+            </p>
+            <div style="background: #000; padding: 20px; border-radius: 12px; font-family: monospace; font-size: 24px; color: #10b981;">
+                https://aistudio.vercel.app
+            </div>
+            <p style="margin-top: 20px; font-size: 18px; opacity: 0.9;">
+                全世界任何人都能访问！
+            </p>
+        </div>
+
+        <div style="margin-top: 32px; padding: 24px; background: rgba(59, 130, 246, 0.2); border: 2px solid #3b82f6; border-radius: 12px;">
+            <h3 style="color: #fff; margin-bottom: 16px; font-size: 20px;">💡 提示</h3>
+            <ul style="padding-left: 20px; line-height: 2; color: rgba(255,255,255,0.9);">
+                <li>如果找不到"Browse"按钮，可以尝试拖拽文件夹到Vercel页面</li>
+                <li>确保选择的是整个项目文件夹，不是单个文件</li>
+                <li>项目名称必须是小写字母（aistudio）</li>
+                <li>部署过程中可以查看实时日志</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: #000; color: #fff; padding: 16px 24px; border-radius: 8px; font-weight: bold; display: none;" id="copyNotice">
+        ✓ 已复制！
+    </div>
+
+    <script>
+        function copyPath() {
+            const path = '/Users/lujiaheng/Documents/ai-studio-platform';
+            navigator.clipboard.writeText(path).then(() => {
+                const notice = document.getElementById('copyNotice');
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

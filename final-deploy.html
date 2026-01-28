@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 全自动部署 - 最后一步</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .hero {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 48px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 16px; }
+        .hero p { font-size: 20px; opacity: 0.9; }
+        .progress {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .progress-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .progress-item.done {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+        }
+        .progress-item.current {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .progress-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .progress-item.done .progress-icon {
+            background: #10b981;
+        }
+        .progress-item.current .progress-icon {
+            background: #3b82f6;
+        }
+        .progress-content { flex: 1; }
+        .progress-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .progress-desc {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .action-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .action-box h2 {
+            color: #3b82f6;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #10b981;
+            color: #000;
+        }
+        .btn-primary:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .btn-secondary:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        .steps {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        .step {
+            padding: 16px;
+            border-left: 3px solid #3b82f6;
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+        .step:last-child { margin-bottom: 0; }
+        .step-num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎯 全自动部署</h1>
+            <p>只差最后一步，您的网站即将上线！</p>
+        </div>
+
+        <div class="progress">
+            <h2 style="margin-bottom: 24px; text-align: center;">📊 部署进度</h2>
+            
+            <div class="progress-item done">
+                <div class="progress-icon">✓</div>
+                <div class="progress-content">
+                    <div class="progress-title">项目创建完成</div>
+                    <div class="progress-desc">Next.js项目已搭建，所有代码已准备就绪</div>
+                </div>
+            </div>
+
+            <div class="progress-item done">
+                <div class="progress-icon">✓</div>
+                <div class="progress-content">
+                    <div class="progress-title">本地测试成功</div>
+                    <div class="progress-desc">网站已在 http://192.168.31.139:3000 运行</div>
+                </div>
+            </div>
+
+            <div class="progress-item done">
+                <div class="progress-icon">✓</div>
+                <div class="progress-content">
+                    <div class="progress-title">Git仓库初始化</div>
+                    <div class="progress-desc">代码已提交到本地Git仓库</div>
+                </div>
+            </div>
+
+            <div class="progress-item current">
+                <div class="progress-icon">⏳</div>
+                <div class="progress-content">
+                    <div class="progress-title">推送到GitHub</div>
+                    <div class="progress-desc">需要您的操作：使用GitHub Desktop发布仓库</div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-icon">⏸️</div>
+                <div class="progress-content">
+                    <div class="progress-title">部署到Vercel</div>
+                    <div class="progress-desc">等待GitHub推送完成后进行</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-box">
+            <h2>🚀 选择您的部署方式</h2>
+            <p style="color: #94a3b8; margin-bottom: 24px;">
+                两种方式都很简单，选择您喜欢的
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+                <!-- 方式1 -->
+                <div style="background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; border-radius: 16px; padding: 24px;">
+                    <h3 style="color: #10b981; margin-bottom: 16px;">⭐ 方式1: GitHub Desktop</h3>
+                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">
+                        可视化工具，最简单，推荐！
+                    </p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-num">1</span>
+                            <strong>下载并安装</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                已自动下载，安装后打开
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">2</span>
+                            <strong>登录GitHub</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                使用您的GitHub账号登录
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">3</span>
+                            <strong>添加仓库</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                File → Add Local Repository<br>
+                                选择: /Users/lujiaheng/Documents/ai-studio-platform
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">4</span>
+                            <strong>发布</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                点击 "Publish repository"<br>
+                                勾选 "Public"
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://desktop.github.com" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 16px;">
+                        下载GitHub Desktop
+                    </a>
+                </div>
+
+                <!-- 方式2 -->
+                <div style="background: rgba(59, 130, 246, 0.1); border: 2px solid #3b82f6; border-radius: 16px; padding: 24px;">
+                    <h3 style="color: #3b82f6; margin-bottom: 16px;">💻 方式2: 命令行</h3>
+                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">
+                        适合熟悉命令行的用户
+                    </p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-num">1</span>
+                            <strong>创建仓库</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                在GitHub网页创建仓库
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">2</span>
+                            <strong>执行命令</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                在终端运行推送脚本
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">3</span>
+                            <strong>GitHub认证</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                浏览器会自动打开认证
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">4</span>
+                            <strong>完成推送</strong>
+                            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                                代码自动上传到GitHub
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="runAutoScript()" class="btn btn-secondary" style="width: 100%; justify-content: center; margin-top: 16px; border: none; cursor: pointer;">
+                        运行自动脚本
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-top: 32px; padding: 24px; background: rgba(245, 158, 11, 0.1); border: 1px solid #f59e0b; border-radius: 12px;">
+                <strong style="color: #f59e0b;">💡 推荐使用方式1（GitHub Desktop）</strong>
+                <p style="color: #94a3b8; font-size: 14px; margin-top: 8px;">
+                    更直观，更简单，不需要任何命令行操作
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; text-align: center; padding: 32px; background: rgba(255, 255, 255, 0.05); border-radius: 16px;">
+            <h3 style="margin-bottom: 16px;">📱 完成后的最后一步</h3>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                代码推送到GitHub后，访问Vercel进行部署
+            </p>
+            <a href="https://vercel.com/new" target="_blank" class="btn btn-primary">
+                打开Vercel部署页面 →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function runAutoScript() {
+            alert('📋 自动脚本说明：\n\n1. 会在终端打开\n2. 按照提示完成GitHub仓库创建\n3. 自动推送代码\n4. 打开Vercel部署页面\n\n点击确定后，请在终端中操作');
+            
+            // 复制命令到剪贴板
+            const cmd = 'cd /Users/lujiaheng/Documents/ai-studio-platform && bash auto-deploy.sh';
+            navigator.clipboard.writeText(cmd);
+            
+            alert('✓ 命令已复制到剪贴板！\n\n请打开终端，粘贴并执行');
+        }
+    </script>
+</body>
+</html>

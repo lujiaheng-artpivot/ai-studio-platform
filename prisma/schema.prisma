@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  clerkId           String   @unique
+  email             String   @unique
+  name              String?
+  imageUrl          String?
+  
+  subscriptionTier  String   @default("free") // free, lite, standard, pro
+  computeSeconds    Int      @default(50)
+  usedSeconds       Int      @default(0)
+  
+  stripeCustomerId  String?  @unique
+  stripeSubscriptionId String? @unique
+  stripePriceId     String?
+  stripeCurrentPeriodEnd DateTime?
+  
+  projects          Project[]
+  generations       Generation[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([clerkId])
+  @@index([email])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name        String
+  description String?
+  type        String   // cinestyle, storyboard, script, etc.
+  
+  scriptContent String?  @db.Text
+  analysisData  Json?
+  
+  generations Generation[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model Generation {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  
+  type        String   // scene, character, storyboard, etc.
+  prompt      String   @db.Text
+  imageUrl    String?
+  
+  computeUsed Int      @default(0)
+  resolution  String   @default("1080p")
+  
+  metadata    Json?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([projectId])
+}
+
+model Subscription {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  
+  tier        String   // free, lite, standard, pro
+  status      String   // active, canceled, past_due
+  
+  stripeSubscriptionId String? @unique
+  stripePriceId        String?
+  stripeCurrentPeriodEnd DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}

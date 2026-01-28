@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 实时部署助手</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 24px;
+            height: fit-content;
+        }
+        .panel h2 {
+            color: #3b82f6;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .current-step {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .current-step h3 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .current-step p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .instruction {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid #10b981;
+        }
+        .instruction-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #10b981;
+        }
+        .instruction-content {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #10b981;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+        .btn:disabled {
+            background: #374151;
+            color: #6b7280;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.5s;
+        }
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+        .step-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .step-item.completed {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+        }
+        .step-item.current {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .step-item.completed .step-icon {
+            background: #10b981;
+        }
+        .step-item.current .step-icon {
+            background: #3b82f6;
+        }
+        .path-box {
+            background: #000;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #10b981;
+            font-size: 14px;
+            margin: 12px 0;
+            word-break: break-all;
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .warning strong {
+            color: #f59e0b;
+        }
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧：当前步骤 -->
+        <div>
+            <div class="current-step">
+                <h3 id="currentStepTitle">步骤 1/5</h3>
+                <p id="currentStepDesc">在GitHub Desktop中登录</p>
+            </div>
+
+            <div class="panel">
+                <h2>📋 当前操作</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 20%"></div>
+                </div>
+
+                <div id="instructionContainer">
+                    <!-- 动态内容 -->
+                </div>
+
+                <button class="btn" id="nextBtn" onclick="nextStep()">
+                    ✓ 完成，下一步
+                </button>
+
+                <div class="warning" style="margin-top: 20px;">
+                    <strong>💡 提示：</strong> 
+                    <span id="tipText">确保GitHub Desktop已经打开并且您已登录</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：进度跟踪 -->
+        <div>
+            <div class="panel">
+                <h2>🎯 部署进度</h2>
+                <ul class="step-list">
+                    <li class="step-item current" id="step1">
+                        <div class="step-icon">1</div>
+                        <div>
+                            <strong>GitHub Desktop登录</strong>
+                            <div style="font-size: 12px; color: #94a3b8;">使用账号 lujiaheng-artpivot</div>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step2">
+                        <div class="step-icon">2</div>
+                        <div>
+                            <strong>添加本地仓库</strong>
+                            <div style="font-size: 12px; color: #94a3b8;">选择项目文件夹</div>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step3">
+                        <div class="step-icon">3</div>
+                        <div>
+                            <strong>发布到GitHub</strong>
+                            <div style="font-size: 12px; color: #94a3b8;">公开仓库</div>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step4">
+                        <div class="step-icon">4</div>
+                        <div>
+                            <strong>Vercel部署</strong>
+                            <div style="font-size: 12px; color: #94a3b8;">导入并部署</div>
+                        </div>
+                    </li>
+                    <li class="step-item" id="step5">
+                        <div class="step-icon">5</div>
+                        <div>
+                            <strong>完成！</strong>
+                            <div style="font-size: 12px; color: #94a3b8;">获取公网地址</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel" style="margin-top: 20px; border-color: #10b981;">
+                <h2>✨ 快捷操作</h2>
+                <button class="btn" onclick="openGitHubDesktop()" style="background: #3b82f6;">
+                    打开GitHub Desktop
+                </button>
+                <button class="btn" onclick="copyPath()" style="background: #8b5cf6;">
+                    复制项目路径
+                </button>
+                <button class="btn" onclick="openVercel()" style="background: #000;">
+                    打开Vercel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        const steps = {
+            1: {
+                title: "步骤 1/5",
+                desc: "在GitHub Desktop中登录",
+                instruction: `
+                    <div class="instruction">
+                        <div class="instruction-title">🔐 登录GitHub Desktop</div>
+                        <div class="instruction-content">
+                            <p style="margin-bottom: 12px;">1. GitHub Desktop应该已经打开</p>
+                            <p style="margin-bottom: 12px;">2. 如果看到登录界面，点击 <strong>"Sign in to GitHub.com"</strong></p>
+                            <p style="margin-bottom: 12px;">3. 在浏览器中完成登录</p>
+                            <p style="margin-bottom: 12px;">4. 使用账号：<strong>lujiaheng-artpivot</strong></p>
+                            <p>5. 登录成功后返回GitHub Desktop</p>
+                        </div>
+                    </div>
+                `,
+                tip: "如果已经登录，直接点击下一步"
+            },
+            2: {
+                title: "步骤 2/5",
+                desc: "添加本地仓库",
+                instruction: `
+                    <div class="instruction">
+                        <div class="instruction-title">📁 添加项目文件夹</div>
+                        <div class="instruction-content">
+                            <p style="margin-bottom: 12px;">1. 在GitHub Desktop中，点击菜单：</p>
+                            <p style="margin-bottom: 12px;"><strong>File → Add Local Repository...</strong></p>
+                            <p style="margin-bottom: 12px;">2. 点击 <strong>"Choose..."</strong> 按钮</p>
+                            <p style="margin-bottom: 12px;">3. 选择这个文件夹：</p>
+                            <div class="path-box">/Users/lujiaheng/Documents/ai-studio-platform</div>
+                            <p>4. 点击 <strong>"Add Repository"</strong></p>
+                        </div>
+                    </div>
+                `,
+                tip: "确保选择正确的文件夹路径"
+            },
+            3: {
+                title: "步骤 3/5",
+                desc: "发布到GitHub",
+                instruction: `
+                    <div class="instruction">
+                        <div class="instruction-title">🚀 发布仓库</div>
+                        <div class="instruction-content">
+                            <p style="margin-bottom: 12px;">1. 仓库添加后，会看到蓝色按钮：</p>
+                            <p style="margin-bottom: 12px;"><strong>"Publish repository"</strong></p>
+                            <p style="margin-bottom: 12px;">2. 点击这个按钮</p>
+                            <p style="margin-bottom: 12px;">3. 在弹出窗口中：</p>
+                            <p style="margin-bottom: 8px;">   • Name: <strong>ai-studio-platform</strong></p>
+                            <p style="margin-bottom: 8px;">   • <strong>取消勾选</strong> "Keep this code private"</p>
+                            <p style="margin-bottom: 12px;">   • 或勾选 "Public"</p>
+                            <p>4. 点击 <strong>"Publish Repository"</strong></p>
+                        </div>
+                    </div>
+                `,
+                tip: "确保仓库设置为Public（公开）"
+            },
+            4: {
+                title: "步骤 4/5",
+                desc: "部署到Vercel",
+                instruction: `
+                    <div class="instruction">
+                        <div class="instruction-title">🌐 Vercel部署</div>
+                        <div class="instruction-content">
+                            <p style="margin-bottom: 12px;">1. 点击下方"打开Vercel"按钮</p>
+                            <p style="margin-bottom: 12px;">2. 使用GitHub账号登录</p>
+                            <p style="margin-bottom: 12px;">3. 点击 <strong>"Import Project"</strong></p>
+                            <p style="margin-bottom: 12px;">4. 找到 <strong>ai-studio-platform</strong> 仓库</p>
+                            <p style="margin-bottom: 12px;">5. 点击 <strong>"Import"</strong></p>
+                            <p style="margin-bottom: 12px;">6. 保持默认设置，点击 <strong>"Deploy"</strong></p>
+                            <p>7. 等待2-3分钟部署完成</p>
+                        </div>
+                    </div>
+                `,
+                tip: "部署过程会显示实时进度"
+            },
+            5: {
+                title: "🎉 完成！",
+                desc: "您的网站已上线",
+                instruction: `
+                    <div class="instruction" style="border-color: #10b981;">
+                        <div class="instruction-title">✨ 部署成功！</div>
+                        <div class="instruction-content">
+                            <p style="margin-bottom: 12px;">恭喜！您的AI Studio Platform已经成功部署！</p>
+                            <p style="margin-bottom: 12px;">您的网站地址类似：</p>
+                            <div class="path-box">https://ai-studio-platform-xxx.vercel.app</div>
+                            <p style="margin-bottom: 12px;">现在您可以：</p>
+                            <p style="margin-bottom: 8px;">✓ 分享给任何人访问</p>
+                            <p style="margin-bottom: 8px;">✓ 在Vercel Dashboard管理</p>
+                            <p style="margin-bottom: 8px;">✓ 配置API密钥启用完整功能</p>
+                            <p>✓ 绑定自定义域名</p>
+                        </div>
+                    </div>
+                `,
+                tip: "全世界的人都可以访问您的网站了！"
+            }
+        };
+
+        function updateStep() {
+            const step = steps[currentStep];
+            document.getElementById('currentStepTitle').textContent = step.title;
+            document.getElementById('currentStepDesc').textContent = step.desc;
+            document.getElementById('instructionContainer').innerHTML = step.instruction;
+            document.getElementById('tipText').textContent = step.tip;
+            
+            // 更新进度条
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // 更新步骤列表
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById('step' + i);
+                stepEl.classList.remove('current', 'completed');
+                if (i < currentStep) {
+                    stepEl.classList.add('completed');
+                    stepEl.querySelector('.step-icon').textContent = '✓';
+                } else if (i === currentStep) {
+                    stepEl.classList.add('current');
+                    stepEl.querySelector('.step-icon').textContent = i;
+                } else {
+                    stepEl.querySelector('.step-icon').textContent = i;
+                }
+            }
+            
+            // 更新按钮
+            const btn = document.getElementById('nextBtn');
+            if (currentStep === totalSteps) {
+                btn.textContent = '🎉 完成部署';
+                btn.onclick = () => {
+                    alert('恭喜！部署完成！\n\n您可以在Vercel Dashboard查看您的网站地址。');
+                };
+            } else {
+                btn.textContent = '✓ 完成，下一步';
+                btn.onclick = nextStep;
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            }
+        }
+
+        function openGitHubDesktop() {
+            window.location.href = 'github-mac://';
+        }
+
+        function copyPath() {
+            const path = '/Users/lujiaheng/Documents/ai-studio-platform';
+            navigator.clipboard.writeText(path).then(() => {
+                alert('✓ 项目路径已复制到剪贴板！\n\n' + path);
+            });
+        }
+
+        function openVercel() {
+            window.open('https://vercel.com/new', '_blank');
+        }
+
+        // 初始化
+        updateStep();
+    </script>
+</body>
+</html>

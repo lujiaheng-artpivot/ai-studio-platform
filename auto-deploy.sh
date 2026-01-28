@@ -1,0 +1,116 @@
+#!/bin/bash
+
+echo "╔════════════════════════════════════════════════════════╗"
+echo "║     🚀 AI Studio Platform - 全自动部署              ║"
+echo "╚════════════════════════════════════════════════════════╝"
+echo ""
+
+cd /Users/lujiaheng/Documents/ai-studio-platform
+
+echo "📋 步骤1: 配置Git"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+git config --global credential.helper osxkeychain
+echo "✅ Git配置完成"
+echo ""
+
+echo "📦 步骤2: 准备代码"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+git remote remove origin 2>/dev/null
+git remote add origin https://github.com/lujiaheng-artpivot/ai-studio-platform.git
+git branch -M main
+echo "✅ 远程仓库配置完成"
+echo ""
+
+echo "🚀 步骤3: 推送代码到GitHub"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "⚠️  重要提示："
+echo "   1. 首先请在浏览器中完成GitHub仓库创建"
+echo "   2. 点击 'Create repository' 按钮"
+echo "   3. 创建完成后，按回车继续..."
+echo ""
+read -p "已创建GitHub仓库？按回车继续..."
+echo ""
+
+echo "📤 正在推送代码..."
+if git push -u origin main; then
+    echo ""
+    echo "✅ 代码推送成功！"
+    echo ""
+    echo "📍 您的GitHub仓库："
+    echo "   https://github.com/lujiaheng-artpivot/ai-studio-platform"
+    echo ""
+    
+    echo "🌐 步骤4: 部署到Vercel"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "正在打开Vercel部署页面..."
+    sleep 2
+    open "https://vercel.com/new"
+    echo ""
+    echo "📋 Vercel部署步骤："
+    echo ""
+    echo "   1. 使用GitHub账号登录Vercel"
+    echo "   2. 点击 'Import Project'"
+    echo "   3. 选择 'ai-studio-platform' 仓库"
+    echo "   4. 点击 'Deploy'"
+    echo "   5. 等待2-3分钟"
+    echo ""
+    echo "🎉 部署完成后，您将获得公网地址！"
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "✨ 恭喜！您的AI Studio Platform即将上线！"
+    echo ""
+else
+    echo ""
+    echo "❌ 推送失败"
+    echo ""
+    echo "💡 可能的原因："
+    echo "   1. GitHub仓库未创建"
+    echo "   2. 需要GitHub认证"
+    echo ""
+    echo "🔧 解决方法："
+    echo ""
+    echo "方法1: 使用GitHub CLI"
+    echo "   brew install gh"
+    echo "   gh auth login"
+    echo "   然后重新运行此脚本"
+    echo ""
+    echo "方法2: 使用GitHub Desktop（推荐）"
+    echo "   1. 下载: https://desktop.github.com"
+    echo "   2. 登录GitHub账号"
+    echo "   3. File → Add Local Repository"
+    echo "   4. 选择此项目文件夹"
+    echo "   5. 点击 'Publish repository'"
+    echo ""
+    echo "方法3: 使用Personal Access Token"
+    echo "   1. 访问: https://github.com/settings/tokens"
+    echo "   2. Generate new token (classic)"
+    echo "   3. 勾选 'repo' 权限"
+    echo "   4. 复制token"
+    echo "   5. 推送时使用token作为密码"
+    echo ""
+    
+    read -p "是否打开GitHub Desktop下载页面？(y/n): " download_desktop
+    if [ "$download_desktop" = "y" ]; then
+        open "https://desktop.github.com"
+        echo ""
+        echo "✅ 已打开GitHub Desktop下载页面"
+        echo ""
+        echo "安装后的步骤："
+        echo "   1. 登录GitHub账号"
+        echo "   2. File → Add Local Repository"
+        echo "   3. 选择: /Users/lujiaheng/Documents/ai-studio-platform"
+        echo "   4. 点击 'Publish repository'"
+        echo "   5. 访问 https://vercel.com/new 进行部署"
+        echo ""
+    fi
+fi
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "📚 更多帮助："
+echo "   • 部署指南: DEPLOY_TO_PUBLIC.md"
+echo "   • GitHub推送指南: github-push-guide.html"
+echo ""

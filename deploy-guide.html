@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 AI Studio Platform - 一键部署指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            font-size: 20px;
+            color: #94a3b8;
+        }
+        
+        .command-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #f59e0b;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .command-box::before {
+            content: '📋 复制此命令';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: #0f172a;
+            padding: 0 12px;
+            font-size: 14px;
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .command {
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 16px;
+            color: #10b981;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        
+        .copy-btn {
+            background: #f59e0b;
+            color: #000;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #f97316;
+            transform: scale(1.02);
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .steps {
+            display: grid;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #f59e0b;
+            padding: 24px;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #f59e0b;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        
+        .step h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .step p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        .tips {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .tips h3 {
+            color: #3b82f6;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tips li {
+            color: #94a3b8;
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .success h2 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        
+        .success p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .copied {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .copied.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 一键部署到公网</h1>
+            <p>3分钟让全世界看到您的AI Studio</p>
+        </div>
+        
+        <div class="command-box">
+            <div class="command" id="command">cd /Users/lujiaheng/Documents/ai-studio-platform && bash one-click-deploy.sh</div>
+            <button class="copy-btn" onclick="copyCommand()">📋 复制命令并打开终端</button>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <h3><span class="step-number">1</span>打开终端</h3>
+                <p>点击上方按钮会自动打开终端并复制命令</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">2</span>粘贴并执行</h3>
+                <p>在终端中按 Cmd+V 粘贴命令，然后按回车执行</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">3</span>登录Vercel</h3>
+                <p>浏览器会自动打开，选择 GitHub 或 Email 登录</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">4</span>回答问题</h3>
+                <p>终端会问几个问题，都可以直接按回车使用默认值</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">5</span>等待部署</h3>
+                <p>Vercel会自动构建和部署，大约需要2-3分钟</p>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <h3>💡 部署提示</h3>
+            <ul>
+                <li>登录时推荐选择 GitHub（最快）</li>
+                <li>项目名称可以使用默认的 ai-studio-platform</li>
+                <li>所有问题都可以直接按回车</li>
+                <li>部署完成后会显示公网地址</li>
+                <li>免费套餐完全够用，无需付费</li>
+            </ul>
+        </div>
+        
+        <div class="success">
+            <h2>🎉 部署完成后</h2>
+            <p>您将获得一个公网地址，例如：<br><strong>https://ai-studio-platform-xxx.vercel.app</strong></p>
+            <p style="margin-top: 16px;">全世界的人都可以访问您的网站！</p>
+        </div>
+    </div>
+    
+    <div class="copied" id="copied">✓ 命令已复制！</div>
+    
+    <script>
+        function copyCommand() {
+            const command = document.getElementById('command').textContent;
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(command).then(() => {
+                // 显示复制成功提示
+                const copiedEl = document.getElementById('copied');
+                copiedEl.classList.add('show');
+                setTimeout(() => {
+                    copiedEl.classList.remove('show');
+                }, 2000);
+                
+                // 打开终端
+                setTimeout(() => {
+                    window.location.href = 'x-apple.systempreferences:';
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>

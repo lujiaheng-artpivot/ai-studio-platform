@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 部署故障排除 - AI Studio Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #fff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 16px;
+        }
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            color: #ef4444;
+        }
+        .methods {
+            display: grid;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        .method {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+        }
+        .method.recommended {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .method.recommended::before {
+            content: '⭐ 推荐';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: #10b981;
+            color: #000;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .method h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+        .method.recommended h2 { color: #10b981; }
+        .steps {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        .step {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .recommended .step-number { background: #10b981; }
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .step-desc {
+            color: #94a3b8;
+            padding-left: 44px;
+        }
+        .btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        .btn.green {
+            background: #10b981;
+        }
+        .btn.green:hover {
+            background: #059669;
+        }
+        .input-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .input-box button {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .input-box button:hover {
+            background: #059669;
+        }
+        .command-output {
+            background: #000;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #10b981;
+            margin-top: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 CLI登录失败？没关系！</h1>
+            <p style="font-size: 18px; color: #94a3b8; margin-top: 12px;">
+                我们有3种替代方案，选择最适合您的
+            </p>
+        </div>
+
+        <div class="methods">
+            <!-- 方法1 -->
+            <div class="method recommended">
+                <h2>方法1: GitHub + Vercel网页部署</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">
+                    最可靠的方式，通过网页界面完成，无需命令行
+                </p>
+                
+                <div class="input-box">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">
+                        请输入您的GitHub用户名：
+                    </label>
+                    <input type="text" id="githubUsername" placeholder="例如: zhangsan" />
+                    <button onclick="generatePushCommands()">生成推送命令</button>
+                    <div class="command-output" id="commandOutput"></div>
+                </div>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            创建GitHub仓库
+                        </div>
+                        <div class="step-desc">
+                            点击下方按钮打开GitHub，创建名为 <code>ai-studio-platform</code> 的公开仓库
+                            <br>
+                            <a href="https://github.com/new" target="_blank" class="btn green" style="margin-top: 12px;">
+                                打开GitHub创建仓库 →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            推送代码到GitHub
+                        </div>
+                        <div class="step-desc">
+                            在上方输入您的GitHub用户名，我会生成推送命令
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            Vercel部署
+                        </div>
+                        <div class="step-desc">
+                            使用GitHub账号登录Vercel，导入仓库，点击Deploy
+                            <br>
+                            <a href="https://vercel.com/new" target="_blank" class="btn" style="margin-top: 12px;">
+                                打开Vercel部署页面 →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方法2 -->
+            <div class="method">
+                <h2>方法2: GitHub Desktop（最简单）</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">
+                    可视化工具，无需任何命令行操作
+                </p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            下载GitHub Desktop
+                        </div>
+                        <div class="step-desc">
+                            <a href="https://desktop.github.com/" target="_blank" class="btn">
+                                下载GitHub Desktop →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            添加本地仓库
+                        </div>
+                        <div class="step-desc">
+                            打开GitHub Desktop → File → Add Local Repository<br>
+                            选择: <code>/Users/lujiaheng/Documents/ai-studio-platform</code>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            发布到GitHub
+                        </div>
+                        <div class="step-desc">
+                            点击 "Publish repository" 按钮，勾选 "Public"
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">4</span>
+                            Vercel部署
+                        </div>
+                        <div class="step-desc">
+                            <a href="https://vercel.com/new" target="_blank" class="btn">
+                                打开Vercel部署 →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方法3 -->
+            <div class="method">
+                <h2>方法3: 仅本地预览（临时方案）</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">
+                    如果暂时不需要公网访问，可以先在局域网内分享
+                </p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            启动局域网服务器
+                        </div>
+                        <div class="step-desc">
+                            在终端运行：<br>
+                            <code style="background: #000; padding: 8px; display: inline-block; margin-top: 8px; border-radius: 4px;">
+                                cd /Users/lujiaheng/Documents/ai-studio-platform && bash share-local.sh
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            分享局域网地址
+                        </div>
+                        <div class="step-desc">
+                            同一WiFi下的设备可以通过显示的IP地址访问
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePushCommands() {
+            const username = document.getElementById('githubUsername').value.trim();
+            if (!username) {
+                alert('请输入GitHub用户名');
+                return;
+            }
+
+            const commands = `# 在终端中执行以下命令：
+
+cd /Users/lujiaheng/Documents/ai-studio-platform
+
+git remote remove origin 2>/dev/null
+git remote add origin https://github.com/${username}/ai-studio-platform.git
+git branch -M main
+git push -u origin main
+
+# 如果提示需要登录，按照提示完成GitHub认证`;
+
+            const output = document.getElementById('commandOutput');
+            output.textContent = commands;
+            output.style.display = 'block';
+
+            // 复制到剪贴板
+            navigator.clipboard.writeText(commands.split('\n').filter(line => !line.startsWith('#')).join('\n'));
+            alert('✓ 命令已复制到剪贴板！\n请在终端中粘贴执行');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ 重要：选择个人账号</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { max-width: 900px; width: 100%; }
+        .warning {
+            background: rgba(0, 0, 0, 0.3);
+            border: 4px solid #fff;
+            padding: 48px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .warning h1 {
+            font-size: 56px;
+            margin-bottom: 24px;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        .command-box {
+            background: #000;
+            padding: 24px;
+            border-radius: 12px;
+            font-family: monospace;
+            color: #10b981;
+            font-size: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .copy-btn {
+            background: #fff;
+            color: #ef4444;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+        .important {
+            background: #fff;
+            color: #ef4444;
+            padding: 32px;
+            border-radius: 16px;
+            margin: 32px 0;
+        }
+        .important h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .step {
+            background: rgba(239, 68, 68, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning">
+            <h1>⚠️ 重要提示</h1>
+            <p style="font-size: 28px; margin-top: 16px;">
+                必须选择<strong>个人账号</strong>
+            </p>
+            <p style="font-size: 20px; margin-top: 16px; opacity: 0.9;">
+                不要选择团队账号！
+            </p>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 32px; margin-bottom: 24px; text-align: center;">🚀 执行部署命令</h2>
+            <div class="command-box">
+                npx vercel --prod
+            </div>
+            <button class="copy-btn" onclick="copyCommand()">
+                📋 复制命令
+            </button>
+        </div>
+
+        <div class="important">
+            <h2>🎯 关键步骤</h2>
+            <div class="step">
+                <strong style="font-size: 20px;">第1步：Set up and deploy?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    输入 <strong>Y</strong>
+                </div>
+            </div>
+            <div class="step" style="border-color: #10b981; background: rgba(16, 185, 129, 0.1);">
+                <strong style="font-size: 20px; color: #10b981;">第2步：Which scope? ⚠️ 最重要！</strong>
+                <div style="margin-top: 12px; font-size: 16px;">
+                    <p style="margin-bottom: 8px;">会显示两个选项：</p>
+                    <p style="margin-bottom: 8px;">❌ <strong>1044122464-4683's projects</strong> （团队账号 - 不要选！）</p>
+                    <p style="margin-bottom: 8px;">✅ <strong>您的个人账号名</strong> （选这个！）</p>
+                    <p style="margin-top: 12px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px;">
+                        💡 使用<strong>方向键</strong>移动到个人账号，然后按回车
+                    </p>
+                </div>
+            </div>
+            <div class="step">
+                <strong style="font-size: 20px;">第3步：Link to existing project?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    输入 <strong>N</strong>
+                </div>
+            </div>
+            <div class="step">
+                <strong style="font-size: 20px;">第4步：Project name?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    直接<strong>按回车</strong>
+                </div>
+            </div>
+            <div class="step">
+                <strong style="font-size: 20px;">第5步：In which directory?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    直接<strong>按回车</strong>
+                </div>
+            </div>
+            <div class="step">
+                <strong style="font-size: 20px;">第6步：Override settings?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    输入 <strong>N</strong>
+                </div>
+            </div>
+            <div class="step">
+                <strong style="font-size: 20px;">第7步：Detected a repository?</strong>
+                <div style="margin-top: 8px; font-size: 16px;">
+                    输入 <strong>N</strong>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); padding: 40px; border-radius: 20px; text-align: center;">
+            <h3 style="font-size: 28px; margin-bottom: 16px;">⏱️ 完成后</h3>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 20px;">
+                等待1-2分钟，您会看到：
+            </p>
+            <div style="background: #000; padding: 20px; border-radius: 12px; font-family: monospace; font-size: 18px; color: #10b981;">
+                ✅ Production: https://ai-studio-platform-xxx.vercel.app
+            </div>
+            <p style="margin-top: 20px; font-size: 18px; opacity: 0.9;">
+                这就是您的公网地址！🎉
+            </p>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: #fff; color: #ef4444; padding: 20px 32px; border-radius: 12px; font-size: 18px; font-weight: bold; display: none;" id="copyNotice">
+        ✓ 已复制！
+    </div>
+
+    <script>
+        function copyCommand() {
+            const cmd = 'npx vercel --prod';
+            navigator.clipboard.writeText(cmd).then(() => {
+                const notice = document.getElementById('copyNotice');
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 2000);
+            });
+        }
+        
+        window.onload = () => copyCommand();
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 修改项目名称</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { max-width: 800px; width: 100%; text-align: center; }
+        h1 { font-size: 48px; margin-bottom: 24px; }
+        .card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 32px 0;
+        }
+        .command-box {
+            background: #000;
+            padding: 32px;
+            border-radius: 12px;
+            font-family: monospace;
+            color: #10b981;
+            font-size: 24px;
+            margin: 24px 0;
+        }
+        .copy-btn {
+            background: #10b981;
+            color: #000;
+            border: none;
+            padding: 24px 48px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover { transform: scale(1.05); }
+        .important {
+            background: rgba(251, 191, 36, 0.2);
+            border: 2px solid #fbbf24;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 项目名称问题</h1>
+        <p style="font-size: 20px; opacity: 0.9; margin-bottom: 32px;">
+            需要使用小写字母的项目名称
+        </p>
+
+        <div class="card">
+            <h2 style="font-size: 32px; margin-bottom: 24px;">🚀 重新部署</h2>
+            <div class="command-box">
+                npx vercel --prod
+            </div>
+            <button class="copy-btn" onclick="copyCommand()">
+                📋 复制命令
+            </button>
+        </div>
+
+        <div class="important">
+            <h3 style="color: #fbbf24; font-size: 28px; margin-bottom: 20px;">
+                ⚠️ 重要：项目名称
+            </h3>
+            <p style="font-size: 18px; margin-bottom: 16px;">
+                当问到 <strong>"What's your project's name?"</strong> 时
+            </p>
+            <div style="background: #000; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 20px; color: #10b981; margin: 16px 0;">
+                aistudio
+            </div>
+            <p style="font-size: 16px; opacity: 0.9;">
+                输入这个简单的名称（全小写，无特殊字符）
+            </p>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.2); padding: 32px; border-radius: 16px;">
+            <h3 style="font-size: 24px; margin-bottom: 20px;">📋 完整问答</h3>
+            <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    ❓ Set up and deploy? → <strong>Y</strong>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    ❓ Which scope? → 按回车
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    ❓ Link to existing project? → <strong>N</strong>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(251, 191, 36, 0.1);">
+                    ❓ Project name? → 输入 <strong>aistudio</strong>
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    ❓ In which directory? → 按回车
+                </div>
+                <div style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    ❓ Override settings? → <strong>N</strong>
+                </div>
+                <div style="padding: 12px 0;">
+                    ❓ Detected a repository? → <strong>N</strong>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 32px; background: rgba(16, 185, 129, 0.2); border-radius: 16px;">
+            <h3 style="font-size: 28px; margin-bottom: 16px;">🎉 完成后</h3>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 20px;">
+                您的网站地址将是：
+            </p>
+            <div style="background: #000; padding: 20px; border-radius: 12px; font-family: monospace; font-size: 20px; color: #10b981;">
+                https://aistudio.vercel.app
+            </div>
+            <p style="margin-top: 20px; font-size: 18px; opacity: 0.9;">
+                全世界任何人都能访问！
+            </p>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: #10b981; color: #fff; padding: 20px 32px; border-radius: 12px; font-size: 18px; font-weight: bold; display: none;" id="copyNotice">
+        ✓ 已复制！
+    </div>
+
+    <script>
+        function copyCommand() {
+            const cmd = 'npx vercel --prod';
+            navigator.clipboard.writeText(cmd).then(() => {
+                const notice = document.getElementById('copyNotice');
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 2000);
+            });
+        }
+        window.onload = () => copyCommand();
+    </script>
+</body>
+</html>

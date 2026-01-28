@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Vercel登录指南</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .alert {
+            background: rgba(245, 158, 11, 0.2);
+            border: 2px solid #f59e0b;
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .alert h1 {
+            color: #f59e0b;
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .card h2 {
+            color: #3b82f6;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .command-box {
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #10b981;
+            font-size: 16px;
+            margin: 16px 0;
+            position: relative;
+        }
+        .copy-btn {
+            background: #10b981;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+        .steps {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 24px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .step {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid #10b981;
+            padding-left: 20px;
+        }
+        .step:last-child { margin-bottom: 0; }
+        .step-num {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #10b981;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .highlight {
+            background: rgba(16, 185, 129, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #10b981;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert">
+            <h1>🔐 需要登录Vercel</h1>
+            <p style="font-size: 18px; opacity: 0.9; margin-top: 12px;">
+                只需要登录一次，以后就不用再登录了
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>步骤1: 在终端执行登录命令</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                复制下面的命令，在终端中执行
+            </p>
+            <div class="command-box">
+                cd /Users/lujiaheng/Documents/ai-studio-platform && npx vercel login
+            </div>
+            <button class="copy-btn" onclick="copyCommand('cmd1')">
+                📋 复制登录命令
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>步骤2: 选择登录方式</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                执行命令后，终端会显示登录选项
+            </p>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-num">1</span>
+                    <strong>终端会显示：</strong>
+                    <div style="font-size: 14px; color: #94a3b8; margin-top: 8px;">
+                        "Log in to Vercel"<br>
+                        选项：GitHub, GitLab, Bitbucket, Email
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <strong>推荐选择 GitHub</strong>
+                    <div style="font-size: 14px; color: #94a3b8; margin-top: 8px;">
+                        使用方向键选择 <span class="highlight">GitHub</span>，按回车
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">3</span>
+                    <strong>浏览器会自动打开</strong>
+                    <div style="font-size: 14px; color: #94a3b8; margin-top: 8px;">
+                        在浏览器中完成GitHub登录和授权
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">4</span>
+                    <strong>返回终端</strong>
+                    <div style="font-size: 14px; color: #94a3b8; margin-top: 8px;">
+                        登录成功后，终端会显示 "Success!"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>步骤3: 重新执行部署</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                登录成功后，再次执行部署命令
+            </p>
+            <div class="command-box">
+                cd /Users/lujiaheng/Documents/ai-studio-platform && npx vercel --prod
+            </div>
+            <button class="copy-btn" onclick="copyCommand('cmd2')">
+                📋 复制部署命令
+            </button>
+
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 20px; border-radius: 12px; margin-top: 24px;">
+                <strong style="color: #10b981;">💡 部署时回答问题：</strong>
+                <div class="steps" style="margin-top: 16px;">
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • Set up and deploy? → <span class="highlight">Y</span>
+                    </div>
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • Which scope? → 选择你的账号
+                    </div>
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • Link to existing project? → <span class="highlight">N</span>
+                    </div>
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • Project name? → 直接按回车
+                    </div>
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • In which directory? → 直接按回车
+                    </div>
+                    <div style="padding: 8px 0; color: #94a3b8;">
+                        • Override settings? → <span class="highlight">N</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 40px; border-radius: 20px; text-align: center;">
+            <h2 style="font-size: 36px; margin-bottom: 16px;">🎉 完成后</h2>
+            <p style="font-size: 18px; opacity: 0.9; margin-bottom: 20px;">
+                您将看到部署成功的信息和公网地址：
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 8px; font-family: monospace; font-size: 18px;">
+                ✅ Production: https://ai-studio-platform-xxx.vercel.app
+            </div>
+            <p style="margin-top: 20px; font-size: 16px; opacity: 0.9;">
+                全世界的人都可以访问您的网站！
+            </p>
+        </div>
+
+        <div style="margin-top: 32px; padding: 24px; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 12px;">
+            <h3 style="color: #3b82f6; margin-bottom: 12px;">📝 快速操作流程</h3>
+            <ol style="padding-left: 20px; color: #94a3b8; line-height: 2;">
+                <li>复制并执行<strong>登录命令</strong></li>
+                <li>选择 GitHub 登录</li>
+                <li>在浏览器中完成授权</li>
+                <li>返回终端，复制并执行<strong>部署命令</strong></li>
+                <li>按提示回答问题（大部分直接按回车）</li>
+                <li>等待2-3分钟</li>
+                <li>获得公网地址！🎉</li>
+            </ol>
+        </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; background: #10b981; color: #fff; padding: 16px 24px; border-radius: 8px; font-weight: bold; display: none;" id="copyNotice">
+        ✓ 已复制到剪贴板！
+    </div>
+
+    <script>
+        function copyCommand(id) {
+            let cmd;
+            if (id === 'cmd1') {
+                cmd = 'cd /Users/lujiaheng/Documents/ai-studio-platform && npx vercel login';
+            } else {
+                cmd = 'cd /Users/lujiaheng/Documents/ai-studio-platform && npx vercel --prod';
+            }
+            
+            navigator.clipboard.writeText(cmd).then(() => {
+                const notice = document.getElementById('copyNotice');
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
