@@ -2669,6 +2669,9 @@ function updateApiStatusPill(){
   }
 }
 
+const GEMINI_TEXT_MODEL = 'gemini-2.0-flash';
+const GEMINI_IMAGE_MODEL = 'gemini-2.5-flash-image';
+
 async function geminiCall(model, contents, config={}){
   const key = getApiKey();
   if(!key) throw new Error('请先配置 Gemini / Veo API Key');
@@ -3449,7 +3452,7 @@ async function batchSbImages(analysis){
     document.getElementById('sbBatchText').textContent=`${t+1} / ${tasks.length}`;
     document.getElementById('sbBatchFill').style.width=`${(t+1)/tasks.length*100}%`;
     try {
-      const imgData = await geminiCall('gemini-2.0-flash-preview-image-generation',
+      const imgData = await geminiCall(GEMINI_IMAGE_MODEL,
         [{role:'user', parts:[{text:`Professional cinematic film still, photorealistic, 8k, Arri Alexa: ${tasks[t].prompt}`}]}],
         { generationConfig:{ responseModalities:['IMAGE','TEXT'] } }
       );
@@ -3487,7 +3490,7 @@ async function genSingleShot(shotIdx, frameIdx){
   showToast('重新生成分镜', `${shot.shot_id} Frame ${frameIdx+1}`);
   updateStoryboardRowStatus(shotIdx, 'generating');
   try {
-    const imgData = await geminiCall('gemini-2.0-flash-preview-image-generation',
+    const imgData = await geminiCall(GEMINI_IMAGE_MODEL,
       [{role:'user', parts:[{text:`Professional cinematic film still, photorealistic, 8k: ${prompt}`}]}],
       { generationConfig:{ responseModalities:['IMAGE','TEXT'] } }
     );
@@ -3972,7 +3975,7 @@ let _artTab = 'scene';
 let _artChatHist = [];
 
 async function geminiAnalyzeStyle(script){
-  const data = await geminiCall('gemini-2.0-flash',
+  const data = await geminiCall(GEMINI_TEXT_MODEL,
     [{role:'user', parts:[{text:script}]}],
     { systemInstruction:{parts:[{text:CINESTYLE_SYSTEM}]},
       generationConfig:{ responseMimeType:'application/json', responseSchema:CINESTYLE_SCHEMA, temperature:0.8 } }
@@ -3983,7 +3986,7 @@ async function geminiAnalyzeStyle(script){
 }
 
 async function geminiGenImage(prompt){
-  const data = await geminiCall('gemini-2.0-flash-preview-image-generation',
+  const data = await geminiCall(GEMINI_IMAGE_MODEL,
     [{role:'user', parts:[{text:`Professional cinematic concept art, movie production design, photorealistic, 8k, Arri Alexa: ${prompt}`}]}],
     { generationConfig:{ responseModalities:['IMAGE','TEXT'] } }
   );
