@@ -2669,8 +2669,8 @@ function updateApiStatusPill(){
   }
 }
 
-const GEMINI_TEXT_MODEL = 'gemini-2.0-flash';
-const GEMINI_IMAGE_MODEL = 'gemini-2.5-flash-image';
+const GEMINI_TEXT_MODEL = 'gemini-3.1-pro-preview';
+const GEMINI_IMAGE_MODEL = 'gemini-3.1-flash-image-preview';
 
 async function geminiCall(model, contents, config={}){
   const key = getApiKey();
@@ -2864,7 +2864,7 @@ async function sendScriptAgentChat(){
   const typing = showScriptAgentThinking('Agent 正在结合当前剧本生成建议...');
 
   try{
-    const data = await geminiCall('gemini-2.0-flash',
+    const data = await geminiCall(GEMINI_TEXT_MODEL,
       [{role:'user', parts:[{text:`当前剧本内容：\n${script || '(空白)'}\n\n用户问题：${message}\n\n请给出可直接执行的修改建议，必要时给出具体改写片段。` }]}],
       {
         systemInstruction:{ parts:[{ text: buildScriptAgentSystemPrompt() }] },
@@ -2954,7 +2954,7 @@ async function runScriptAnalysis(){
 
   try {
     const sysInst = getAnalysisSystemInstruction(_scriptType);
-    const data = await geminiCall('gemini-2.0-flash', 
+    const data = await geminiCall(GEMINI_TEXT_MODEL, 
       [{role:'user', parts:[{text:`用户的原始想法/感受是: "${script}"。请根据设定的专家身份（${_scriptType}），进行深度分析和策划。`}]}],
       { systemInstruction:{ parts:[{text:sysInst}] }, generationConfig:{temperature:0.8} }
     );
@@ -2998,7 +2998,7 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
 4. 至少 5 个场景，包含关键转场、情绪变化和能拍出来的画面。
 5. 对白克制、电影感明确。`;
 
-    const data = await geminiCall('gemini-2.0-flash',
+    const data = await geminiCall(GEMINI_TEXT_MODEL,
       [{role:'user', parts:[{text:prompt}]}],
       {
         systemInstruction:{ parts:[{text:`${buildScriptAgentSystemPrompt()}\n你现在的任务是产出完整剧本正文。`} ] },
@@ -3127,7 +3127,7 @@ async function runStoryboardAnalysis(){
   document.getElementById('sbLoadingMsg').textContent = '正在分析剧本并拆解分镜表...';
 
   try {
-    const data = await geminiCall('gemini-2.0-flash',
+    const data = await geminiCall(GEMINI_TEXT_MODEL,
       [{role:'user', parts:[{text:`请基于电影连贯性原则分析以下剧本。每一镜生成一个包含3帧的视觉序列。\nSCRIPT:\n"""\n${script}\n"""`}]}],
       { systemInstruction:{ parts:[{text:CINELOGIC_SYSTEM}] },
         generationConfig:{ responseMimeType:'application/json', temperature:0.7 } }
@@ -3525,7 +3525,7 @@ async function refineStoryboard(){
   document.getElementById('sbLoadingMsg').textContent = '正在根据指令优化分镜...';
 
   try {
-    const data = await geminiCall('gemini-2.0-flash',
+    const data = await geminiCall(GEMINI_TEXT_MODEL,
       [{role:'user', parts:[{text:`当前数据：\n${JSON.stringify(_sbAnalysis, null, 2)}\n指令：\n"${instruction}"\n请优化分镜，保持3帧视觉序列的逻辑。`}]}],
       { systemInstruction:{ parts:[{text:CINELOGIC_SYSTEM}] },
         generationConfig:{ responseMimeType:'application/json', temperature:0.7 } }
@@ -4003,7 +4003,7 @@ async function geminiChatArt(userMsg){
 人物：${JSON.stringify(_artAnalysis.characters.map(c=>c.name))}
 请用中文简洁回答，专注于电影美术层面的建议。` : '你是一位电影美术指导，用中文简洁回答。';
   _artChatHist.push({role:'user', parts:[{text:userMsg}]});
-  const data = await geminiCall('gemini-2.0-flash', _artChatHist,
+  const data = await geminiCall(GEMINI_TEXT_MODEL, _artChatHist,
     { systemInstruction:{parts:[{text:sysMsg}]}, generationConfig:{temperature:0.9, maxOutputTokens:400} }
   );
   const reply = extractText(data) || '艺术指导暂时无法回答。';

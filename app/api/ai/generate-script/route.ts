@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { getGeminiClient } from '@/lib/ai/gemini';
+import { GEMINI_TEXT_MODEL, getGeminiClient } from '@/lib/ai/gemini';
 import { DEFAULT_SCRIPT_TYPE, isScriptType } from '@/lib/script-types';
 
 export async function POST(req: NextRequest) {
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       },
       meta: {
         computeSecondsUsed: Math.ceil(computeTime),
-        model: 'gemini-2.0-flash-thinking-exp-1219',
+        model: GEMINI_TEXT_MODEL,
       },
     });
   } catch (error: unknown) {
