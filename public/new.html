@@ -703,6 +703,173 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 .veo-preview-stage video{width:100%;height:100%;object-fit:contain;background:#000}
 .veo-log{padding:12px 15px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);font-family:var(--font-mono);line-height:1.6;min-height:58px}
 .veo-action-row{display:flex;gap:8px;flex-wrap:wrap}
+.veo-batch-panel{margin-top:14px;background:var(--dark);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.veo-batch-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.veo-batch-title{font-size:10px;font-family:var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.veo-batch-sub{font-size:11px;color:var(--muted);line-height:1.6}
+.veo-batch-list{max-height:280px;overflow:auto;padding:8px 10px 12px}
+.veo-batch-row{display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border-radius:12px;border:1px solid transparent;transition:all .18s;cursor:pointer}
+.veo-batch-row:hover{background:rgba(255,255,255,0.03);border-color:var(--border)}
+.veo-batch-row.sel{background:rgba(104,145,216,0.08);border-color:rgba(104,145,216,0.22)}
+.veo-batch-shot{display:flex;flex-direction:column;gap:6px}
+.veo-batch-shot strong{font-size:12px;font-family:var(--font-mono);color:var(--text)}
+.veo-batch-shot span{font-size:10px;color:var(--muted2);font-family:var(--font-mono)}
+.veo-batch-copy{min-width:0}
+.veo-batch-copy .t{font-size:12px;color:var(--text);font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.veo-batch-copy .s{font-size:11px;color:var(--muted);line-height:1.5}
+.veo-batch-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.veo-batch-thumb{width:88px;height:54px;border-radius:10px;overflow:hidden;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--muted2);text-transform:uppercase;letter-spacing:1px}
+.veo-batch-thumb img,.veo-batch-thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.veo-batch-status{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:999px;border:1px solid var(--border);font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase}
+.veo-batch-status.idle{background:rgba(255,255,255,0.04);color:var(--muted2)}
+.veo-batch-status.generating{background:rgba(104,145,216,0.14);border-color:rgba(104,145,216,0.28);color:#cddcff}
+.veo-batch-status.ready{background:rgba(114,188,110,0.14);border-color:rgba(114,188,110,0.28);color:var(--green)}
+.veo-batch-status.error{background:rgba(232,93,93,0.14);border-color:rgba(232,93,93,0.28);color:#ff8b8b}
+.veo-batch-empty{padding:22px 14px;text-align:center;font-size:11px;color:var(--muted);font-family:var(--font-mono);letter-spacing:1px}
+
+/* CREATION RE-SKIN */
+#page-creation{
+  position:relative;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255,102,196,0.16), transparent 24%),
+    radial-gradient(circle at 82% 10%, rgba(103,119,255,0.16), transparent 28%),
+    radial-gradient(circle at 56% 82%, rgba(52,220,184,0.12), transparent 28%),
+    linear-gradient(140deg, #09030f 0%, #12091b 36%, #07141a 100%);
+}
+#page-creation:before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.18;
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgba(255,255,255,0.03) 8% 8.2%, transparent 8.2% 100%),
+    linear-gradient(0deg, transparent 0 10%, rgba(255,255,255,0.025) 10% 10.2%, transparent 10.2% 100%);
+  background-size:100% 100%, 100% 100%;
+  mix-blend-mode:screen;
+}
+#page-creation .creation-wrap{
+  position:relative;display:flex;height:calc(100vh - 62px);overflow:hidden;
+  padding:18px;gap:18px;
+}
+#page-creation .pipeline{
+  width:266px;flex-shrink:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+    linear-gradient(135deg, rgba(255,92,161,0.10), rgba(64,212,188,0.07) 44%, rgba(103,119,255,0.12));
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:34px 18px 28px 18px;
+  box-shadow:0 28px 70px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter:blur(18px) saturate(1.2);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  padding:24px 14px 18px;position:relative;overflow:hidden;
+}
+#page-creation .pipeline:before{
+  content:'';position:absolute;left:-40px;top:-40px;width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,108,190,0.38), transparent 70%);
+  pointer-events:none;filter:blur(6px);
+}
+#page-creation .pipeline:after{
+  content:'';position:absolute;right:-30px;bottom:80px;width:120px;height:120px;border-radius:28px;
+  background:linear-gradient(135deg, rgba(64,212,188,0.18), rgba(103,119,255,0.05));
+  transform:rotate(18deg);pointer-events:none;
+}
+#page-creation .creation-main{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px 34px 30px 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+    linear-gradient(145deg, rgba(14,7,23,0.95), rgba(5,13,20,0.92));
+  box-shadow:0 28px 80px rgba(0,0,0,0.46), inset 0 1px 0 rgba(255,255,255,0.07);
+  backdrop-filter:blur(24px) saturate(1.3);
+  -webkit-backdrop-filter:blur(24px) saturate(1.3);
+}
+#page-creation .creation-main:before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.6;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.03) 48%, transparent 52%, transparent 100%);
+}
+#page-creation .pipe-head{padding:0 16px 18px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:8px}
+#page-creation .pipe-eyebrow{color:#ff8dc8}
+#page-creation .pipe-project{font-size:20px;letter-spacing:4px}
+#page-creation .pipe-step{
+  margin-bottom:8px;padding:14px 12px;border-radius:18px 12px 18px 12px;
+  background:rgba(255,255,255,0.02);border:1px solid transparent;
+}
+#page-creation .pipe-step::after{left:23px;bottom:-14px;height:10px;background:linear-gradient(180deg, rgba(255,255,255,0.12), transparent)}
+#page-creation .pipe-step:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.06)}
+#page-creation .pipe-step.active{
+  background:linear-gradient(135deg, rgba(255,108,190,0.14), rgba(103,119,255,0.08));
+  border-color:rgba(255,108,190,0.18);box-shadow:none;
+}
+#page-creation .pipe-step.active .step-circ{
+  background:linear-gradient(135deg,#ff76c0,#ffb073);border-color:transparent;color:#12091b;box-shadow:0 0 24px rgba(255,118,192,0.28)
+}
+#page-creation .pipe-step.active .step-info-t{color:#ffd0e7}
+#page-creation .pipe-step.active .step-info-s{color:#ff9bd0}
+#page-creation .pipe-step.done .step-circ{background:linear-gradient(135deg,#40d4bc,#7a95ff);border-color:transparent;color:#081017;box-shadow:0 0 22px rgba(64,212,188,0.24)}
+#page-creation .pipe-step.done .step-info-t,#page-creation .pipe-step.done .step-info-s{color:#9ef0df}
+#page-creation .proj-row{border-radius:14px;padding:10px 10px}
+#page-creation .proj-row:hover{background:rgba(255,255,255,0.05)}
+#page-creation .step-hdr{
+  padding:18px 28px;border-bottom:1px solid rgba(255,255,255,0.07);
+  background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+}
+#page-creation .step-hdr-h{font-size:20px;letter-spacing:4px}
+#page-creation .step-badge{border-radius:999px;padding:6px 12px}
+#page-creation .b-script{background:rgba(255,108,190,0.12);border-color:rgba(255,108,190,0.22);color:#ff9bd0}
+#page-creation .b-board{background:rgba(64,212,188,0.12);border-color:rgba(64,212,188,0.22);color:#93f4e0}
+#page-creation .b-art{background:rgba(103,119,255,0.12);border-color:rgba(103,119,255,0.22);color:#b8c4ff}
+#page-creation .step-panel{
+  position:relative;padding:28px;
+  background:
+    radial-gradient(circle at top right, rgba(103,119,255,0.08), transparent 22%),
+    radial-gradient(circle at left bottom, rgba(255,108,190,0.06), transparent 24%);
+}
+#page-creation .editor-wrap,
+#page-creation .script-agent-shell,
+#page-creation .script-agent-sidebox,
+#page-creation .art-lock-panel,
+#page-creation .sb-table-panel,
+#page-creation .veo-card,
+#page-creation .veo-preview-shell{
+  border-radius:24px 16px 22px 16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+    linear-gradient(145deg, rgba(18,10,28,0.92), rgba(7,14,22,0.92));
+  box-shadow:0 14px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+#page-creation .editor-bar,
+#page-creation .script-agent-head,
+#page-creation .veo-card-head,
+#page-creation .veo-preview-head,
+#page-creation .sb-table-head{
+  background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+#page-creation .script-ta,
+#page-creation .veo-field select,
+#page-creation .veo-field textarea,
+#page-creation .script-agent-input input,
+#page-creation .sb-refine-input{
+  background:rgba(255,255,255,0.03);
+  border-color:rgba(255,255,255,0.08);
+}
+#page-creation .script-transfer-note{
+  background:linear-gradient(135deg, rgba(255,108,190,0.08), rgba(64,212,188,0.08));
+  border-color:rgba(255,255,255,0.08);
+}
+#page-creation .shot-card,
+#page-creation .veo-batch-panel{
+  border-radius:20px 14px 18px 14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+}
+#page-creation .shot-card:hover{transform:translateY(-2px) scale(1.01);border-color:rgba(255,108,190,0.22);box-shadow:0 18px 36px rgba(0,0,0,0.28),0 0 0 1px rgba(255,108,190,0.08)}
+#page-creation .shot-card.sel{border-color:rgba(255,108,190,0.32);box-shadow:0 0 0 1px rgba(255,108,190,0.16)}
+#page-creation .sb-storyboard-table tbody tr.sel td{background:rgba(255,108,190,0.06)}
+#page-creation .bsm{border-radius:999px;padding:8px 18px}
+#page-creation .bsm-outline{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.08)}
+#page-creation .bsm-amber{background:linear-gradient(135deg,#ff76c0,#ffbb6b);box-shadow:0 10px 26px rgba(255,118,192,0.18)}
+#page-creation .bsm-teal{background:linear-gradient(135deg,#40d4bc,#9cf0dd);box-shadow:0 10px 26px rgba(64,212,188,0.18)}
+#page-creation .bsm-blue{background:linear-gradient(135deg,#6777ff,#95a2ff);box-shadow:0 10px 26px rgba(103,119,255,0.18)}
 
 .side-panel{display:flex;flex-direction:column;gap:14px}
 .panel-box{background:var(--dark);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
@@ -735,6 +902,29 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 .shot-ctrls{position:absolute;top:6px;right:6px;display:flex;gap:3px;opacity:0;transition:opacity 0.18s}
 .shot-card:hover .shot-ctrls{opacity:1}
 .sc-btn{width:22px;height:22px;border-radius:4px;background:rgba(0,0,0,0.75);border:none;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sb-table-panel{background:var(--dark);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sb-table-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sb-table-title{font-size:10px;font-family:var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--teal)}
+.sb-table-sub{font-size:11px;color:var(--muted);font-family:var(--font-mono)}
+.sb-storyboard-table-wrap{overflow:auto}
+.sb-storyboard-table{width:100%;border-collapse:collapse;min-width:980px}
+.sb-storyboard-table th{padding:10px 12px;background:var(--card2);border-bottom:1px solid var(--border);font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted2);text-align:left}
+.sb-storyboard-table td{padding:12px;border-bottom:1px solid var(--border);font-size:11.5px;color:var(--muted);vertical-align:top;line-height:1.55}
+.sb-storyboard-table tbody tr{transition:background 0.18s}
+.sb-storyboard-table tbody tr:hover td{background:rgba(255,255,255,0.02)}
+.sb-storyboard-table tbody tr.sel td{background:rgba(226,168,75,0.06)}
+.sb-cell-mono{font-family:var(--font-mono);color:var(--text);white-space:nowrap}
+.sb-row-thumb{width:88px;height:54px;border-radius:8px;overflow:hidden;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px}
+.sb-row-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.sb-shot-status{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:999px;border:1px solid var(--border);font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase}
+.sb-shot-status.idle{background:rgba(255,255,255,0.04);color:var(--muted2)}
+.sb-shot-status.generating{background:rgba(104,145,216,0.14);border-color:rgba(104,145,216,0.28);color:#cddcff}
+.sb-shot-status.ready{background:rgba(114,188,110,0.14);border-color:rgba(114,188,110,0.28);color:var(--green)}
+.sb-shot-status.error{background:rgba(232,93,93,0.14);border-color:rgba(232,93,93,0.28);color:#ff8b8b}
+.sb-row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sb-row-actions .bsm{padding:6px 10px;font-size:10px}
+.sb-prompt-mini{max-width:260px}
+.sb-table-empty{padding:22px 16px;font-size:12px;color:var(--muted);text-align:center}
 .add-shot{background:var(--card);border:1px dashed var(--border2);border-radius:var(--r);min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all 0.18s;color:var(--muted2);font-size:11.5px;font-family:var(--font-mono)}
 .add-shot:hover{border-color:var(--amber);color:var(--amber);background:rgba(226,168,75,0.04)}
 .add-plus{font-size:26px;line-height:1}
@@ -807,6 +997,27 @@ input[type=range]{width:100%;accent-color:var(--amber)}
 .fpill{padding:5px 15px;border-radius:20px;font-size:12px;font-family:var(--font-mono);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.18s}
 .fpill.active{background:var(--teal-dim);border-color:rgba(79,189,181,0.28);color:var(--teal)}
 .fpill:hover{color:#fff}
+.sharing-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.sharing-kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.sharing-kpi-label{font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.sharing-kpi-value{font-family:var(--font-h);font-size:34px;letter-spacing:-1px;color:var(--teal);line-height:1}
+.sharing-kpi-note{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5}
+.sharing-ops-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:14px;margin-bottom:22px}
+.sharing-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sharing-panel-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted2)}
+.sharing-panel-body{padding:16px}
+.sharing-collections{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.share-collection{padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--card2)}
+.share-collection h4{font-size:13px;margin-bottom:6px}
+.share-collection p{font-size:11px;color:var(--muted);line-height:1.55;margin-bottom:10px}
+.share-collection-meta{display:flex;gap:6px;flex-wrap:wrap}
+.share-chip{display:inline-flex;padding:3px 8px;border-radius:999px;background:rgba(79,189,181,0.08);border:1px solid rgba(79,189,181,0.18);font-size:10px;font-family:var(--font-mono);color:var(--teal)}
+.share-flow{display:flex;flex-direction:column;gap:10px}
+.share-flow-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.share-flow-item:last-child{border-bottom:none}
+.share-flow-icon{width:30px;height:30px;border-radius:8px;background:rgba(104,145,216,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.share-flow-title{font-size:12px;font-weight:700;margin-bottom:3px}
+.share-flow-desc{font-size:11px;color:var(--muted);line-height:1.55}
 .masonry{columns:3;column-gap:14px}
 .gal-item{break-inside:avoid;margin-bottom:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.22s;position:relative}
 .gal-item:hover{border-color:var(--teal);transform:translateY(-4px);box-shadow:var(--shadow-lg),var(--shadow-glow-teal)}
@@ -856,6 +1067,22 @@ input[type=range]{width:100%;accent-color:var(--amber)}
 .cp{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .cp-head{padding:12px 18px;border-bottom:1px solid var(--border);font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:var(--font-mono);color:var(--muted);display:flex;align-items:center;justify-content:space-between}
 .cp-body{padding:14px 18px}
+.contrib-score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.score-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.score-rule-list,.mission-list{padding:14px 18px}
+.score-rule,.mission-item{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--border)}
+.score-rule:last-child,.mission-item:last-child{border-bottom:none}
+.score-rule-main,.mission-main{flex:1}
+.score-rule-title,.mission-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.score-rule-desc,.mission-desc{font-size:11px;color:var(--muted);line-height:1.55}
+.score-rule-pts,.mission-pts{font-size:12px;font-family:var(--font-mono);font-weight:700;color:var(--amber);white-space:nowrap}
+.mission-item.done .mission-title{color:var(--green)}
+.mission-item.done .mission-pts{color:var(--green)}
+.reward-ladder{padding:14px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.reward-step{padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--card2)}
+.reward-step .k{font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.reward-step .v{font-size:18px;font-weight:800;margin-bottom:6px}
+.reward-step .d{font-size:11px;color:var(--muted);line-height:1.55}
 .act-row{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
 .act-row:last-child{border-bottom:none}
 .act-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
@@ -913,7 +1140,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
 }
 .nx-modal.open{display:flex}
 .nx-modal-card{
-  width:100%;max-width:560px;background:rgba(18,18,18,0.96);
+  width:100%;max-width:920px;background:rgba(18,18,18,0.96);
   border:1px solid var(--border2);border-radius:14px;padding:22px;
   box-shadow:0 30px 80px rgba(0,0,0,0.6);
 }
@@ -922,10 +1149,19 @@ input[type=range]{width:100%;accent-color:var(--amber)}
 .nx-modal-close{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted)}
 .nx-auth-actions{display:flex;gap:10px;flex-wrap:wrap}
 .nx-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.nx-plan{border:1px solid var(--border);border-radius:10px;padding:12px;background:var(--card2)}
-.nx-plan h4{font-size:13px;margin-bottom:6px}
-.nx-plan p{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5}
-.nx-plan strong{display:block;font-size:18px;margin-bottom:8px}
+.nx-plan{border:1px solid var(--border);border-radius:10px;padding:14px;background:var(--card2);display:flex;flex-direction:column;gap:10px}
+.nx-plan.recommended{border-color:rgba(79,189,181,0.28);box-shadow:0 0 0 1px rgba(79,189,181,0.16)}
+.nx-plan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.nx-plan h4{font-size:13px;margin-bottom:4px}
+.nx-plan p{font-size:11px;color:var(--muted);line-height:1.5}
+.nx-plan strong{display:block;font-size:22px;margin-bottom:4px}
+.nx-plan-badge{display:inline-flex;padding:4px 8px;border-radius:999px;border:1px solid var(--border);font-size:10px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted2)}
+.nx-plan-badge.hot{background:rgba(79,189,181,0.08);border-color:rgba(79,189,181,0.18);color:var(--teal)}
+.nx-plan-list{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.nx-plan-list li{font-size:11px;color:var(--text);line-height:1.55;padding-left:16px;position:relative}
+.nx-plan-list li:before{content:'•';position:absolute;left:0;top:0;color:var(--amber)}
+.nx-plan-note{padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.55}
+.nx-plan-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px;font-family:var(--font-mono);color:var(--muted2)}
 
 
 /* ═══════════════════════════════════════════════
@@ -1126,10 +1362,21 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   .script-stage-grid{grid-template-columns:1fr}
   .art-grid{grid-template-columns:1fr}
   .video-stage-grid{grid-template-columns:1fr}
+  .sharing-kpis{grid-template-columns:repeat(2,1fr)}
+  .sharing-ops-grid{grid-template-columns:1fr}
+  .sharing-collections{grid-template-columns:1fr}
   .masonry{columns:2}
   .contrib-panels{grid-template-columns:1fr}
+  .contrib-score-grid{grid-template-columns:1fr}
+  .reward-ladder{grid-template-columns:1fr}
   .cstats-grid{grid-template-columns:repeat(2,1fr)}
+  .nx-plan-grid{grid-template-columns:1fr}
   .start-grid{grid-template-columns:1fr 1fr}
+  .veo-batch-row{grid-template-columns:1fr;justify-items:start}
+  .veo-batch-actions{justify-content:flex-start}
+  #page-creation .creation-wrap{padding:10px;gap:10px}
+  #page-creation .pipeline{width:230px;border-radius:24px 16px 20px 16px}
+  #page-creation .creation-main{border-radius:16px 24px 22px 18px}
 }
 /* ═══════════════════════════════════════════════
    PREMIUM INTERACTION SYSTEM
@@ -1311,25 +1558,25 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   <div class="nav-divider"></div>
   <div class="nav-links">
     <div class="nav-group">
-      <span class="nav-link">功能 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+      <span class="nav-link" onclick="navigateToSection('home-features')">功能 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
       <div class="dropdown">
-        <a href="#">文本生视频</a><a href="#">图像生视频</a>
-        <a href="#">AI 分镜生成</a><a href="#">剧本创作</a>
-        <a href="#">AI 角色生成</a><a href="#">风格迁移</a>
+        <a href="#" onclick="event.preventDefault();openCreationStep(2)">视频生成</a><a href="#" onclick="event.preventDefault();openCreationStep(1)">图像生成</a>
+        <a href="#" onclick="event.preventDefault();openCreationStep(1)">AI 分镜生成</a><a href="#" onclick="event.preventDefault();openCreationStep(0)">剧本创作</a>
+        <a href="#" onclick="event.preventDefault();navigateToSection('home-tools')">AI 角色生成</a><a href="#" onclick="event.preventDefault();goPage('sharing')">风格参考</a>
       </div>
     </div>
     <div class="nav-group">
-      <span class="nav-link">解决方案 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+      <span class="nav-link" onclick="navigateToSection('home-solutions')">解决方案 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
       <div class="dropdown">
-        <a href="#">影视制作</a><a href="#">广告创意</a>
-        <a href="#">独立电影</a><a href="#">动画制作</a>
+        <a href="#" onclick="event.preventDefault();focusAudience('film')">影视制作</a><a href="#" onclick="event.preventDefault();focusAudience('ad')">广告创意</a>
+        <a href="#" onclick="event.preventDefault();goPage('sharing')">独立电影</a><a href="#" onclick="event.preventDefault();focusAudience('creator')">动画制作</a>
       </div>
     </div>
     <div class="nav-group">
-      <span class="nav-link">资源 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+      <span class="nav-link" onclick="navigateToSection('home-resources')">资源 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
       <div class="dropdown">
-        <a href="#">博客</a><a href="#">创作学院</a>
-        <a href="#">作品案例</a><a href="#">更新日志</a><a href="#">词汇表</a>
+        <a href="#" onclick="event.preventDefault();navigateToSection('home-resources')">博客</a><a href="#" onclick="event.preventDefault();navigateToSection('home-resources')">创作学院</a>
+        <a href="#" onclick="event.preventDefault();goPage('sharing')">作品案例</a><a href="#" onclick="event.preventDefault();navigateToSection('home-resources')">更新日志</a><a href="#" onclick="event.preventDefault();navigateToSection('home-resources')">词汇表</a>
       </div>
     </div>
     <span class="nav-link" onclick="openBillingModal()">定价</span>
@@ -1378,7 +1625,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
           <div class="hero-eyebrow hero-anim-el">企业级 AI 影像创作平台 · 中文原生</div>
           <h1 class="hero-title hero-anim-el">拟像</h1>
           <div class="hero-subtitle hero-anim-el">NI XIANG · AI CREATIVE STUDIO</div>
-          <p class="hero-sub hero-anim-el">从剧本到分镜到美术风格，三步完成专业影像创作。</p>
+          <p class="hero-sub hero-anim-el">从剧本到分镜表到视频生成，三步完成专业影像创作。</p>
           <div class="hero-ctas hero-anim-el">
             <a class="btn btn-hero btn-hero-primary" onclick="openBillingModal(event)">专业版入口</a>
             <a class="btn btn-hero btn-hero-outline" onclick="goPage('creation')">个人创作</a>
@@ -1442,10 +1689,10 @@ input[type=range]{width:100%;accent-color:var(--amber)}
       <div class="sh-icon">🎬</div>
       <div class="sh-label">Creation Space</div>
       <div class="sh-title">创作空间</div>
-      <div class="sh-desc">三段式 AI 流水线：剧本创作 → 分镜创作 → 美术风格。每步输出自动传入下一步，无断点创作体验。</div>
+      <div class="sh-desc">三段式 AI 流水线：剧本创作 → 分镜表 → 视频生成。剧本拆镜后逐镜出图，再把镜头直接送入视频阶段。</div>
       <div class="sh-tags">
         <span class="sh-tag">剧本</span><span class="sh-tag">分镜</span>
-        <span class="sh-tag">美术风格</span><span class="sh-tag">AI 辅助</span>
+        <span class="sh-tag">视频生成</span><span class="sh-tag">AI 辅助</span>
       </div>
       <div class="sh-enter"><span>进入创作</span><span>→</span></div>
     </div>
@@ -1476,7 +1723,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   </div>
 
   <!-- FEATURES -->
-  <div class="section">
+  <div class="section" id="home-features">
     <div style="text-align:center;margin-bottom:72px">
       <div class="label-pill">核心功能</div>
       <h2 class="sec-title" style="max-width:100%;text-align:center">从构思到成片，全程 AI 协作</h2>
@@ -1528,7 +1775,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   </div>
 
   <!-- TOOLS -->
-  <div class="section" style="padding-top:0">
+  <div class="section" style="padding-top:0" id="home-tools">
     <div style="margin-bottom:52px">
       <div class="label-pill">制作工具</div>
       <h2 class="sec-title">流水线全覆盖</h2>
@@ -1542,7 +1789,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   </div>
 
   <!-- START POINTS -->
-  <div class="section" style="padding-top:0">
+  <div class="section" style="padding-top:0" id="home-solutions">
     <h2 class="sec-title reveal" style="text-align:center;max-width:100%;margin-bottom:0">选择你的起点</h2>
     <div class="start-grid">
       <div class="start-card reveal" onclick="goPage('creation')">
@@ -1670,7 +1917,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
   </div>
 
   <!-- BLOG -->
-  <div class="section">
+  <div class="section" id="home-resources">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <h2 class="sec-title reveal">拟像最新动态</h2>
       <a class="feat-link">全部博客 →</a>
@@ -1774,7 +2021,7 @@ input[type=range]{width:100%;accent-color:var(--amber)}
       </div>
       <div class="pipe-step" id="ps2" onclick="switchStep(2)">
         <div class="step-circ">3</div>
-        <div><div class="step-info-t">Veo 3 视频</div><div class="step-info-s">WAITING</div></div>
+        <div><div class="step-info-t">视频生成</div><div class="step-info-s">WAITING</div></div>
       </div>
     </div>
     <div class="pipe-projs">
@@ -1844,12 +2091,12 @@ MING
           </div>
           <div class="script-agent-sidebox">
             <h4>当前工作流</h4>
-            <div class="script-transfer-note">左侧是可编辑剧本正文，右侧是专业对话 Agent。当前剧本会直接传到分镜阶段生成镜头图，再从选中的镜头进入 Veo 3 视频生成。</div>
+            <div class="script-transfer-note">左侧是可编辑剧本正文，右侧是专业对话 Agent。当前剧本会先被拆成分镜表，再逐镜生成参考图，最后把选中的镜头送入视频生成阶段。</div>
             <div class="script-agent-facts" style="margin-top:12px">
               <div class="script-agent-fact"><div class="k">字数</div><div class="v" id="statWords">287</div></div>
               <div class="script-agent-fact"><div class="k">类型</div><div class="v" id="statType" style="color:var(--amber)">电影节文艺</div></div>
               <div class="script-agent-fact"><div class="k">当前阶段</div><div class="v" id="scriptStageState">剧本撰写</div></div>
-              <div class="script-agent-fact"><div class="k">自动传导</div><div class="v">剧本 → 分镜 → Veo 3</div></div>
+              <div class="script-agent-fact"><div class="k">自动传导</div><div class="v">剧本 → 分镜表 → 视频生成</div></div>
             </div>
           </div>
         </div>
@@ -1865,7 +2112,7 @@ MING
             <div class="akb-icon">🔑</div>
             <div class="akb-text">
               <div class="akb-title">配置 Gemini / Veo API Key</div>
-              <div class="akb-sub">同一个 Key 用于 Agent、分镜出图和 Veo 3 视频生成</div>
+              <div class="akb-sub">同一个 Key 用于 Agent、分镜出图和视频生成</div>
             </div>
             <input id="apiKeyInput" type="password" class="akb-input" placeholder="粘贴 API Key...">
             <button class="bsm bsm-amber" onclick="saveApiKey()">确认保存</button>
@@ -1900,7 +2147,7 @@ MING
         </div>
         <div class="step-hdr-right">
           <button class="bsm bsm-outline" onclick="runStoryboardAnalysis()">✦ 生成分镜图</button>
-          <button class="bsm bsm-outline" id="sbExportBtn" style="display:none">导出 PDF</button>
+          <button class="bsm bsm-outline" id="sbExportBtn" style="display:none" onclick="exportStoryboardToVideo()">导出至视频创作</button>
           <button class="bsm bsm-teal" onclick="toVideo()">传至视频 →</button>
         </div>
       </div>
@@ -1909,7 +2156,7 @@ MING
       <div id="sbIdle" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:var(--muted2)">
         <div style="font-size:52px;opacity:0.18">🎬</div>
         <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-align:center">
-          传入剧本后，点击「AI 生成分镜」<br>Gemini 将自动分析场景并生成专业分镜脚本
+          传入剧本后，点击「AI 生成分镜」<br>Gemini 将自动拆出专业分镜表，并逐镜生成参考图
         </div>
         <button class="bsm bsm-teal" style="margin-top:4px" onclick="runStoryboardAnalysis()">✦ 启动 AI 分镜分析</button>
       </div>
@@ -1943,10 +2190,37 @@ MING
         <!-- Dynamic Shot Grid -->
         <div class="sb-grid" id="sbShotGrid"></div>
 
+        <div class="sb-table-panel">
+          <div class="sb-table-head">
+            <div>
+              <div class="sb-table-title">Storyboard Sheet</div>
+              <div class="sb-table-sub">根据剧本自动生成分镜表，并按表格逐镜渲染参考图。</div>
+            </div>
+            <div class="sb-table-sub">选中任一行即可同步到视频生成</div>
+          </div>
+          <div class="sb-storyboard-table-wrap">
+            <table class="sb-storyboard-table">
+              <thead>
+                <tr>
+                  <th>镜号</th>
+                  <th>剧情 / 功能</th>
+                  <th>镜头语法</th>
+                  <th>首帧参考图</th>
+                  <th>生成状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="sbTableBody">
+                <tr><td class="sb-table-empty" colspan="6">剧本进入分镜阶段后，这里会自动生成完整分镜表。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Batch image progress -->
         <div id="sbBatchStrip" style="display:none;padding:10px 0">
           <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--teal);margin-bottom:5px">
-            <span>批量渲染分镜图</span><span id="sbBatchText">0 / 0</span>
+            <span>按分镜表逐镜渲染参考图</span><span id="sbBatchText">0 / 0</span>
           </div>
           <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden">
             <div id="sbBatchFill" style="height:100%;background:var(--teal);transition:width 0.3s;width:0%"></div>
@@ -1961,18 +2235,18 @@ MING
       </div>
     </div>
 
-    <!-- STEP 3: VEO 3 VIDEO -->
+    <!-- STEP 3: VIDEO GENERATION -->
     <div id="step2" class="step-panel">
       <div class="step-hdr">
         <div class="step-hdr-left">
-          <span class="step-badge b-art">03 / VEO 3.1</span>
+          <span class="step-badge b-art">03 / VIDEO</span>
           <span class="step-hdr-h">视频生成</span>
           <span class="step-hdr-from" id="videoFromLabel">来自分镜 · 选择镜头后生成视频</span>
         </div>
         <div class="step-hdr-right">
           <button class="bsm bsm-outline" onclick="refreshVideoFromSelection()">同步当前分镜</button>
           <button class="bsm bsm-outline" onclick="pollVeoOperation(false)">轮询状态</button>
-          <button class="bsm bsm-blue" onclick="startVeoVideoGeneration()">✦ 使用 Veo 3 生成视频</button>
+          <button class="bsm bsm-blue" onclick="startVeoVideoGeneration()">✦ 启动视频生成</button>
         </div>
       </div>
       <div class="video-stage-grid" style="flex:1">
@@ -1993,11 +2267,11 @@ MING
             </div>
           </div>
           <div class="veo-card">
-            <div class="veo-card-head">Veo 3.1 Prompt <span id="veoPromptHint" style="color:var(--muted2)">自动由分镜生成</span></div>
+            <div class="veo-card-head">视频生成 Prompt <span id="veoPromptHint" style="color:var(--muted2)">自动由分镜生成</span></div>
             <div class="veo-card-body">
               <div class="veo-field" style="margin-bottom:12px">
                 <label for="veoPromptTa">视频提示词</label>
-                <textarea id="veoPromptTa" placeholder="选择分镜后，系统会自动填入 Veo 3 视频提示词。"></textarea>
+                <textarea id="veoPromptTa" placeholder="选择分镜后，系统会自动填入视频生成提示词。"></textarea>
               </div>
               <div class="veo-form-grid" style="margin-bottom:12px">
                 <div class="veo-field">
@@ -2049,20 +2323,36 @@ MING
             <div class="veo-preview-stage" id="veoPreviewStage">
               <div class="placeholder">
                 <div style="font-size:36px;opacity:.16">▶</div>
-                <div>选择分镜镜头后即可使用 Veo 3.1 生成视频</div>
+                <div>选择分镜镜头后即可进入视频生成</div>
               </div>
             </div>
             <div class="veo-log" id="veoLog">等待分镜镜头传入。</div>
           </div>
           <div class="publish-bar" style="margin-top:14px">
             <div class="publish-bar-text">
-              <div class="t" id="veoPublishTitle">Veo 3.1 视频输出</div>
+              <div class="t" id="veoPublishTitle">视频输出</div>
               <div class="s" id="veoPublishSub">使用当前分镜的参考图、镜头描述和运镜信息生成短视频。</div>
             </div>
             <div class="veo-action-row">
               <button class="bsm bsm-outline" onclick="pollVeoOperation(false)">刷新状态</button>
               <button class="bsm bsm-outline" onclick="downloadVeoVideo()">下载视频</button>
               <button class="bsm bsm-blue" onclick="startVeoVideoGeneration()">生成视频</button>
+            </div>
+          </div>
+          <div class="veo-batch-panel">
+            <div class="veo-batch-head">
+              <div>
+                <div class="veo-batch-title">Batch Video Board</div>
+                <div class="veo-batch-sub" id="veoBatchMeta">从分镜表导入镜号后，可按镜号逐个或批量生成视频，并下载结果。</div>
+              </div>
+              <div class="veo-action-row">
+                <button class="bsm bsm-outline" onclick="syncVideoBatchBoard()">同步镜号</button>
+                <button class="bsm bsm-outline" onclick="startBatchVideoGeneration()">批量生成</button>
+                <button class="bsm bsm-blue" onclick="downloadAllVeoVideos()">下载全部</button>
+              </div>
+            </div>
+            <div class="veo-batch-list" id="veoBatchList">
+              <div class="veo-batch-empty">分镜表导入后，这里会出现按镜号排列的视频生产队列。</div>
             </div>
           </div>
         </div>
@@ -2097,14 +2387,54 @@ MING
 <div id="page-sharing" class="page">
 <div class="sharing-wrap">
   <div class="sharing-top">
-    <div><div class="sharing-eyebrow">共享空间</div><div class="sharing-title">创作者作品广场</div></div>
+    <div><div class="sharing-eyebrow">共享空间</div><div class="sharing-title">创作者作品广场</div><div style="margin-top:8px;font-size:12px;color:var(--muted);max-width:720px;line-height:1.7">把剧本、分镜、视频成片和过程资产统一发布到一个可发现、可协作、可交易的空间。支持专题策展、团队共创和内容评分。</div></div>
     <button class="bsm bsm-teal" style="padding:9px 20px" onclick="goPage('creation')">+ 发布作品</button>
+  </div>
+  <div class="sharing-kpis">
+    <div class="sharing-kpi reveal"><div class="sharing-kpi-label">本周新增项目</div><div class="sharing-kpi-value">126</div><div class="sharing-kpi-note">剧本、分镜表、逐镜图和视频成片统一发布，形成完整项目展示链路。</div></div>
+    <div class="sharing-kpi reveal" style="transition-delay:.05s"><div class="sharing-kpi-label">专题策展</div><div class="sharing-kpi-value">18</div><div class="sharing-kpi-note">按题材、镜头语言、风格参考建立主题合集，方便社区发现高质量案例。</div></div>
+    <div class="sharing-kpi reveal" style="transition-delay:.1s"><div class="sharing-kpi-label">协作中项目</div><div class="sharing-kpi-value">42</div><div class="sharing-kpi-note">导演、编剧、美术、后期可在同一项目下接力提交版本与反馈。</div></div>
+    <div class="sharing-kpi reveal" style="transition-delay:.15s"><div class="sharing-kpi-label">授权成交</div><div class="sharing-kpi-value">¥38K</div><div class="sharing-kpi-note">精选分镜与视频模板可被收藏、打赏与授权，形成创作资产复用。</div></div>
+  </div>
+  <div class="sharing-ops-grid">
+    <div class="sharing-panel reveal">
+      <div class="sharing-panel-head"><span>专题策展</span><span>Curated Lanes</span></div>
+      <div class="sharing-panel-body">
+        <div class="sharing-collections">
+          <div class="share-collection">
+            <h4>短剧爆点镜头</h4>
+            <p>聚合高完成度短剧场景：强冲突开场、反转特写、情绪钩子分镜，直接作为创作参考。</p>
+            <div class="share-collection-meta"><span class="share-chip">连载中</span><span class="share-chip">89 项</span></div>
+          </div>
+          <div class="share-collection">
+            <h4>广告品牌样片</h4>
+            <p>品牌短片常用的镜头语言、色彩系统和视频生成结果，适合广告团队快速检索方案。</p>
+            <div class="share-collection-meta"><span class="share-chip">商业授权</span><span class="share-chip">32 项</span></div>
+          </div>
+          <div class="share-collection">
+            <h4>作者电影实验库</h4>
+            <p>收录文艺片、实验影像、诗性叙事的剧本和分镜资产，支持多版本对照与收藏。</p>
+            <div class="share-collection-meta"><span class="share-chip">精选</span><span class="share-chip">14 项</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sharing-panel reveal" style="transition-delay:.08s">
+      <div class="sharing-panel-head"><span>共享流程</span><span>Pipeline Share</span></div>
+      <div class="sharing-panel-body">
+        <div class="share-flow">
+          <div class="share-flow-item"><div class="share-flow-icon">📝</div><div><div class="share-flow-title">发布剧本母版</div><div class="share-flow-desc">先公开剧本版本与类型标签，社区可直接评价结构、节奏和人物动机。</div></div></div>
+          <div class="share-flow-item"><div class="share-flow-icon">🎞</div><div><div class="share-flow-title">追加分镜表与逐镜图</div><div class="share-flow-desc">分镜表、镜头图与视频提示词绑定展示，方便别人逐镜学习和复用你的镜头设计。</div></div></div>
+          <div class="share-flow-item"><div class="share-flow-icon">▶</div><div><div class="share-flow-title">发布视频成片</div><div class="share-flow-desc">把最终视频、打赏入口和授权方式一起挂载，沉淀为可变现的作品资产。</div></div></div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="filter-bar">
     <span class="fpill active">全部</span>
     <span class="fpill" onclick="fpClick(this)">剧本</span>
     <span class="fpill" onclick="fpClick(this)">分镜</span>
-    <span class="fpill" onclick="fpClick(this)">美术风格</span>
+    <span class="fpill" onclick="fpClick(this)">视频成片</span>
     <span class="fpill" onclick="fpClick(this)">完整项目</span>
     <span class="fpill" onclick="fpClick(this)">最新发布</span>
     <span class="fpill" onclick="fpClick(this)">热门收藏</span>
@@ -2141,6 +2471,26 @@ MING
     <div class="cstat reveal" style="transition-delay:.1s"><div class="cstat-n t">847</div><div class="cstat-l">获得收藏</div></div>
     <div class="cstat reveal" style="transition-delay:.2s"><div class="cstat-n g">156</div><div class="cstat-l">协作场次</div></div>
     <div class="cstat reveal" style="transition-delay:.3s"><div class="cstat-n a">6.2K</div><div class="cstat-l">总贡献积分</div></div>
+  </div>
+  <div class="contrib-score-grid">
+    <div class="score-card reveal">
+      <div class="cp-head">贡献度规则 <span style="color:var(--amber)">Scoring</span></div>
+      <div class="score-rule-list">
+        <div class="score-rule"><div class="score-rule-main"><div class="score-rule-title">发布完整项目</div><div class="score-rule-desc">同时包含剧本、分镜表、逐镜图与视频成片，形成可复用资产链路。</div></div><div class="score-rule-pts">+120 XP</div></div>
+        <div class="score-rule"><div class="score-rule-main"><div class="score-rule-title">分镜逐镜完善</div><div class="score-rule-desc">每补齐一镜的参考图、运镜说明和视频提示词，都会累积贡献度。</div></div><div class="score-rule-pts">+18 XP/镜</div></div>
+        <div class="score-rule"><div class="score-rule-main"><div class="score-rule-title">参与协作评审</div><div class="score-rule-desc">给他人剧本、分镜或视频提出有效修改建议，提升协作活跃值。</div></div><div class="score-rule-pts">+25 XP</div></div>
+        <div class="score-rule"><div class="score-rule-main"><div class="score-rule-title">被收藏 / 被打赏</div><div class="score-rule-desc">作品被收藏、打赏、授权会持续反映到影响力分数与榜单权重。</div></div><div class="score-rule-pts">+3 ~ +80 XP</div></div>
+      </div>
+    </div>
+    <div class="score-card reveal" style="transition-delay:.08s">
+      <div class="cp-head">本周任务 <span style="color:var(--green)">Missions</span></div>
+      <div class="mission-list">
+        <div class="mission-item done"><div class="mission-main"><div class="mission-title">完成 1 个完整项目发布</div><div class="mission-desc">已完成《幻境追光》项目链路发布，贡献度加成已结算。</div></div><div class="mission-pts">已完成</div></div>
+        <div class="mission-item"><div class="mission-main"><div class="mission-title">补齐 6 镜分镜参考图</div><div class="mission-desc">当前进度 4 / 6。逐镜完善越完整，社区推荐权重越高。</div></div><div class="mission-pts">+90 XP</div></div>
+        <div class="mission-item"><div class="mission-main"><div class="mission-title">参与 2 次协作评审</div><div class="mission-desc">去共享空间挑选项目，留下结构性反馈并获得协作积分。</div></div><div class="mission-pts">+50 XP</div></div>
+        <div class="mission-item"><div class="mission-main"><div class="mission-title">发布 1 个视频生成案例</div><div class="mission-desc">把视频结果与镜头提示词一起发布，可获得额外展示位。</div></div><div class="mission-pts">+70 XP</div></div>
+      </div>
+    </div>
   </div>
   <div class="heatmap-box reveal">
     <div class="heatmap-head">创作活跃度热图 <span style="font-size:10px;color:var(--muted2)">过去 52 周</span></div>
@@ -2181,6 +2531,14 @@ MING
       <div class="badge-item" style="opacity:.28"><div class="badge-ico" style="filter:grayscale(1)">🌟</div><div class="badge-lbl" style="color:var(--muted2)">社区之星</div></div>
     </div>
   </div>
+  <div class="score-card reveal" style="margin-top:22px">
+    <div class="cp-head">奖励梯度 <span style="color:var(--blue)">Rewards</span></div>
+    <div class="reward-ladder">
+      <div class="reward-step"><div class="k">Lv.5+</div><div class="v">优先曝光</div><div class="d">进入首页推荐池，作品优先获得精选位和新用户首屏曝光。</div></div>
+      <div class="reward-step"><div class="k">Lv.7+</div><div class="v">协作权限</div><div class="d">可创建共享项目房间、分配分镜任务，并管理团队版本流转。</div></div>
+      <div class="reward-step"><div class="k">Lv.9+</div><div class="v">交易权限</div><div class="d">开放模板授权、风格包上架和视频案例交易能力，贡献度可直接转化收益。</div></div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -2208,21 +2566,48 @@ MING
     </div>
     <div class="nx-plan-grid">
       <div class="nx-plan">
-        <h4>Lite</h4>
-        <strong>$10/mo</strong>
-        <p>300 秒算力，适合轻量创作。</p>
+        <div class="nx-plan-top">
+          <div><h4>Lite</h4><strong>$10/mo</strong><p>个人试跑版，适合轻量创作和流程体验。</p></div>
+          <span class="nx-plan-badge">个人</span>
+        </div>
+        <ul class="nx-plan-list">
+          <li>300 秒月度算力，覆盖剧本 → 分镜 → 视频生成基础链路</li>
+          <li>单项目标准队列，适合样片与测试项目</li>
+          <li>共享空间发布、点赞、收藏与基础贡献积分</li>
+          <li>支持逐镜参考图生成与 1 路视频任务</li>
+        </ul>
+        <div class="nx-plan-note">适合个人导演、学生、概念验证与小样片制作。</div>
+        <div class="nx-plan-foot"><span>无商业协作位</span><span>标准队列</span></div>
         <button class="bsm bsm-amber" style="width:100%" onclick="startCheckout('lite')">订阅 Lite</button>
       </div>
-      <div class="nx-plan">
-        <h4>Standard</h4>
-        <strong>$30/mo</strong>
-        <p>1000 秒算力，推荐影视团队。</p>
+      <div class="nx-plan recommended">
+        <div class="nx-plan-top">
+          <div><h4>Standard</h4><strong>$30/mo</strong><p>团队推荐版，适合短剧、广告和系列化项目生产。</p></div>
+          <span class="nx-plan-badge hot">推荐</span>
+        </div>
+        <ul class="nx-plan-list">
+          <li>1000 秒月度算力，支持更长的分镜链路和批量出图</li>
+          <li>共享空间协作房间、贡献度排行榜和项目级权限管理</li>
+          <li>分镜表逐镜生成、镜头同步到视频阶段、优先队列</li>
+          <li>适合 2-5 人小团队的完整创作与内测生产</li>
+        </ul>
+        <div class="nx-plan-note">最适合你当前的内测目标：既能跑完整项目，也能支撑团队并行协作。</div>
+        <div class="nx-plan-foot"><span>可协作</span><span>优先队列</span></div>
         <button class="bsm bsm-teal" style="width:100%" onclick="startCheckout('standard')">订阅 Standard</button>
       </div>
       <div class="nx-plan">
-        <h4>Pro</h4>
-        <strong>$100/mo</strong>
-        <p>3000 秒算力，商业项目优先。</p>
+        <div class="nx-plan-top">
+          <div><h4>Pro</h4><strong>$100/mo</strong><p>商业生产版，面向高频内容团队和模板交易场景。</p></div>
+          <span class="nx-plan-badge">商业</span>
+        </div>
+        <ul class="nx-plan-list">
+          <li>5000 秒月度算力，支持多项目并行与高频视频生成</li>
+          <li>更高并发、更快队列、视频案例库与资产交易能力</li>
+          <li>团队协作房间、项目授权、模板复用与商业分发</li>
+          <li>适合商业片、IP 连载和高密度内容工厂</li>
+        </ul>
+        <div class="nx-plan-note">当你开始承接商业项目或同时维护多个系列内容时，直接上 Pro 更稳。</div>
+        <div class="nx-plan-foot"><span>高并发</span><span>商业优先</span></div>
         <button class="bsm bsm-blue" style="width:100%" onclick="startCheckout('pro')">订阅 Pro</button>
       </div>
     </div>
@@ -2319,6 +2704,19 @@ function goPage(name){
   }
 }
 
+function navigateToSection(sectionId, page='home'){
+  goPage(page);
+  setTimeout(()=>{
+    const el = document.getElementById(sectionId);
+    if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 80);
+}
+
+function openCreationStep(step){
+  goPage('creation');
+  setTimeout(()=>switchStep(step), 80);
+}
+
 /* ══════════════ HERO AUDIENCE TABS ══════════════ */
 document.querySelectorAll('.aud-tab').forEach(t=>{
   t.addEventListener('click',()=>{
@@ -2335,15 +2733,24 @@ const audData={
   ad:{title:'广告主',desc:'用 AI 解决方案创作高质量视频内容，从构思到执行全面提效，始终保持竞争优势。',img:'https://cdn.prod.website-files.com/65bb6b901cb133d784d16166/688f4051a430a31053174265_06-ltx-studio-for-advertisers-1.webp'},
   creator:{title:'创意工作者',desc:'用 AI 工具简化创作流程，精炼每一个细节，更快、更高效地将你最大胆的创意付诸实现。',img:'https://cdn.prod.website-files.com/65bb6b901cb133d784d16166/688f4051cddad88d2647af57_06-ltx-studio-for-creative-professionals-1.webp'},
 };
+function selectAudienceTab(audKey){
+  const d = audData[audKey];
+  if(!d) return;
+  document.querySelectorAll('.aud-tab-sm').forEach(x=>x.classList.toggle('active', x.dataset.aud===audKey));
+  document.getElementById('audTitle').textContent=d.title;
+  document.getElementById('audDesc').textContent=d.desc;
+  document.getElementById('audImg').src=d.img;
+}
+function focusAudience(audKey){
+  goPage('home');
+  setTimeout(()=>{
+    selectAudienceTab(audKey);
+    const el = document.getElementById('home-solutions');
+    if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 80);
+}
 document.querySelectorAll('.aud-tab-sm').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.aud-tab-sm').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    const d=audData[b.dataset.aud];
-    document.getElementById('audTitle').textContent=d.title;
-    document.getElementById('audDesc').textContent=d.desc;
-    document.getElementById('audImg').src=d.img;
-  });
+  b.addEventListener('click',()=>selectAudienceTab(b.dataset.aud));
 });
 
 /* ══════════════ FAQ ══════════════ */
@@ -2377,6 +2784,8 @@ let _selectedShotIndex = null;
 let _veoOperationName = '';
 let _veoVideoBlobUrl = '';
 let _veoSourceShotId = '';
+let _veoBatchMap = {};
+let _veoBatchRunning = false;
 
 const SCRIPT_TYPE_LABELS = {
   'CANNES': '电影节文艺', 'HIGH_CONCEPT': '好莱坞高概念',
@@ -2599,7 +3008,7 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
     ta.value = screenplay;
     syncLn(ta);
     typing?.remove();
-    pushScriptAgentMessage(`剧本已经写入左侧编辑区。\n\n接下来建议你：\n1. 快速浏览并做少量改词。\n2. 直接点击「传至分镜」。\n3. 在分镜阶段选择一个镜头送入 Veo 3。`, 'agent');
+    pushScriptAgentMessage(`剧本已经写入左侧编辑区。\n\n接下来建议你：\n1. 快速浏览并做少量改词。\n2. 直接点击「传至分镜」。\n3. 在分镜阶段选择一个镜头送入视频生成。`, 'agent');
     pushScriptAgentMeta(`当前剧本类型：${SCRIPT_TYPE_LABELS[_scriptType]} · 已更新左侧正文`);
     setScriptStageState('剧本已生成');
     showToast('剧本生成完成', '左侧正文已更新，可直接传到分镜');
@@ -2712,7 +3121,7 @@ async function runStoryboardAnalysis(){
   }
 
   showSbState('loading');
-  document.getElementById('sbLoadingMsg').textContent = '正在分析剧本分镜结构...';
+  document.getElementById('sbLoadingMsg').textContent = '正在分析剧本并拆解分镜表...';
 
   try {
     const data = await geminiCall('gemini-2.0-flash',
@@ -2724,10 +3133,11 @@ async function runStoryboardAnalysis(){
     if(!text) throw new Error('模型响应为空');
     _sbAnalysis = JSON.parse(text);
     _sbImages = {};
+    resetVeoBatchMap();
 
     renderStoryboard(_sbAnalysis);
     showSbState('results');
-    showToast('分镜分析完成', `${_sbAnalysis.SHOTS?.length||0} 个镜头 · CineLogic 生成`);
+    showToast('分镜分析完成', `${_sbAnalysis.SHOTS?.length||0} 个镜头 · 分镜表已生成，开始逐镜出图`);
 
     // Batch generate images
     await batchSbImages(_sbAnalysis);
@@ -2762,6 +3172,11 @@ function renderStoryboard(analysis){
   const grid = document.getElementById('sbShotGrid');
   grid.innerHTML = '';
   document.getElementById('sbShotCount').textContent = `${shots.length} 分镜 · ${shots.reduce((a,s)=>a+(s.visual_sequence?.length||0),0)} 帧`;
+  const exportBtn = document.getElementById('sbExportBtn');
+  if(exportBtn){
+    exportBtn.textContent = `导出 ${shots.length} 个镜号到视频创作`;
+    exportBtn.style.display = shots.length ? 'inline-flex' : 'none';
+  }
 
   shots.forEach((shot, i)=>{
     const card = document.createElement('div');
@@ -2786,9 +3201,234 @@ function renderStoryboard(analysis){
     grid.appendChild(card);
   });
 
+  renderStoryboardTable(analysis);
+  syncVideoBatchBoard();
+
   if(shots.length){
     selectStoryboardShot(0, false);
   }
+}
+
+function getShotPrimaryPrompt(shot){
+  return shot.gen_prompt || shot.visual_sequence?.[0]?.description || shot.beat || '待补充分镜提示词';
+}
+
+function getShotCameraSummary(shot){
+  return [
+    shot.shot_size,
+    shot.camera?.angle,
+    shot.camera?.lens_hint,
+    shot.movement?.type
+  ].filter(Boolean).join(' · ') || '待补充';
+}
+
+function renderStoryboardTable(analysis){
+  const tbody = document.getElementById('sbTableBody');
+  if(!tbody) return;
+  const shots = analysis?.SHOTS || [];
+  if(!shots.length){
+    tbody.innerHTML = '<tr><td class="sb-table-empty" colspan="6">当前没有可展示的分镜数据。</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = '';
+  shots.forEach((shot, i)=>{
+    const row = document.createElement('tr');
+    row.id = `sbRow-${i}`;
+    row.onclick = ()=> selectStoryboardShot(i, false);
+    row.innerHTML = `
+      <td class="sb-cell-mono">${shot.shot_id || `S${i+1}`}</td>
+      <td>
+        <div style="font-weight:700;color:var(--text);margin-bottom:4px">${shot.beat || '未填写剧情点'}</div>
+        <div style="font-size:11px;color:var(--muted)">${shot.shot_function || '待补充镜头功能'}</div>
+      </td>
+      <td>
+        <div class="sb-cell-mono">${getShotCameraSummary(shot)}</div>
+        <div class="sb-prompt-mini" style="margin-top:6px">${shot.continuity_hook || shot.video_notes || '待补充视频延续说明'}</div>
+      </td>
+      <td><div class="sb-row-thumb" id="sbRowThumb-${i}">待生成</div></td>
+      <td><span class="sb-shot-status idle" id="sbRowStatus-${i}">未生成</span></td>
+      <td>
+        <div class="sb-row-actions">
+          <button class="bsm bsm-outline" onclick="event.stopPropagation();genSingleShot(${i},0)">生成图片</button>
+          <button class="bsm bsm-teal" onclick="event.stopPropagation();selectStoryboardShot(${i},true)">传至视频</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(row);
+    updateStoryboardRowStatus(i, _sbImages[`${shot.shot_id}_f1`] ? 'ready' : 'idle');
+  });
+}
+
+function updateStoryboardRowStatus(shotIdx, state){
+  const shot = _sbAnalysis?.SHOTS?.[shotIdx];
+  if(!shot) return;
+  const thumb = document.getElementById(`sbRowThumb-${shotIdx}`);
+  const status = document.getElementById(`sbRowStatus-${shotIdx}`);
+  const imgUrl = _sbImages[`${shot.shot_id}_f1`];
+
+  if(status){
+    status.className = `sb-shot-status ${state}`;
+    status.textContent =
+      state === 'generating' ? '生成中' :
+      state === 'ready' ? '已完成' :
+      state === 'error' ? '失败' : '未生成';
+  }
+
+  if(thumb){
+    if(imgUrl){
+      thumb.innerHTML = `<img src="${imgUrl}" alt="${shot.shot_id}">`;
+    } else if(state === 'generating'){
+      thumb.textContent = '渲染中';
+    } else if(state === 'error'){
+      thumb.textContent = '失败';
+    } else {
+      thumb.textContent = '待生成';
+    }
+  }
+}
+
+function resetVeoBatchMap(){
+  Object.values(_veoBatchMap).forEach((entry)=>{
+    if(entry?.blobUrl) URL.revokeObjectURL(entry.blobUrl);
+  });
+  _veoBatchMap = {};
+  _veoOperationName = '';
+  _veoVideoBlobUrl = '';
+}
+
+function ensureVeoBatchEntries(){
+  const shots = _sbAnalysis?.SHOTS || [];
+  const validIds = new Set();
+  shots.forEach((shot, idx)=>{
+    validIds.add(shot.shot_id);
+    if(!_veoBatchMap[shot.shot_id]){
+      _veoBatchMap[shot.shot_id] = {
+        shotIdx: idx,
+        status: 'idle',
+        operationName: '',
+        blobUrl: '',
+        error: ''
+      };
+    } else {
+      _veoBatchMap[shot.shot_id].shotIdx = idx;
+    }
+  });
+  Object.keys(_veoBatchMap).forEach((shotId)=>{
+    if(!validIds.has(shotId)){
+      if(_veoBatchMap[shotId]?.blobUrl) URL.revokeObjectURL(_veoBatchMap[shotId].blobUrl);
+      delete _veoBatchMap[shotId];
+    }
+  });
+}
+
+function updateVeoBatchState(shotId, patch){
+  if(!_veoBatchMap[shotId]){
+    _veoBatchMap[shotId] = { status:'idle', operationName:'', blobUrl:'', error:'' };
+  }
+  _veoBatchMap[shotId] = { ..._veoBatchMap[shotId], ...patch };
+  renderVideoBatchBoard();
+}
+
+function getVeoBatchStatusText(status){
+  if(status === 'generating') return '生成中';
+  if(status === 'ready') return '已完成';
+  if(status === 'error') return '失败';
+  return '未开始';
+}
+
+function rememberShotVideoBlobUrl(shotId, blob){
+  const current = _veoBatchMap[shotId]?.blobUrl;
+  if(current) URL.revokeObjectURL(current);
+  const blobUrl = URL.createObjectURL(blob);
+  updateVeoBatchState(shotId, { blobUrl, status:'ready', error:'' });
+  return blobUrl;
+}
+
+function renderSelectedShotVideoOutput(shotId){
+  const stage = document.getElementById('veoPreviewStage');
+  if(!stage || !shotId) return;
+  const state = _veoBatchMap[shotId];
+  if(state?.blobUrl){
+    _veoVideoBlobUrl = state.blobUrl;
+    _veoOperationName = state.operationName || '';
+    stage.innerHTML = `<video controls autoplay loop playsinline src="${state.blobUrl}"></video>`;
+    setVeoStatus('ready', state.operationName ? `视频已完成，任务 ID：${state.operationName.split('/').pop() || state.operationName}` : '视频已完成');
+  } else if(state?.status === 'generating'){
+    _veoOperationName = state.operationName || '';
+    renderVeoGeneratingState(`镜头 ${shotId} 正在生成中`);
+    setVeoStatus('generating', `镜头 ${shotId} 正在生成中`);
+  } else if(state?.status === 'error'){
+    stage.innerHTML = `<div class="placeholder"><div style="font-size:36px;opacity:.16">⚠</div><div>${state.error || '生成失败'}</div></div>`;
+    setVeoStatus('error', state.error || '生成失败');
+  } else {
+    _veoVideoBlobUrl = '';
+    _veoOperationName = '';
+    stage.innerHTML = `<div class="placeholder"><div style="font-size:36px;opacity:.16">▶</div><div>选择分镜镜头后即可进入视频生成</div></div>`;
+    setVeoStatus('idle', `已同步 ${shotId} 到视频生成阶段，点击“生成视频”即可启动。`);
+  }
+}
+
+function renderVideoBatchBoard(){
+  const list = document.getElementById('veoBatchList');
+  const meta = document.getElementById('veoBatchMeta');
+  if(!list) return;
+  const shots = _sbAnalysis?.SHOTS || [];
+  if(!shots.length){
+    list.innerHTML = '<div class="veo-batch-empty">分镜表导入后，这里会出现按镜号排列的视频生产队列。</div>';
+    if(meta) meta.textContent = '当前没有可导入的视频镜号。';
+    return;
+  }
+
+  ensureVeoBatchEntries();
+  const readyCount = shots.filter((shot)=>_veoBatchMap[shot.shot_id]?.status === 'ready').length;
+  const generatingCount = shots.filter((shot)=>_veoBatchMap[shot.shot_id]?.status === 'generating').length;
+  if(meta) meta.textContent = `${shots.length} 个镜号已导入 · ${readyCount} 个已完成 · ${generatingCount} 个生成中`;
+
+  list.innerHTML = '';
+  shots.forEach((shot, idx)=>{
+    const state = _veoBatchMap[shot.shot_id] || { status:'idle', blobUrl:'', error:'' };
+    const hasImage = Boolean(_sbImages[`${shot.shot_id}_f1`]);
+    const item = document.createElement('div');
+    item.className = `veo-batch-row${idx === _selectedShotIndex ? ' sel' : ''}`;
+    item.onclick = ()=> selectStoryboardShot(idx, false);
+    item.innerHTML = `
+      <div class="veo-batch-shot">
+        <div class="veo-batch-thumb" id="veoBatchThumb-${idx}">${hasImage ? `<img src="${_sbImages[`${shot.shot_id}_f1`]}" alt="${shot.shot_id}">` : '无参考图'}</div>
+        <strong>${shot.shot_id}</strong>
+        <span>${state.operationName ? state.operationName.split('/').pop() : '未创建任务'}</span>
+      </div>
+      <div class="veo-batch-copy">
+        <div class="t">${shot.beat || '未填写剧情点'}</div>
+        <div class="s">${shot.video_notes || shot.continuity_hook || getShotCameraSummary(shot)}</div>
+      </div>
+      <div class="veo-batch-actions">
+        <span class="veo-batch-status ${state.status}">${state.error ? '失败' : getVeoBatchStatusText(state.status)}</span>
+        <button class="bsm bsm-outline" onclick="event.stopPropagation();startShotVideoGeneration(${idx}, true)">${state.status === 'ready' ? '重生成' : '生成'}</button>
+        <button class="bsm bsm-blue" onclick="event.stopPropagation();downloadShotVideo('${shot.shot_id}')" ${state.blobUrl ? '' : 'disabled'}>下载</button>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function exportStoryboardToVideo(){
+  if(!_sbAnalysis?.SHOTS?.length){
+    showToast('请先生成分镜表','当前还没有可导入的视频镜号');
+    return;
+  }
+  toVideo();
+  syncVideoBatchBoard();
+  showToast('分镜表已导入视频创作', `${_sbAnalysis.SHOTS.length} 个镜号已进入视频生产队列`);
+}
+
+function syncVideoBatchBoard(){
+  if(!_sbAnalysis?.SHOTS?.length){
+    renderVideoBatchBoard();
+    return;
+  }
+  ensureVeoBatchEntries();
+  renderVideoBatchBoard();
 }
 
 async function batchSbImages(analysis){
@@ -2797,7 +3437,7 @@ async function batchSbImages(analysis){
   shots.forEach((shot, i) => {
     const seq = shot.visual_sequence || [];
     if(seq.length > 0){
-      tasks.push({shotIdx:i, frameIdx:0, prompt:shot.gen_prompt || seq[0]?.description || shot.beat, id:`${shot.shot_id}_f1`});
+      tasks.push({shotIdx:i, frameIdx:0, prompt:getShotPrimaryPrompt(shot), id:`${shot.shot_id}_f1`});
     }
   });
 
@@ -2805,6 +3445,7 @@ async function batchSbImages(analysis){
   document.getElementById('sbBatchStrip').style.display='block';
 
   for(let t=0;t<tasks.length;t++){
+    updateStoryboardRowStatus(tasks[t].shotIdx, 'generating');
     document.getElementById('sbBatchText').textContent=`${t+1} / ${tasks.length}`;
     document.getElementById('sbBatchFill').style.width=`${(t+1)/tasks.length*100}%`;
     try {
@@ -2822,10 +3463,12 @@ async function batchSbImages(analysis){
           if(frame){
             frame.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
           }
+          updateStoryboardRowStatus(tasks[t].shotIdx, 'ready');
           break;
         }
       }
     } catch(e){
+      updateStoryboardRowStatus(tasks[t].shotIdx, 'error');
       console.warn('Shot image gen failed:', tasks[t].id, e.message);
     }
   }
@@ -2840,8 +3483,9 @@ async function genSingleShot(shotIdx, frameIdx){
   if(!_sbAnalysis) return;
   const shot = _sbAnalysis.SHOTS[shotIdx];
   if(!shot) return;
-  const prompt = shot.gen_prompt || shot.visual_sequence?.[frameIdx]?.description || shot.beat;
+  const prompt = frameIdx === 0 ? getShotPrimaryPrompt(shot) : (shot.visual_sequence?.[frameIdx]?.description || shot.beat);
   showToast('重新生成分镜', `${shot.shot_id} Frame ${frameIdx+1}`);
+  updateStoryboardRowStatus(shotIdx, 'generating');
   try {
     const imgData = await geminiCall('gemini-2.0-flash-preview-image-generation',
       [{role:'user', parts:[{text:`Professional cinematic film still, photorealistic, 8k: ${prompt}`}]}],
@@ -2854,11 +3498,15 @@ async function genSingleShot(shotIdx, frameIdx){
         _sbImages[`${shot.shot_id}_f${frameIdx+1}`] = url;
         const frame = document.getElementById(`sbFrame-${shotIdx}`);
         if(frame) frame.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
+        updateStoryboardRowStatus(shotIdx, 'ready');
         showToast('分镜图已更新', shot.shot_id);
         break;
       }
     }
-  } catch(e){ showToast('生成失败', e.message); }
+  } catch(e){
+    updateStoryboardRowStatus(shotIdx, 'error');
+    showToast('生成失败', e.message);
+  }
 }
 
 async function refineStoryboard(){
@@ -2882,6 +3530,7 @@ async function refineStoryboard(){
     const text = extractText(data);
     _sbAnalysis = JSON.parse(text);
     _sbImages = {};
+    resetVeoBatchMap();
     renderStoryboard(_sbAnalysis);
     showSbState('results');
     document.getElementById('sbRefineInput').value = '';
@@ -2976,6 +3625,7 @@ function selectStoryboardShot(shotIdx, jumpToVideo){
   _veoSourceShotId = shot.shot_id;
 
   document.querySelectorAll('.shot-card').forEach((card, idx)=>card.classList.toggle('sel', idx===shotIdx));
+  document.querySelectorAll('#sbTableBody tr').forEach((row, idx)=>row.classList.toggle('sel', idx===shotIdx));
   document.getElementById('sbSelectedLabel').textContent = `已选视频镜头: ${shot.shot_id}`;
   document.getElementById('videoFromLabel').textContent = `来自分镜 ${shot.shot_id} · ${shot.beat || '待生成说明'}`;
   document.getElementById('veoSourceShotTag').textContent = shot.shot_id;
@@ -2986,9 +3636,10 @@ function selectStoryboardShot(shotIdx, jumpToVideo){
     <div><strong>镜头语法:</strong> ${(shot.shot_size || '')} · ${(shot.camera?.angle || '')} · ${(shot.camera?.lens_hint || '')} · ${(shot.movement?.type || 'static')}</div>
     <div><strong>视频延续:</strong> ${shot.video_notes || shot.continuity_hook || '以参考图为起始帧延续动作。'}</div>`;
   renderVeoReferencePreview(imgUrl);
-  setVeoStatus('idle', `已同步 ${shot.shot_id} 到 Veo 3.1，点击“生成视频”即可启动。`);
-  document.getElementById('veoPublishTitle').textContent = `Veo 3.1 输出 · ${shot.shot_id}`;
+  document.getElementById('veoPublishTitle').textContent = `视频输出 · ${shot.shot_id}`;
   document.getElementById('veoPublishSub').textContent = `${shot.beat || '当前镜头'} · 使用参考图和镜头语言生成视频。`;
+  renderSelectedShotVideoOutput(shot.shot_id);
+  renderVideoBatchBoard();
   if(jumpToVideo) toVideo();
 }
 
@@ -3014,9 +3665,10 @@ function toVideo(){
   document.getElementById('ps1').querySelector('.step-info-s').textContent='DONE ✓';
   switchStep(2);
   document.getElementById('ps2').querySelector('.step-info-s').textContent='ACTIVE';
+  syncVideoBatchBoard();
   if(_selectedShotIndex === null) selectStoryboardShot(0, false);
   else refreshVideoFromSelection();
-  showToast('分镜已传至视频阶段', `${_veoSourceShotId || '当前镜头'} 已准备好使用 Veo 3.1 生成视频`);
+  showToast('分镜已传至视频阶段', `${_veoSourceShotId || '当前镜头'} 已准备好进入视频生成`);
 }
 
 function parseDataUrlBytes(dataUrl){
@@ -3027,11 +3679,8 @@ function parseDataUrlBytes(dataUrl){
 
 async function fetchVeoBlobUrl(videoUri){
   const res = await fetch(videoUri, { headers: { 'x-goog-api-key': getApiKey() } });
-  if(!res.ok) throw new Error('下载 Veo 视频失败');
-  const blob = await res.blob();
-  if(_veoVideoBlobUrl) URL.revokeObjectURL(_veoVideoBlobUrl);
-  _veoVideoBlobUrl = URL.createObjectURL(blob);
-  return _veoVideoBlobUrl;
+  if(!res.ok) throw new Error('下载视频失败');
+  return await res.blob();
 }
 
 function renderVeoGeneratingState(text){
@@ -3041,34 +3690,78 @@ function renderVeoGeneratingState(text){
 }
 
 async function pollVeoOperation(autoLoop, attempt=0){
+  if(_selectedShotIndex === null || !_sbAnalysis?.SHOTS?.[_selectedShotIndex]){
+    showToast('请先选择分镜镜头','当前没有可轮询的视频任务');
+    return false;
+  }
+  const shot = _sbAnalysis.SHOTS[_selectedShotIndex];
+  const operationName = _veoBatchMap[shot.shot_id]?.operationName || _veoOperationName;
+  if(!operationName){
+    if(autoLoop === false) showToast('还没有运行中的任务','请先启动一次视频生成任务');
+    return false;
+  }
+  return pollShotVideoOperation(_selectedShotIndex, operationName, autoLoop, attempt);
+}
+
+function getVideoGenerationConfigForShot(shotIdx){
+  const shot = _sbAnalysis?.SHOTS?.[shotIdx];
+  if(!shot) throw new Error('镜头不存在');
+
+  enforceVeoConfigRules();
+  const model = document.getElementById('veoModelSelect').value;
+  const durationSeconds = Number(document.getElementById('veoDurationSelect').value || 8);
+  const aspectRatio = document.getElementById('veoAspectSelect').value;
+  const resolution = document.getElementById('veoResolutionSelect').value;
+  const negativePrompt = document.getElementById('veoNegativeTa').value.trim() || (_sbAnalysis?.ART_LOCK?.prohibitions || []).join('，');
+  const basePrompt = shotIdx === _selectedShotIndex
+    ? (document.getElementById('veoPromptTa').value.trim() || buildVeoPromptFromShot(shot))
+    : buildVeoPromptFromShot(shot);
+  const imagePayload = parseDataUrlBytes(_sbImages[`${shot.shot_id}_f1`] || '');
+
+  if(!basePrompt) throw new Error('缺少视频提示词');
+  if(!imagePayload) throw new Error(`镜头 ${shot.shot_id} 缺少首帧参考图`);
+
+  return {
+    shot,
+    model,
+    durationSeconds,
+    aspectRatio,
+    resolution,
+    finalPrompt: negativePrompt ? `${basePrompt}\nUndesired elements: ${negativePrompt}.` : basePrompt,
+    imagePayload
+  };
+}
+
+async function pollShotVideoOperation(shotIdx, operationName, autoLoop=true, attempt=0){
+  const shot = _sbAnalysis?.SHOTS?.[shotIdx];
+  if(!shot) return false;
+  const shotId = shot.shot_id;
   try{
-    if(!_veoOperationName){
-      if(autoLoop === false) showToast('还没有运行中的任务','请先启动一次 Veo 3.1 视频生成');
-      return false;
-    }
     if(attempt > 45){
-      setVeoStatus('error', '轮询超时，请稍后点击“刷新状态”继续检查。');
+      updateVeoBatchState(shotId, { status:'error', error:'轮询超时，请稍后重试。' });
+      if(_selectedShotIndex === shotIdx) setVeoStatus('error', '轮询超时，请稍后重试。');
       return false;
     }
 
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/${_veoOperationName}`, {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/${operationName}`, {
       headers: { 'x-goog-api-key': getApiKey() }
     });
     const payload = await res.json();
 
-    if(!res.ok){
-      throw new Error(payload.error?.message || '查询 Veo 任务失败');
-    }
-    if(payload.error){
-      throw new Error(payload.error.message || 'Veo 任务失败');
+    if(!res.ok) throw new Error(payload.error?.message || '查询视频任务失败');
+    if(payload.error) throw new Error(payload.error.message || '视频任务失败');
+
+    updateVeoBatchState(shotId, { status:'generating', operationName, error:'' });
+    if(_selectedShotIndex === shotIdx){
+      _veoOperationName = operationName;
+      setVeoStatus('generating', `镜头 ${shotId} 生成中，第 ${attempt + 1} 次轮询。`);
+      renderVeoGeneratingState(`镜头 ${shotId} 视频生成中 · 第 ${attempt + 1} 次轮询`);
     }
 
     if(!payload.done){
-      setVeoStatus('generating', `Veo 3.1 任务运行中，第 ${attempt + 1} 次轮询。`);
       if(autoLoop){
-        renderVeoGeneratingState(`Veo 3.1 运行中 · 第 ${attempt + 1} 次轮询`);
         await new Promise(resolve => setTimeout(resolve, 8000));
-        return pollVeoOperation(true, attempt + 1);
+        return pollShotVideoOperation(shotIdx, operationName, true, attempt + 1);
       }
       return false;
     }
@@ -3082,57 +3775,49 @@ async function pollVeoOperation(autoLoop, attempt=0){
       generatedSample?.uri ||
       payload.response?.video?.uri;
 
-    if(!videoUri){
-      throw new Error('任务已完成，但没有返回视频地址');
-    }
+    if(!videoUri) throw new Error('任务已完成，但没有返回视频地址');
 
-    const blobUrl = await fetchVeoBlobUrl(videoUri);
-    document.getElementById('veoPreviewStage').innerHTML = `<video controls autoplay loop playsinline src="${blobUrl}"></video>`;
-    setVeoStatus('ready', `视频已完成，任务 ID：${_veoOperationName.split('/').pop() || _veoOperationName}`);
-    document.getElementById('veoPublishSub').textContent = `已完成 ${_veoSourceShotId || '当前镜头'} 的 Veo 3.1 视频，可直接预览或下载。`;
+    const blob = await fetchVeoBlobUrl(videoUri);
+    const blobUrl = rememberShotVideoBlobUrl(shotId, blob);
+    updateVeoBatchState(shotId, { status:'ready', operationName, blobUrl, error:'' });
+
+    if(_selectedShotIndex === shotIdx){
+      _veoVideoBlobUrl = blobUrl;
+      _veoOperationName = operationName;
+      document.getElementById('veoPreviewStage').innerHTML = `<video controls autoplay loop playsinline src="${blobUrl}"></video>`;
+      setVeoStatus('ready', `视频已完成，任务 ID：${operationName.split('/').pop() || operationName}`);
+      document.getElementById('veoPublishSub').textContent = `已完成 ${shotId} 的视频生成结果，可直接预览或下载。`;
+    }
     return true;
   }catch(error){
-    const message = error instanceof Error ? error.message : 'Veo 任务失败';
-    setVeoStatus('error', message);
-    if(autoLoop === false) showToast('Veo 3.1 失败', message);
+    const message = error instanceof Error ? error.message : '视频任务失败';
+    updateVeoBatchState(shotId, { status:'error', operationName, error: message });
+    if(_selectedShotIndex === shotIdx){
+      setVeoStatus('error', message);
+      document.getElementById('veoPreviewStage').innerHTML = `<div class="placeholder"><div style="font-size:36px;opacity:.16">⚠</div><div>${message}</div></div>`;
+      if(autoLoop === false) showToast('视频生成失败', message);
+    }
     return false;
   }
 }
 
-async function startVeoVideoGeneration(){
+async function startShotVideoGeneration(shotIdx, silent=false){
   try{
-    if(_selectedShotIndex === null || !_sbAnalysis?.SHOTS?.[_selectedShotIndex]){
-      showToast('请先选择分镜镜头','在分镜阶段选择一张要生成视频的参考镜头');
-      switchStep(1);
-      return;
-    }
     if(!getApiKey()){
       document.getElementById('artApiKeyBanner').style.display='flex';
       switchStep(0);
-      return;
+      return false;
     }
+    const config = getVideoGenerationConfigForShot(shotIdx);
+    const { shot, model, durationSeconds, aspectRatio, resolution, finalPrompt, imagePayload } = config;
+    const shotId = shot.shot_id;
 
-    enforceVeoConfigRules();
-    const shot = _sbAnalysis.SHOTS[_selectedShotIndex];
-    const model = document.getElementById('veoModelSelect').value;
-    const durationSeconds = Number(document.getElementById('veoDurationSelect').value || 8);
-    const aspectRatio = document.getElementById('veoAspectSelect').value;
-    const resolution = document.getElementById('veoResolutionSelect').value;
-    const basePrompt = document.getElementById('veoPromptTa').value.trim();
-    const negativePrompt = document.getElementById('veoNegativeTa').value.trim();
-
-    if(!basePrompt){
-      showToast('缺少视频提示词','请先同步一个分镜镜头');
-      return;
+    updateVeoBatchState(shotId, { status:'generating', error:'', shotIdx });
+    if(_selectedShotIndex === shotIdx){
+      renderVeoGeneratingState('正在启动视频生成任务');
+      setVeoStatus('generating', `启动 ${model} · ${durationSeconds}s · ${aspectRatio} · ${resolution}`);
+      document.getElementById('veoPublishTitle').textContent = `视频输出 · ${shotId}`;
     }
-
-    const imagePayload = parseDataUrlBytes(_sbImages[`${shot.shot_id}_f1`] || '');
-    const finalPrompt = negativePrompt
-      ? `${basePrompt}\nUndesired elements: ${negativePrompt}.`
-      : basePrompt;
-
-    renderVeoGeneratingState('正在启动 Veo 3.1 任务');
-    setVeoStatus('generating', `启动 ${model} · ${durationSeconds}s · ${aspectRatio} · ${resolution}`);
 
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:predictLongRunning`, {
       method: 'POST',
@@ -3144,7 +3829,7 @@ async function startVeoVideoGeneration(){
         instances: [
           {
             prompt: finalPrompt,
-            ...(imagePayload ? { image: imagePayload } : {})
+            image: imagePayload
           }
         ],
         parameters: {
@@ -3156,34 +3841,104 @@ async function startVeoVideoGeneration(){
     });
     const payload = await res.json();
 
-    if(!res.ok){
-      throw new Error(payload.error?.message || 'Veo 3.1 启动失败');
-    }
-    if(!payload.name){
-      throw new Error('Veo 3.1 未返回操作 ID');
-    }
+    if(!res.ok) throw new Error(payload.error?.message || '视频生成启动失败');
+    if(!payload.name) throw new Error('视频生成未返回操作 ID');
 
-    _veoOperationName = payload.name;
-    document.getElementById('veoPublishTitle').textContent = `Veo 3.1 输出 · ${shot.shot_id}`;
-    document.getElementById('veoPublishSub').textContent = `任务已创建：${payload.name.split('/').pop()} · 正在轮询生成结果`;
-    await pollVeoOperation(true, 0);
+    updateVeoBatchState(shotId, { status:'generating', operationName: payload.name, error:'' });
+    if(_selectedShotIndex === shotIdx){
+      _veoOperationName = payload.name;
+      document.getElementById('veoPublishSub').textContent = `任务已创建：${payload.name.split('/').pop()} · 正在轮询生成结果`;
+    }
+    return await pollShotVideoOperation(shotIdx, payload.name, true, 0);
   }catch(error){
-    const message = error instanceof Error ? error.message : 'Veo 3.1 启动失败';
-    setVeoStatus('error', message);
-    document.getElementById('veoPreviewStage').innerHTML = `<div class="placeholder"><div style="font-size:36px;opacity:.16">⚠</div><div>${message}</div></div>`;
-    showToast('Veo 3.1 失败', message);
+    const message = error instanceof Error ? error.message : '视频生成启动失败';
+    const shot = _sbAnalysis?.SHOTS?.[shotIdx];
+    if(shot) updateVeoBatchState(shot.shot_id, { status:'error', error:message });
+    if(_selectedShotIndex === shotIdx){
+      setVeoStatus('error', message);
+      document.getElementById('veoPreviewStage').innerHTML = `<div class="placeholder"><div style="font-size:36px;opacity:.16">⚠</div><div>${message}</div></div>`;
+    }
+    if(!silent) showToast('视频生成失败', message);
+    return false;
   }
 }
 
-function downloadVeoVideo(){
-  if(!_veoVideoBlobUrl){
-    showToast('暂无可下载视频','请先完成一次 Veo 3.1 视频生成');
+async function startVeoVideoGeneration(){
+  if(_selectedShotIndex === null || !_sbAnalysis?.SHOTS?.[_selectedShotIndex]){
+    showToast('请先选择分镜镜头','在分镜阶段选择一张要生成视频的参考镜头');
+    switchStep(1);
+    return;
+  }
+  await startShotVideoGeneration(_selectedShotIndex, false);
+}
+
+async function startBatchVideoGeneration(){
+  if(_veoBatchRunning){
+    showToast('批量生成进行中','请等待当前批次完成');
+    return;
+  }
+  const shots = _sbAnalysis?.SHOTS || [];
+  if(!shots.length){
+    showToast('请先生成分镜表','当前没有可批量生成的视频镜号');
+    return;
+  }
+
+  const eligible = shots
+    .map((shot, idx)=>({ shot, idx }))
+    .filter(({ shot })=>Boolean(_sbImages[`${shot.shot_id}_f1`]));
+  if(!eligible.length){
+    showToast('缺少参考图','请先在分镜阶段完成逐镜出图');
+    return;
+  }
+
+  _veoBatchRunning = true;
+  showToast('开始批量生成', `${eligible.length} 个镜号已进入视频任务队列`);
+  try{
+    for(const item of eligible){
+      await startShotVideoGeneration(item.idx, true);
+    }
+    showToast('批量生成完成', `${eligible.length} 个镜号已完成视频生成`);
+  }finally{
+    _veoBatchRunning = false;
+    renderVideoBatchBoard();
+  }
+}
+
+function downloadShotVideo(shotId){
+  const entry = _veoBatchMap[shotId];
+  if(!entry?.blobUrl){
+    showToast('暂无可下载视频', `${shotId} 还没有完成视频生成`);
     return;
   }
   const link = document.createElement('a');
-  link.href = _veoVideoBlobUrl;
-  link.download = `${_veoSourceShotId || 'veo-video'}.mp4`;
+  link.href = entry.blobUrl;
+  link.download = `${shotId}.mp4`;
   link.click();
+}
+
+function downloadAllVeoVideos(){
+  const readyEntries = Object.entries(_veoBatchMap).filter(([, entry])=>entry?.blobUrl);
+  if(!readyEntries.length){
+    showToast('暂无可下载视频','请先完成至少一个镜号的视频生成');
+    return;
+  }
+  readyEntries.forEach(([shotId, entry], idx)=>{
+    setTimeout(()=>{
+      const link = document.createElement('a');
+      link.href = entry.blobUrl;
+      link.download = `${shotId}.mp4`;
+      link.click();
+    }, idx * 180);
+  });
+  showToast('开始下载批量视频', `${readyEntries.length} 个镜号的视频已触发下载`);
+}
+
+function downloadVeoVideo(){
+  if(!_veoSourceShotId || !_veoBatchMap[_veoSourceShotId]?.blobUrl){
+    showToast('暂无可下载视频','请先完成一次视频生成任务');
+    return;
+  }
+  downloadShotVideo(_veoSourceShotId);
 }
 
 
@@ -3557,6 +4312,7 @@ window.addEventListener('scroll',trigReveal);window.addEventListener('load',trig
 showSbState('idle');
 updateApiStatusPill();
 setVeoStatus('idle','等待分镜镜头传入。');
+renderVideoBatchBoard();
 ['veoResolutionSelect','veoAspectSelect','veoDurationSelect'].forEach((id)=>{
   const el = document.getElementById(id);
   if(el) el.addEventListener('change', enforceVeoConfigRules);
