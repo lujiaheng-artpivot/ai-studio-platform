@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NanoBanana API 测试页面</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #10b981;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .result h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .result img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      border: 4px solid #f3f4f6;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .info-box p {
+      color: #1e40af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .credits {
+      background: #f0fdf4;
+      border: 2px solid #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .credits-amount {
+      font-size: 32px;
+      font-weight: 700;
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍌 NanoBanana Pro API <span class="badge">已配置</span></h1>
+    <p class="subtitle">artpivot.top - AI 图像生成测试</p>
+
+    <div class="info-box">
+      <p>
+        <strong>✅ 配置完成！</strong> NanoBanana Pro API 已成功集成到您的网站。
+        这是一个测试页面，您可以直接测试图像生成功能。
+      </p>
+    </div>
+
+    <div id="credits" class="credits" style="display: none;">
+      <div>账户余额</div>
+      <div class="credits-amount" id="creditsAmount">--</div>
+    </div>
+
+    <form id="generateForm">
+      <div class="form-group">
+        <label for="prompt">图像描述 *</label>
+        <textarea 
+          id="prompt" 
+          name="prompt" 
+          placeholder="例如: A beautiful sunset over mountains, cinematic lighting, 4k"
+          required
+        >A beautiful landscape painting with mountains and a lake, golden hour lighting, highly detailed, 4k</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="type">生成类型</label>
+        <select id="type" name="type">
+          <option value="TEXTTOIAMGE">文本生成图像</option>
+          <option value="IMAGETOIAMGE">图像编辑</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="numImages">图像数量</label>
+        <select id="numImages" name="numImages">
+          <option value="1">1 张</option>
+          <option value="2">2 张</option>
+          <option value="3">3 张</option>
+          <option value="4">4 张</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-secondary" onclick="checkCredits()">
+          查询余额
+        </button>
+        <button type="submit" class="btn-primary" id="generateBtn">
+          🎨 生成图像
+        </button>
+      </div>
+    </form>
+
+    <div id="result" style="display: none;"></div>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin;
+
+    // 查询账户余额
+    async function checkCredits() {
+      try {
+        const response = await fetch(`${API_BASE}/api/ai/nanobanana/credits`);
+        const result = await response.json();
+        
+        if (result.success) {
+          document.getElementById('credits').style.display = 'block';
+          document.getElementById('creditsAmount').textContent = result.data.credits;
+        } else {
+          alert('查询失败: ' + result.message);
+        }
+      } catch (error) {
+        alert('查询失败: ' + error.message);
+      }
+    }
+
+    // 生成图像
+    document.getElementById('generateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = document.getElementById('generateBtn');
+      const resultDiv = document.getElementById('result');
+      
+      // 获取表单数据
+      const formData = {
+        prompt: document.getElementById('prompt').value,
+        type: document.getElementById('type').value,
+        numImages: parseInt(document.getElementById('numImages').value),
+      };
+
+      // 显示加载状态
+      btn.disabled = true;
+      btn.textContent = '生成中...';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>正在生成图像，请稍候...</p>
+          <p style="color: #666; font-size: 14px; margin-top: 10px;">
+            这可能需要 10-30 秒
+          </p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/ai/nanobanana/generate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          resultDiv.innerHTML = `
+            <h3>✅ 生成成功！</h3>
+            <p><strong>提示词:</strong> ${result.data.prompt}</p>
+            <p><strong>模型:</strong> ${result.data.model}</p>
+            <p><strong>耗时:</strong> ${result.generationTime.toFixed(2)} 秒</p>
+            <img src="${result.data.url}" alt="Generated Image" />
+            <p style="margin-top: 10px; font-size: 12px; color: #666;">
+              <a href="${result.data.url}" target="_blank">在新窗口打开</a>
+            </p>
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <h3>❌ 生成失败</h3>
+            <p>${result.message || result.error}</p>
+          `;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <h3>❌ 请求失败</h3>
+          <p>${error.message}</p>
+        `;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🎨 生成图像';
+      }
+    });
+
+    // 页面加载时自动查询余额
+    window.addEventListener('load', () => {
+      // 注释掉自动查询，避免未登录时报错
+      // checkCredits();
+    });
+  </script>
+</body>
+</html>

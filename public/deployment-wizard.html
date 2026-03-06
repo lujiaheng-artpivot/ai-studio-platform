@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>artpivot.top 生产环境配置向导</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .step {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .step.completed {
+      border-left-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .step-number {
+      background: #667eea;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 12px;
+    }
+
+    .step.completed .step-number {
+      background: #10b981;
+    }
+
+    .step-content {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .code-block code {
+      display: block;
+      white-space: pre;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #333;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .checklist input[type="checkbox"] {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .warning strong {
+      color: #92400e;
+    }
+
+    .info {
+      background: #dbeafe;
+      border-left: 4px solid #3b82f6;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #10b981);
+      transition: width 0.3s;
+    }
+
+    .link-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .link-list li {
+      padding: 8px 0;
+    }
+
+    .link-list a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 artpivot.top 生产环境配置向导</h1>
+    <p class="subtitle">按照以下步骤完成生产环境部署</p>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+      完成进度: <span id="progressText">0/5</span>
+    </p>
+
+    <!-- 步骤 1 -->
+    <div class="step" id="step1">
+      <div class="step-header">
+        <div style="display: flex; align-items: center;">
+          <div class="step-number">1</div>
+          <div class="step-title">配置 Vercel 生产环境变量</div>
+        </div>
+      </div>
+      <div class="step-content">
+        <p>访问 Vercel 项目设置，添加以下环境变量（Environment: Production）</p>
+        
+        <div class="code-block"><code>NEXT_PUBLIC_APP_URL=https://artpivot.top
+NEXT_PUBLIC_CANONICAL_HOST=artpivot.top
+NEXT_PUBLIC_CLERK_FRONTEND_API=modern-falcon-75.clerk.accounts.dev
+NANOBANANA_API_KEY=20e604c6c997931bdced6a0b12a2d05d
+... (其他变量见文档)</code></div>
+
+        <div class="info">
+          <strong>💡 提示:</strong> 可以使用自动化脚本快速配置：
+          <div class="code-block"><code>./setup-vercel-env.sh</code></div>
+        </div>
+
+        <div class="action-buttons">
+          <a href="https://vercel.com" target="_blank" class="btn btn-primary">
+            打开 Vercel Dashboard
+          </a>
+          <button class="btn btn-success" onclick="markComplete(1)">
+            ✓ 标记完成
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 步骤 2 -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div style="display: flex; align-items: center;">
+          <div class="step-number">2</div>
+          <div class="step-title">配置 Google OAuth</div>
+        </div>
+      </div>
+      <div class="step-content">
+        <p>在 Google Cloud Console 配置 OAuth 2.0 授权</p>
+        
+        <p style="margin-top: 15px;"><strong>Authorized JavaScript origins:</strong></p>
+        <div class="code-block"><code>https://artpivot.top
+https://www.artpivot.top
+https://app.artpivot.top
+https://modern-falcon-75.clerk.accounts.dev</code></div>
+
+        <p style="margin-top: 15px;"><strong>Authorized redirect URIs:</strong></p>
+        <div class="code-block"><code>https://modern-falcon-75.clerk.accounts.dev/v1/oauth_callback</code></div>
+
+        <div class="warning">
+          <strong>⏰ 重要:</strong> 配置保存后需要等待 5-10 分钟才能生效
+        </div>
+
+        <div class="action-buttons">
+          <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="btn btn-primary">
+            打开 Google Cloud Console
+          </a>
+          <button class="btn btn-success" onclick="markComplete(2)">
+            ✓ 标记完成
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 步骤 3 -->
+    <div class="step" id="step3">
+      <div class="step-header">
+        <div style="display: flex; align-items: center;">
+          <div class="step-number">3</div>
+          <div class="step-title">配置 Stripe + 支付宝</div>
+        </div>
+      </div>
+      <div class="step-content">
+        <p><strong>3.1 启用支付宝</strong></p>
+        <p>在 Stripe Dashboard -> Settings -> Payment methods 中启用 Alipay</p>
+
+        <p style="margin-top: 15px;"><strong>3.2 配置 Webhook</strong></p>
+        <p>添加 Webhook endpoint:</p>
+        <div class="code-block"><code>https://artpivot.top/api/webhooks/stripe</code></div>
+
+        <p style="margin-top: 15px;"><strong>监听事件:</strong></p>
+        <ul class="checklist">
+          <li><input type="checkbox"> checkout.session.completed</li>
+          <li><input type="checkbox"> checkout.session.async_payment_succeeded</li>
+          <li><input type="checkbox"> checkout.session.async_payment_failed</li>
+          <li><input type="checkbox"> checkout.session.expired</li>
+        </ul>
+
+        <div class="warning">
+          <strong>⚠️ 重要:</strong> 复制 Webhook Signing Secret 并更新到 Vercel 环境变量 STRIPE_WEBHOOK_SECRET
+        </div>
+
+        <div class="action-buttons">
+          <a href="https://dashboard.stripe.com" target="_blank" class="btn btn-primary">
+            打开 Stripe Dashboard
+          </a>
+          <button class="btn btn-success" onclick="markComplete(3)">
+            ✓ 标记完成
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 步骤 4 -->
+    <div class="step" id="step4">
+      <div class="step-header">
+        <div style="display: flex; align-items: center;">
+          <div class="step-number">4</div>
+          <div class="step-title">线上自检</div>
+        </div>
+      </div>
+      <div class="step-content">
+        <p>验证所有配置是否正确</p>
+
+        <p style="margin-top: 15px;"><strong>检查项目:</strong></p>
+        <ul class="link-list">
+          <li>
+            <a href="https://artpivot.top/api/health" target="_blank">
+              ✓ 健康检查 API
+            </a>
+          </li>
+          <li>
+            <a href="https://artpivot.top/sign-in" target="_blank">
+              ✓ Google 登录测试
+            </a>
+          </li>
+          <li>
+            <a href="https://artpivot.top/pricing" target="_blank">
+              ✓ 支付宝支付测试
+            </a>
+          </li>
+          <li>
+            <a href="https://artpivot.top/dashboard" target="_blank">
+              ✓ 账户算力检查
+            </a>
+          </li>
+        </ul>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="runHealthCheck()">
+            运行健康检查
+          </button>
+          <button class="btn btn-success" onclick="markComplete(4)">
+            ✓ 标记完成
+          </button>
+        </div>
+
+        <div id="healthCheckResult" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+
+    <!-- 步骤 5 -->
+    <div class="step" id="step5">
+      <div class="step-header">
+        <div style="display: flex; align-items: center;">
+          <div class="step-number">5</div>
+          <div class="step-title">支付测试与问题排查</div>
+        </div>
+      </div>
+      <div class="step-content">
+        <p>完成一次完整的支付流程测试</p>
+
+        <p style="margin-top: 15px;"><strong>测试步骤:</strong></p>
+        <ol style="margin-left: 20px; line-height: 2;">
+          <li>访问 pricing 页面</li>
+          <li>选择 Lite 套餐（$10）</li>
+          <li>使用支付宝支付</li>
+          <li>完成支付后检查 dashboard</li>
+          <li>验证算力是否增加</li>
+        </ol>
+
+        <div class="info">
+          <strong>💡 如果支付后未到账:</strong>
+          <ul style="margin-left: 20px; margin-top: 10px;">
+            <li>检查 Stripe Events 中的 webhook 响应</li>
+            <li>如果是 pending_user，重新登录一次</li>
+            <li>可以在 Stripe 中手动 resend event</li>
+          </ul>
+        </div>
+
+        <div class="action-buttons">
+          <a href="https://dashboard.stripe.com/test/events" target="_blank" class="btn btn-primary">
+            查看 Stripe Events
+          </a>
+          <button class="btn btn-success" onclick="markComplete(5)">
+            ✓ 标记完成
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f0fdf4; border-radius: 12px;">
+      <h2 style="color: #10b981; margin-bottom: 10px;">🎉 配置完成！</h2>
+      <p style="color: #666;">你的网站已经可以正常使用了</p>
+    </div>
+  </div>
+
+  <script>
+    let completedSteps = JSON.parse(localStorage.getItem('completedSteps') || '[]');
+
+    function updateProgress() {
+      const total = 5;
+      const completed = completedSteps.length;
+      const percentage = (completed / total) * 100;
+      
+      document.getElementById('progressFill').style.width = percentage + '%';
+      document.getElementById('progressText').textContent = `${completed}/${total}`;
+
+      // 更新步骤样式
+      completedSteps.forEach(step => {
+        document.getElementById(`step${step}`).classList.add('completed');
+      });
+    }
+
+    function markComplete(stepNumber) {
+      if (!completedSteps.includes(stepNumber)) {
+        completedSteps.push(stepNumber);
+        localStorage.setItem('completedSteps', JSON.stringify(completedSteps));
+        updateProgress();
+      }
+    }
+
+    async function runHealthCheck() {
+      const resultDiv = document.getElementById('healthCheckResult');
+      resultDiv.innerHTML = '<p>正在检查...</p>';
+
+      try {
+        const response = await fetch('https://artpivot.top/api/health');
+        const data = await response.json();
+
+        const statusColor = data.status === 'healthy' ? '#10b981' : '#ef4444';
+        
+        resultDiv.innerHTML = `
+          <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid ${statusColor};">
+            <h4 style="color: ${statusColor}; margin-bottom: 10px;">
+              ${data.status === 'healthy' ? '✅ 健康检查通过' : '❌ 发现问题'}
+            </h4>
+            <p><strong>健康度:</strong> ${data.health}</p>
+            <p><strong>时间:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+            ${data.warnings ? `<p style="color: #f59e0b; margin-top: 10px;"><strong>警告:</strong></p><ul style="margin-left: 20px;">${data.warnings.map(w => `<li>${w}</li>`).join('')}</ul>` : ''}
+          </div>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div style="background: #fee2e2; padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+            <p style="color: #991b1b;"><strong>错误:</strong> ${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // 页面加载时更新进度
+    updateProgress();
+  </script>
+</body>
+</html>

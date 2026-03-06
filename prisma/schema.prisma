@@ -92,3 +92,20 @@ model Subscription {
   
   @@index([userId])
 }
+
+model PaymentTopup {
+  id               String   @id @default(cuid())
+  stripeSessionId  String   @unique
+  stripeEventId    String?
+  clerkUserId      String
+  packageId        String?
+  computeSeconds   Int
+  paymentStatus    String?
+  mode             String?
+  status           String   @default("pending")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([clerkUserId])
+  @@index([status])
+}

@@ -3,6 +3,7 @@ export const SUBSCRIPTION_PLANS = {
     name: 'Free',
     price: 0,
     priceId: '',
+    stripePriceId: '',
     computeSeconds: 50,
     features: [
       '50 compute seconds/month',
@@ -25,14 +26,15 @@ export const SUBSCRIPTION_PLANS = {
   lite: {
     name: 'Lite',
     price: 10,
-    priceId: process.env.STRIPE_LITE_PRICE_ID || '',
+    priceId: 'price_1SvLSMBcngVE1Bh59ZLYi80n',
+    stripePriceId: 'price_1SvLSMBcngVE1Bh59ZLYi80n',
     computeSeconds: 300,
     features: [
       '300 compute seconds/month',
       'Watermark-free 1080p exports',
       '~18 finished clips per month',
       'Standard processing time',
-      'All AI tools access',
+      'Access to all AI tools',
       'Email support'
     ],
     limitations: [
@@ -47,120 +49,145 @@ export const SUBSCRIPTION_PLANS = {
   standard: {
     name: 'Standard',
     price: 30,
-    priceId: process.env.STRIPE_STANDARD_PRICE_ID || '',
+    priceId: 'price_1SvLYlBcngVE1Bh5cBYrZQcT',
+    stripePriceId: 'price_1SvLYlBcngVE1Bh5cBYrZQcT',
     computeSeconds: 1000,
     features: [
       '1,000 compute seconds/month',
       'Full commercial license',
-      '~47 client deliverables',
-      'Priority queue access (22-28% faster)',
+      '~47 deliverables per month',
+      'Priority queue',
       '4K export capability',
-      'Batch processing (3 simultaneous)',
-      'Priority email support',
-      'No attribution required'
+      'Advanced AI features',
+      'Priority email support'
     ],
     limitations: [],
     maxResolution: '4K',
     hasWatermark: false,
     commercialLicense: true,
     priority: 'high',
-    batchProcessing: 3,
   },
   pro: {
     name: 'Pro',
     price: 100,
-    priceId: process.env.STRIPE_PRO_PRICE_ID || '',
-    computeSeconds: 5000,
+    priceId: 'price_1SvLdyBcngVE1Bh52yZLHhVA',
+    stripePriceId: 'price_1SvLdyBcngVE1Bh52yZLHhVA',
+    computeSeconds: 3000,
     features: [
-      '5,000 compute seconds/month',
-      'API access for automation',
-      'Team collaboration (5 seats)',
-      'Priority rendering (2.1 min avg)',
-      'Dedicated support (4.2h response)',
-      'Custom branding',
-      'Advanced analytics',
-      'White-label options',
-      'SLA guarantee'
+      '3,000 compute seconds/month',
+      'Full commercial license',
+      '~140 deliverables per month',
+      'Highest priority queue',
+      '4K export capability',
+      'All AI tools & features',
+      'Dedicated support channel',
+      'Custom branding options'
     ],
     limitations: [],
     maxResolution: '4K',
     hasWatermark: false,
     commercialLicense: true,
     priority: 'highest',
-    batchProcessing: 10,
-    apiAccess: true,
-    teamSeats: 5,
-  }
+  },
 } as const;
 
-export type SubscriptionTier = keyof typeof SUBSCRIPTION_PLANS;
+export type SubscriptionPlan = keyof typeof SUBSCRIPTION_PLANS;
+
+export const ALIPAY_TOPUP_PACKAGES = {
+  starter: {
+    name: '入门算力包',
+    priceCny: 29,
+    computeSeconds: 300,
+    description: '一次性补充 300 秒算力，不自动续费',
+  },
+  studio: {
+    name: '进阶算力包',
+    priceCny: 69,
+    computeSeconds: 900,
+    description: '一次性补充 900 秒算力，适合中强度创作',
+  },
+  pro: {
+    name: '专业算力包',
+    priceCny: 129,
+    computeSeconds: 2000,
+    description: '一次性补充 2,000 秒算力，适合商业项目冲刺',
+  },
+} as const;
+
+export type AlipayTopupPackageId = keyof typeof ALIPAY_TOPUP_PACKAGES;
 
 export const AI_TOOLS = {
-  cinestyle: {
-    id: 'cinestyle',
-    name: 'CineStyle AI',
-    description: 'Analyze scripts and generate cinematic style concepts',
+  scriptAnalysis: {
+    id: 'script-analysis',
+    name: '剧本分析',
     icon: '🎬',
+    description: '使用 AI 分析剧本结构、角色发展和故事节奏',
     computeCost: {
-      analysis: 5,
-      sceneGeneration: 15,
-      characterGeneration: 12,
+      free: 10,
+      lite: 8,
+      standard: 6,
+      pro: 5,
     },
-    minTier: 'free' as SubscriptionTier,
   },
   storyboard: {
     id: 'storyboard',
-    name: 'Storyboard AI',
-    description: 'Create professional storyboards from scripts',
+    name: '故事板生成',
     icon: '📋',
+    description: '自动从剧本创建专业故事板和分镜脚本',
     computeCost: {
-      frameGeneration: 18,
-      sequenceGeneration: 25,
+      free: 15,
+      lite: 12,
+      standard: 10,
+      pro: 8,
     },
-    minTier: 'lite' as SubscriptionTier,
   },
-  scriptMaster: {
-    id: 'scriptMaster',
-    name: 'Script Master',
-    description: 'AI-powered screenplay writing assistant',
-    icon: '✍️',
+  sceneGeneration: {
+    id: 'scene-generation',
+    name: '场景生成',
+    icon: '🖼️',
+    description: '生成电影级场景概念图和视觉参考',
     computeCost: {
-      generation: 8,
-      analysis: 5,
+      free: 12,
+      lite: 10,
+      standard: 8,
+      pro: 6,
     },
-    minTier: 'free' as SubscriptionTier,
   },
-  cinelogic: {
-    id: 'cinelogic',
-    name: 'CineLogic Director',
-    description: 'Professional director tools and shot planning',
+  characterDesign: {
+    id: 'character-design',
+    name: '角色设计',
+    icon: '👤',
+    description: 'AI 驱动的角色视觉设计和概念艺术',
+    computeCost: {
+      free: 10,
+      lite: 8,
+      standard: 6,
+      pro: 5,
+    },
+  },
+  director: {
+    id: 'director',
+    name: '智能导演',
     icon: '🎥',
+    description: '专业导演工具和智能镜头规划系统',
     computeCost: {
-      shotPlanning: 20,
-      sceneBreakdown: 15,
+      free: 20,
+      lite: 16,
+      standard: 12,
+      pro: 10,
     },
-    minTier: 'standard' as SubscriptionTier,
   },
   virtualStudio: {
-    id: 'virtualStudio',
-    name: 'Gemini 3D Virtual Studio',
-    description: '3D virtual cinematography and set design',
+    id: 'virtual-studio',
+    name: '3D 虚拟摄影棚',
     icon: '🎭',
+    description: '创建 3D 虚拟摄影和场景设计',
     computeCost: {
-      render3D: 30,
-      setDesign: 25,
+      free: 25,
+      lite: 20,
+      standard: 15,
+      pro: 12,
     },
-    minTier: 'standard' as SubscriptionTier,
-  },
-  contactSheet: {
-    id: 'contactSheet',
-    name: 'Cinematic Contact Sheet',
-    description: 'Generate cinematic sample sheets',
-    icon: '📸',
-    computeCost: {
-      sheetGeneration: 20,
-    },
-    minTier: 'lite' as SubscriptionTier,
   },
 } as const;
 

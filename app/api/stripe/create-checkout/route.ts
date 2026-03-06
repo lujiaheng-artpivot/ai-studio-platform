@@ -1,85 +1,152 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { stripe } from '@/lib/stripe';
+import Stripe from 'stripe';
+import { resolvePublicAppUrl } from '@/lib/config';
+import { prisma } from '@/lib/prisma';
 import { SUBSCRIPTION_PLANS } from '@/lib/constants';
+import {
+  getComputeSecondsForTier,
+  isPaidTier,
+  normalizeSubscriptionTier,
+  type PaidTier,
+} from '@/lib/server/paid-access';
+
+function getStripeClient(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    throw new Error('STRIPE_SECRET_KEY is not configured');
+  }
+
+  return new Stripe(key, {
+    apiVersion: '2025-12-15.clover',
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await auth();
-    const user = await currentUser();
-    
-    if (!userId || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    if (!userId) {
+      return NextResponse.json({ error: '请先登录' }, { status: 401 });
     }
 
-    const { tier } = await req.json();
+    const { priceId, planName } = await req.json();
 
-    if (!tier || !SUBSCRIPTION_PLANS[tier as keyof typeof SUBSCRIPTION_PLANS]) {
-      return NextResponse.json({ error: 'Invalid subscription tier' }, { status: 400 });
+    if (!priceId || typeof priceId !== 'string') {
+      return NextResponse.json({ error: '缺少价格 ID' }, { status: 400 });
     }
 
-    const plan = SUBSCRIPTION_PLANS[tier as keyof typeof SUBSCRIPTION_PLANS];
-
-    if (tier === 'free') {
-      return NextResponse.json({ error: 'Cannot create checkout for free plan' }, { status: 400 });
+    const requestedTier = normalizeSubscriptionTier(typeof planName === 'string' ? planName : '');
+    if (!isPaidTier(requestedTier)) {
+      return NextResponse.json({ error: '免费计划不可直接使用，请选择付费套餐' }, { status: 400 });
     }
 
-    // TODO: Get or create user from database
-    // For now, we'll create a Stripe customer
+    const expectedPriceId = SUBSCRIPTION_PLANS[requestedTier].stripePriceId;
+    if (!expectedPriceId || expectedPriceId !== priceId) {
+      return NextResponse.json({ error: '套餐与价格 ID 不匹配' }, { status: 400 });
+    }
 
-    const email = user.emailAddresses[0]?.emailAddress;
+    const clerkUser = await currentUser();
+    const email = clerkUser?.emailAddresses?.[0]?.emailAddress?.trim();
     if (!email) {
-      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
+      return NextResponse.json({ error: '无法获取账号邮箱，请先在 Clerk 绑定邮箱' }, { status: 400 });
     }
 
-    // Create or retrieve Stripe customer
-    let stripeCustomerId: string;
-    
-    // TODO: Check if user already has a Stripe customer ID in database
-    // For now, create a new customer
-    const customer = await stripe.customers.create({
-      email,
-      metadata: {
-        clerkUserId: userId,
+    const displayName =
+      clerkUser?.firstName ||
+      clerkUser?.fullName ||
+      email.split('@')[0] ||
+      null;
+
+    const dbUser = await prisma.user.upsert({
+      where: { clerkId: userId },
+      update: {
+        email,
+        name: displayName,
+        imageUrl: clerkUser?.imageUrl || null,
+      },
+      create: {
+        clerkId: userId,
+        email,
+        name: displayName,
+        imageUrl: clerkUser?.imageUrl || null,
+        subscriptionTier: 'free',
+        computeSeconds: getComputeSecondsForTier('free'),
+        usedSeconds: 0,
+      },
+      select: {
+        stripeCustomerId: true,
       },
     });
-    stripeCustomerId = customer.id;
 
-    // Create Stripe Checkout Session
+    const appUrl = resolvePublicAppUrl(req);
+    const stripe = getStripeClient();
+    const tier = requestedTier as PaidTier;
+
     const session = await stripe.checkout.sessions.create({
-      customer: stripeCustomerId,
       mode: 'subscription',
       payment_method_types: ['card'],
+      customer: dbUser.stripeCustomerId || undefined,
+      customer_email: dbUser.stripeCustomerId ? undefined : email,
       line_items: [
         {
-          price: plan.priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
+      success_url: `${appUrl}/new.html?space=creation&success=1&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${appUrl}/new.html?billing=1&canceled=1`,
+      client_reference_id: userId,
       metadata: {
+        userId,
         clerkUserId: userId,
+        planName: tier,
         tier,
       },
       subscription_data: {
         metadata: {
+          userId,
           clerkUserId: userId,
           tier,
         },
       },
+      allow_promotion_codes: true,
+      billing_address_collection: 'auto',
     });
 
-    return NextResponse.json({ 
-      sessionId: session.id,
-      url: session.url 
-    });
+    return NextResponse.json({ sessionId: session.id, url: session.url });
+  } catch (error: unknown) {
+    console.error('❌ 创建支付会话错误:', error);
+    const message = error instanceof Error ? error.message : '创建支付会话失败，请重试';
+    const normalized = message.toLowerCase();
+    const isDatabaseAuthError =
+      normalized.includes('tenant or user not found') ||
+      normalized.includes('authentication failed') ||
+      normalized.includes('error code: p1000');
+    const isDatabaseUnavailable =
+      normalized.includes("can't reach database server") ||
+      normalized.includes('error code: p1001');
 
-  } catch (error: any) {
-    console.error('Checkout session error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    if (isDatabaseAuthError) {
+      return NextResponse.json(
+        {
+          error: '数据库连接配置失效（DATABASE_URL 无法通过鉴权），请联系管理员更新生产环境数据库连接串',
+          code: 'DATABASE_AUTH_INVALID',
+        },
+        { status: 503 }
+      );
+    }
+
+    if (isDatabaseUnavailable) {
+      return NextResponse.json(
+        {
+          error: '数据库暂时不可用，请稍后重试',
+          code: 'DATABASE_UNAVAILABLE',
+        },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
