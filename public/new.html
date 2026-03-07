@@ -2684,9 +2684,9 @@ function updateApiStatusPill(){
   }
 }
 
-const GEMINI_FAST_TEXT_MODEL = 'gemini-2.5-flash-lite';
-const GEMINI_STRUCTURED_TEXT_MODEL = 'gemini-2.5-flash';
-const GEMINI_IMAGE_MODEL = 'gemini-2.5-flash-image';
+const GEMINI_FAST_TEXT_MODEL = 'gemini-3.1-pro-preview';
+const GEMINI_STRUCTURED_TEXT_MODEL = 'gemini-3.1-pro-preview';
+const GEMINI_IMAGE_MODEL = 'gemini-3.1-flash-image-preview';
 const STORYBOARD_BATCH_CONCURRENCY = 3;
 
 async function geminiCall(model, contents, config={}){
@@ -2889,7 +2889,7 @@ async function sendScriptAgentChat(){
       [{role:'user', parts:[{text:`当前剧本内容：\n${script || '(空白)'}\n\n用户问题：${message}\n\n请给出可直接执行的修改建议，必要时给出具体改写片段。` }]}],
       {
         systemInstruction:{ parts:[{ text: buildScriptAgentSystemPrompt() }] },
-        generationConfig:{ temperature:0.65, maxOutputTokens:520 }
+        generationConfig:{ temperature:0.8, maxOutputTokens:900 }
       }
     );
     const reply = extractText(data) || 'Agent 暂时没有生成有效建议。';
@@ -2977,7 +2977,7 @@ async function runScriptAnalysis(){
     const sysInst = getAnalysisSystemInstruction(_scriptType);
     const data = await geminiCall(GEMINI_FAST_TEXT_MODEL, 
       [{role:'user', parts:[{text:`用户的原始想法/感受是: "${script}"。请根据设定的专家身份（${_scriptType}），进行深度分析和策划。`}]}],
-      { systemInstruction:{ parts:[{text:sysInst}] }, generationConfig:{temperature:0.6, maxOutputTokens:900} }
+      { systemInstruction:{ parts:[{text:sysInst}] }, generationConfig:{temperature:0.8} }
     );
     const text = extractText(data);
     _scriptAnalysisText = text;
@@ -3023,7 +3023,7 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
       [{role:'user', parts:[{text:prompt}]}],
       {
         systemInstruction:{ parts:[{text:`${buildScriptAgentSystemPrompt()}\n你现在的任务是产出完整剧本正文。`} ] },
-        generationConfig:{temperature:0.62, maxOutputTokens:1600}
+        generationConfig:{temperature:0.72, maxOutputTokens:2200}
       }
     );
     const screenplay = extractText(data).trim();
@@ -4422,7 +4422,7 @@ async function geminiChatArt(userMsg){
 请用中文简洁回答，专注于电影美术层面的建议。` : '你是一位电影美术指导，用中文简洁回答。';
   _artChatHist.push({role:'user', parts:[{text:userMsg}]});
   const data = await geminiCall(GEMINI_FAST_TEXT_MODEL, _artChatHist,
-    { systemInstruction:{parts:[{text:sysMsg}]}, generationConfig:{temperature:0.7, maxOutputTokens:220} }
+    { systemInstruction:{parts:[{text:sysMsg}]}, generationConfig:{temperature:0.9, maxOutputTokens:400} }
   );
   const reply = extractText(data) || '艺术指导暂时无法回答。';
   _artChatHist.push({role:'model', parts:[{text:reply}]});

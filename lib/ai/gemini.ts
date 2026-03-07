@@ -4,7 +4,7 @@ import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { getGeminiApiKey } from '@/lib/config';
 import { getScriptTypeOption, type ScriptType } from '@/lib/script-types';
 
-export const GEMINI_TEXT_MODEL = 'gemini-2.5-flash-lite';
+export const GEMINI_TEXT_MODEL = 'gemini-3.1-pro-preview';
 
 export interface ScriptAnalysisResult {
   styles?: Array<{
