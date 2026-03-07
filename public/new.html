@@ -2719,6 +2719,7 @@ function setScriptEditorValue(text){
   syncLn(ta);
   ta.dispatchEvent(new Event('input', { bubbles:true }));
   ta.dispatchEvent(new Event('change', { bubbles:true }));
+  ta.focus();
   return ta;
 }
 
@@ -3051,9 +3052,8 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
     if(!screenplay) throw new Error('模型未返回剧本正文');
     setScriptEditorValue(screenplay);
     typing?.remove();
-    pushScriptAgentMessage(`剧本已经写入左侧编辑区。\n\n接下来建议你：\n1. 快速浏览并做少量改词。\n2. 直接点击「传至分镜」。\n3. 在分镜阶段选择一个镜头送入视频生成。`, 'agent');
-    pushScriptAgentMeta(`剧本预览：${screenplay.slice(0, 90)}${screenplay.length > 90 ? '…' : ''}`);
-    pushScriptAgentMeta(`当前剧本类型：${SCRIPT_TYPE_LABELS[_scriptType]} · 已更新左侧正文`);
+    pushScriptAgentMessage(`剧本已写入左侧编辑区，不会显示在右侧对话区。\n\n接下来建议你：\n1. 在左侧直接改词。\n2. 点击「传至分镜」。\n3. 在分镜阶段继续生成镜头图。`, 'agent');
+    pushScriptAgentMeta(`当前剧本类型：${SCRIPT_TYPE_LABELS[_scriptType]} · 左侧正文已更新`);
     setScriptStageState('剧本已生成');
     showToast('剧本生成完成', '左侧正文已更新，可直接传到分镜');
   } catch(err){
