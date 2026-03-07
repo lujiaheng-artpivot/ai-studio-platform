@@ -548,8 +548,8 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 /* ═══════════════════════════════════════════════
    CREATION SPACE — 创作空间
 ═══════════════════════════════════════════════ */
-#page-creation{background:var(--black)}
-.creation-wrap{display:flex;min-height:calc(100vh - 62px);overflow:visible;align-items:flex-start}
+#page-creation{background:var(--black);height:calc(100vh - 62px);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+.creation-wrap{display:flex;min-height:100%;overflow:visible;align-items:flex-start}
 
 /* PIPELINE SIDEBAR */
 .pipeline{
@@ -630,7 +630,7 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 .bsm-blue:active{transform:translateY(0) scale(0.96)}
 
 /* STEP PANELS */
-.step-panel{flex:1;min-height:0;overflow-y:auto;padding:26px;display:none;flex-direction:column;gap:20px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+.step-panel{flex:1;min-height:0;overflow:visible;padding:26px;display:none;flex-direction:column;gap:20px}
 .step-panel.active{display:flex}
 
 /* SCRIPT STEP */
@@ -730,6 +730,11 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 /* CREATION RE-SKIN */
 #page-creation{
   position:relative;
+  height:calc(100vh - 62px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
   background:
     radial-gradient(circle at 12% 16%, rgba(255,102,196,0.16), transparent 24%),
     radial-gradient(circle at 82% 10%, rgba(103,119,255,0.16), transparent 28%),
@@ -745,7 +750,7 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
   mix-blend-mode:screen;
 }
 #page-creation .creation-wrap{
-  position:relative;display:flex;min-height:calc(100vh - 62px);height:auto;overflow:visible;
+  position:relative;display:flex;min-height:100%;height:auto;overflow:visible;
   padding:18px;gap:18px;align-items:flex-start;
 }
 #page-creation .pipeline{
@@ -772,7 +777,7 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 }
 #page-creation .creation-main{
   flex:1;display:flex;flex-direction:column;overflow:visible;position:relative;
-  min-height:calc(100vh - 98px);
+  min-height:100%;
   border:1px solid rgba(255,255,255,0.08);
   border-radius:20px 34px 30px 24px;
   background:
@@ -818,7 +823,7 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 #page-creation .b-board{background:rgba(64,212,188,0.12);border-color:rgba(64,212,188,0.22);color:#93f4e0}
 #page-creation .b-art{background:rgba(103,119,255,0.12);border-color:rgba(103,119,255,0.22);color:#b8c4ff}
 #page-creation .step-panel{
-  position:relative;padding:28px;min-height:calc(100vh - 160px);
+  position:relative;padding:28px;min-height:100%;
   background:
     radial-gradient(circle at top right, rgba(103,119,255,0.08), transparent 22%),
     radial-gradient(circle at left bottom, rgba(255,108,190,0.06), transparent 24%);
@@ -827,9 +832,6 @@ footer{background:#0c0c0c;border-top:1px solid var(--border);padding:56px 24px 3
 #page-creation #sbLoading,
 #page-creation #sbResults{
   min-height:0;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-  touch-action:pan-y;
 }
 #page-creation .editor-wrap,
 #page-creation .script-agent-shell,
@@ -2290,16 +2292,16 @@ MING
                 <div class="veo-field">
                   <label for="veoModelSelect">模型</label>
                   <select id="veoModelSelect">
+                    <option value="veo-3.1-fast-generate-preview" selected>veo-3.1-fast-generate-preview</option>
                     <option value="veo-3.1-generate-preview">veo-3.1-generate-preview</option>
-                    <option value="veo-3.1-fast-generate-preview">veo-3.1-fast-generate-preview</option>
                   </select>
                 </div>
                 <div class="veo-field">
                   <label for="veoDurationSelect">时长</label>
                   <select id="veoDurationSelect">
-                    <option value="4">4 秒</option>
+                    <option value="4" selected>4 秒</option>
                     <option value="6">6 秒</option>
-                    <option value="8" selected>8 秒</option>
+                    <option value="8">8 秒</option>
                   </select>
                 </div>
                 <div class="veo-field">
@@ -2682,8 +2684,10 @@ function updateApiStatusPill(){
   }
 }
 
-const GEMINI_TEXT_MODEL = 'gemini-3.1-pro-preview';
-const GEMINI_IMAGE_MODEL = 'gemini-3.1-flash-image-preview';
+const GEMINI_FAST_TEXT_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_STRUCTURED_TEXT_MODEL = 'gemini-2.5-flash';
+const GEMINI_IMAGE_MODEL = 'gemini-2.5-flash-image';
+const STORYBOARD_BATCH_CONCURRENCY = 3;
 
 async function geminiCall(model, contents, config={}){
   const key = getApiKey();
@@ -2700,7 +2704,8 @@ function extractText(data){ return data.candidates?.[0]?.content?.parts?.[0]?.te
 /* ══════════════ PAGE NAV ══════════════ */
 function goPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
+  const nextPage = document.getElementById('page-'+name);
+  nextPage.classList.add('active');
   document.querySelectorAll('.space-tab').forEach(t=>t.classList.remove('active'));
   if(name==='creation') document.querySelector('.space-tab.creation').classList.add('active');
   else if(name==='sharing') document.querySelector('.space-tab.sharing').classList.add('active');
@@ -2708,6 +2713,7 @@ function goPage(name){
   trigReveal();
   if(name==='contribution') genHmap();
   window.scrollTo(0,0);
+  if(nextPage) nextPage.scrollTop = 0;
   /* Hide/show cinematic hero elements when leaving/entering home */
   const coverWrap = document.getElementById('heroCoverWrap');
   const particles = document.getElementById('hero-particles');
@@ -2787,6 +2793,8 @@ function switchStep(n){
     if(i<n) s.classList.add('done');
   });
   document.getElementById('ps'+n).classList.add('active');
+  const creationPage = document.getElementById('page-creation');
+  if(creationPage) creationPage.scrollTop = 0;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -2877,11 +2885,11 @@ async function sendScriptAgentChat(){
   const typing = showScriptAgentThinking('Agent 正在结合当前剧本生成建议...');
 
   try{
-    const data = await geminiCall(GEMINI_TEXT_MODEL,
+    const data = await geminiCall(GEMINI_FAST_TEXT_MODEL,
       [{role:'user', parts:[{text:`当前剧本内容：\n${script || '(空白)'}\n\n用户问题：${message}\n\n请给出可直接执行的修改建议，必要时给出具体改写片段。` }]}],
       {
         systemInstruction:{ parts:[{ text: buildScriptAgentSystemPrompt() }] },
-        generationConfig:{ temperature:0.8, maxOutputTokens:900 }
+        generationConfig:{ temperature:0.65, maxOutputTokens:520 }
       }
     );
     const reply = extractText(data) || 'Agent 暂时没有生成有效建议。';
@@ -2967,9 +2975,9 @@ async function runScriptAnalysis(){
 
   try {
     const sysInst = getAnalysisSystemInstruction(_scriptType);
-    const data = await geminiCall(GEMINI_TEXT_MODEL, 
+    const data = await geminiCall(GEMINI_FAST_TEXT_MODEL, 
       [{role:'user', parts:[{text:`用户的原始想法/感受是: "${script}"。请根据设定的专家身份（${_scriptType}），进行深度分析和策划。`}]}],
-      { systemInstruction:{ parts:[{text:sysInst}] }, generationConfig:{temperature:0.8} }
+      { systemInstruction:{ parts:[{text:sysInst}] }, generationConfig:{temperature:0.6, maxOutputTokens:900} }
     );
     const text = extractText(data);
     _scriptAnalysisText = text;
@@ -3011,11 +3019,11 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
 4. 至少 5 个场景，包含关键转场、情绪变化和能拍出来的画面。
 5. 对白克制、电影感明确。`;
 
-    const data = await geminiCall(GEMINI_TEXT_MODEL,
+    const data = await geminiCall(GEMINI_STRUCTURED_TEXT_MODEL,
       [{role:'user', parts:[{text:prompt}]}],
       {
         systemInstruction:{ parts:[{text:`${buildScriptAgentSystemPrompt()}\n你现在的任务是产出完整剧本正文。`} ] },
-        generationConfig:{temperature:0.72, maxOutputTokens:2200}
+        generationConfig:{temperature:0.62, maxOutputTokens:1600}
       }
     );
     const screenplay = extractText(data).trim();
@@ -3045,10 +3053,8 @@ function toBoard(){
   switchStep(1);
   document.getElementById('ps1').querySelector('.step-info-s').textContent='ACTIVE';
   document.getElementById('sbFromLabel').textContent = `来自剧本「幻境追光」 · ${txt.length} 字已传入`;
-  showToast('剧本已传输至分镜','点击「AI 生成分镜」启动 CineLogic 分析');
-  // Auto-start storyboard if key exists
-  if(getApiKey()) setTimeout(runStoryboardAnalysis, 500);
-  else pushScriptAgentMeta('已进入分镜阶段。生成分镜图前，请回到剧本阶段配置 API Key。');
+  showToast('剧本已传输至分镜','点击「AI 生成分镜」启动分析与逐镜出图');
+  if(!getApiKey()) pushScriptAgentMeta('已进入分镜阶段。生成分镜图前，请先配置 API Key。');
 }
 
 /* ══════════════ SCRIPT EDITOR HELPERS ══════════════ */
@@ -3465,7 +3471,7 @@ async function runStoryboardAnalysis(){
   document.getElementById('sbLoadingMsg').textContent = 'Gemini 正在拆解剧本、补全分镜表字段，并生成逐镜出图提示词...';
 
   try {
-    const data = await geminiCall(GEMINI_TEXT_MODEL,
+    const data = await geminiCall(GEMINI_STRUCTURED_TEXT_MODEL,
       [{role:'user', parts:[{text:buildStoryboardAnalysisPrompt(script)}]}],
       { systemInstruction:{ parts:[{text:CINELOGIC_SYSTEM}] },
         generationConfig:{ responseMimeType:'application/json', responseSchema:CINELOGIC_SCHEMA, temperature:0.55 } }
@@ -3819,6 +3825,18 @@ function syncVideoBatchBoard(){
   renderVideoBatchBoard();
 }
 
+async function runWithConcurrency(items, concurrency, worker){
+  let nextIndex = 0;
+  const runnerCount = Math.max(1, Math.min(concurrency, items.length));
+  const runners = Array.from({ length: runnerCount }, async ()=>{
+    while(nextIndex < items.length){
+      const currentIndex = nextIndex++;
+      await worker(items[currentIndex], currentIndex);
+    }
+  });
+  await Promise.all(runners);
+}
+
 async function batchSbImages(analysis){
   const shots = analysis.SHOTS || [];
   const tasks = [];
@@ -3831,40 +3849,44 @@ async function batchSbImages(analysis){
 
   if(!tasks.length) return;
   document.getElementById('sbBatchStrip').style.display='block';
+  let completed = 0;
+  document.getElementById('sbBatchText').textContent=`0 / ${tasks.length}`;
+  document.getElementById('sbBatchFill').style.width='0%';
+  tasks.forEach((task)=>updateStoryboardRowStatus(task.shotIdx, 'generating'));
 
-  for(let t=0;t<tasks.length;t++){
-    updateStoryboardRowStatus(tasks[t].shotIdx, 'generating');
-    document.getElementById('sbBatchText').textContent=`${t+1} / ${tasks.length}`;
-    document.getElementById('sbBatchFill').style.width=`${(t+1)/tasks.length*100}%`;
+  await runWithConcurrency(tasks, STORYBOARD_BATCH_CONCURRENCY, async (task)=>{
     try {
       const imgData = await geminiCall(GEMINI_IMAGE_MODEL,
-        [{role:'user', parts:[{text:`Professional cinematic film still, photorealistic, 8k, Arri Alexa.\n${tasks[t].prompt}`}]}],
+        [{role:'user', parts:[{text:`Professional cinematic film still, photorealistic, 8k, Arri Alexa.\n${task.prompt}`}]}],
         { generationConfig:{ responseModalities:['IMAGE','TEXT'] } }
       );
       const parts = imgData.candidates?.[0]?.content?.parts||[];
       for(const p of parts){
         if(p.inlineData){
           const url = `data:${p.inlineData.mimeType};base64,${p.inlineData.data}`;
-          _sbImages[tasks[t].id] = url;
-          // Show in frame
-          const frame = document.getElementById(`sbFrame-${tasks[t].shotIdx}`);
+          _sbImages[task.id] = url;
+          const frame = document.getElementById(`sbFrame-${task.shotIdx}`);
           if(frame){
             frame.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
           }
-          updateStoryboardRowStatus(tasks[t].shotIdx, 'ready');
+          updateStoryboardRowStatus(task.shotIdx, 'ready');
           break;
         }
       }
     } catch(e){
-      updateStoryboardRowStatus(tasks[t].shotIdx, 'error');
-      console.warn('Shot image gen failed:', tasks[t].id, e.message);
+      updateStoryboardRowStatus(task.shotIdx, 'error');
+      console.warn('Shot image gen failed:', task.id, e.message);
+    } finally {
+      completed += 1;
+      document.getElementById('sbBatchText').textContent=`${completed} / ${tasks.length}`;
+      document.getElementById('sbBatchFill').style.width=`${completed/tasks.length*100}%`;
     }
-  }
+  });
 
   setTimeout(()=>{ document.getElementById('sbBatchStrip').style.display='none'; },1500);
   document.getElementById('sbExportBtn').style.display='inline-flex';
   if(tasks.length) selectStoryboardShot(0, false);
-  showToast('分镜图全部生成完成', `${tasks.length} 张 · CineLogic 生成`);
+  showToast('分镜图全部生成完成', `${tasks.length} 张 · 并发 ${Math.min(STORYBOARD_BATCH_CONCURRENCY, tasks.length)} 路生成`);
 }
 
 async function genSingleShot(shotIdx, frameIdx){
@@ -3910,7 +3932,7 @@ async function refineStoryboard(){
   document.getElementById('sbLoadingMsg').textContent = 'Gemini 正在重排分镜表并补强逐镜提示词...';
 
   try {
-    const data = await geminiCall(GEMINI_TEXT_MODEL,
+    const data = await geminiCall(GEMINI_STRUCTURED_TEXT_MODEL,
       [{role:'user', parts:[{text:buildStoryboardRefinePrompt(_sbAnalysis, instruction)}]}],
       { systemInstruction:{ parts:[{text:CINELOGIC_SYSTEM}] },
         generationConfig:{ responseMimeType:'application/json', responseSchema:CINELOGIC_SCHEMA, temperature:0.5 } }
@@ -4371,7 +4393,7 @@ let _artTab = 'scene';
 let _artChatHist = [];
 
 async function geminiAnalyzeStyle(script){
-  const data = await geminiCall(GEMINI_TEXT_MODEL,
+  const data = await geminiCall(GEMINI_STRUCTURED_TEXT_MODEL,
     [{role:'user', parts:[{text:script}]}],
     { systemInstruction:{parts:[{text:CINESTYLE_SYSTEM}]},
       generationConfig:{ responseMimeType:'application/json', responseSchema:CINESTYLE_SCHEMA, temperature:0.8 } }
@@ -4399,8 +4421,8 @@ async function geminiChatArt(userMsg){
 人物：${JSON.stringify(_artAnalysis.characters.map(c=>c.name))}
 请用中文简洁回答，专注于电影美术层面的建议。` : '你是一位电影美术指导，用中文简洁回答。';
   _artChatHist.push({role:'user', parts:[{text:userMsg}]});
-  const data = await geminiCall(GEMINI_TEXT_MODEL, _artChatHist,
-    { systemInstruction:{parts:[{text:sysMsg}]}, generationConfig:{temperature:0.9, maxOutputTokens:400} }
+  const data = await geminiCall(GEMINI_FAST_TEXT_MODEL, _artChatHist,
+    { systemInstruction:{parts:[{text:sysMsg}]}, generationConfig:{temperature:0.7, maxOutputTokens:220} }
   );
   const reply = extractText(data) || '艺术指导暂时无法回答。';
   _artChatHist.push({role:'model', parts:[{text:reply}]});
