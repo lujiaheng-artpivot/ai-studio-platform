@@ -2699,7 +2699,28 @@ async function geminiCall(model, contents, config={}){
   return await res.json();
 }
 
-function extractText(data){ return data.candidates?.[0]?.content?.parts?.[0]?.text || ''; }
+function extractText(data){
+  const parts = data?.candidates?.[0]?.content?.parts || [];
+  return parts
+    .map((part)=>typeof part?.text === 'string' ? part.text : '')
+    .filter(Boolean)
+    .join('\n')
+    .trim();
+}
+
+function setScriptEditorValue(text){
+  const ta = document.getElementById('scriptTa');
+  if(!ta) throw new Error('未找到剧本编辑框');
+  const nextValue = String(text || '').trim();
+  if(!nextValue) throw new Error('生成结果为空，无法写入编辑框');
+  ta.value = nextValue;
+  ta.textContent = nextValue;
+  ta.scrollTop = 0;
+  syncLn(ta);
+  ta.dispatchEvent(new Event('input', { bubbles:true }));
+  ta.dispatchEvent(new Event('change', { bubbles:true }));
+  return ta;
+}
 
 /* ══════════════ PAGE NAV ══════════════ */
 function goPage(name){
@@ -3028,11 +3049,10 @@ ${_scriptAnalysisText ? `【Agent 策划摘要】\n${_scriptAnalysisText}\n` : '
     );
     const screenplay = extractText(data).trim();
     if(!screenplay) throw new Error('模型未返回剧本正文');
-    const ta = document.getElementById('scriptTa');
-    ta.value = screenplay;
-    syncLn(ta);
+    setScriptEditorValue(screenplay);
     typing?.remove();
     pushScriptAgentMessage(`剧本已经写入左侧编辑区。\n\n接下来建议你：\n1. 快速浏览并做少量改词。\n2. 直接点击「传至分镜」。\n3. 在分镜阶段选择一个镜头送入视频生成。`, 'agent');
+    pushScriptAgentMeta(`剧本预览：${screenplay.slice(0, 90)}${screenplay.length > 90 ? '…' : ''}`);
     pushScriptAgentMeta(`当前剧本类型：${SCRIPT_TYPE_LABELS[_scriptType]} · 已更新左侧正文`);
     setScriptStageState('剧本已生成');
     showToast('剧本生成完成', '左侧正文已更新，可直接传到分镜');
